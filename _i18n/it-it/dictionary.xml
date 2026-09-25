@@ -871,7 +871,6 @@
   <block id="7dbe065509bb17277c7b17f3766f97be" category="list-text">Identifica dalla dashboard i proprietari dei dati che detengono le concentrazioni più elevate di dati cold, obsoleti o duplicati, quindi filtra per proprietario o gruppo nella vista di indagine per esaminare e gestire i risultati in base alle tue policy.</block>
   <block id="482723983a4f2af954e36ff41e567451" category="inline-link-macro">Limitazioni note</block>
   <block id="34e34c0debc388181c3934f84b977ddd" category="list-text"><block ref="34e34c0debc388181c3934f84b977ddd" category="inline-link-macro-rx"></block></block>
-  <block id="e72c60c273700856ad0eeb853a353e52" category="sidebar">AI Data Engine ti offre visibilità sui dati non strutturati archiviati sui tuoi sistemi NetApp. Utilizzalo per identificare opportunità di ottimizzazione dello storage, analizzare i tuoi dati e applicare policy del ciclo di vita.</block>
   <block id="ed67b8aec97dcec019f1b2972d70f5af" category="sidebar">Documentazione di AI Data Engine</block>
   <block id="0416d02572f9d563fa4967178dc5c5fb" category="sidebar">La documentazione di AI Data Engine illustra come implementare, connettere le origini dati e utilizzare AI Data Engine per l'ottimizzazione dello storage, l'analisi dei metadati e la governance dei dati.</block>
   <block id="be11c74c1dd7f307bb80183a90dc2067" category="sidebar">Inizia</block>
@@ -892,4 +891,5 @@
   <block id="6b2443d2529b7b19a67154f7a04c9877" category="sidebar">Valuta lo stato di salute dello storage con la dashboard AIDE</block>
   <block id="4bd61438e659088dded1d69964caccb1" category="sidebar">Gestisci criteri e azioni</block>
   <block id="7d0ee6fed10d3d4e5c9ee496729ab519" category="sidebar">Note di rilascio</block>
+  <block id="ac219e2fd9f167e916107df50eb88fad" category="sidebar">AI Data Engine è un servizio di intelligence dei metadati, gestito tramite NetApp Console, che analizza i sistemi connessi, crea un catalogo dei metadati e ti offre visibilità e strumenti per ottimizzare lo storage e governare i dati su larga scala.</block>
 </blocks>
