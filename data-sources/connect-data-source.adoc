@@ -1,0 +1,88 @@
+---
+sidebar: sidebar 
+permalink: data-sources/connect-data-source.html 
+keywords: connect, data source, storage system, scanned systems, configuration, scan, NFS, CIFS, StorageGRID, database, file shares, console agent, scope, content intelligence, activate 
+summary: 'Collega i sistemi di archiviazione ad AI Data Engine completando la procedura guidata di onboarding dell"origine dati, quindi attiva la scansione per avviare la raccolta dei metadati.' 
+---
+= Collega un'origine dati ad AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine analizza i tuoi sistemi di archiviazione per raccogliere e analizzare metadati. Per aggiungere un'origine dati, completa la procedura guidata di configurazione. La procedura guidata raccoglie i dettagli di connessione, l'ambito della scansione e le impostazioni per il tipo di origine dati. Dopo aver aggiunto il sistema, attiva la scansione per iniziare la raccolta dei metadati.
+
+.Prima di iniziare
+* Per connetterti e configurare le origini dati in AI Data Engine, devi disporre dei privilegi di amministratore di AI Data Engine.
+* Individua i sistemi di storage in NetApp Console utilizzando un Console Agent prima di aggiungerli ad AI Data Engine. Questo vale per tutti i tipi di storage supportati, inclusi i cluster ONTAP on-premises, Cloud Volumes ONTAP, Amazon FSx for NetApp ONTAP, Google Cloud NetApp Volumes e Azure NetApp Files. Per i cluster ONTAP on-premises, consulta link:https://docs.netapp.com/us-en/storage-management-ontap-onprem/task-discovering-ontap.html["Scopri i cluster ONTAP on-premises"] nella documentazione di NetApp Console. L'individuazione diretta non abilita servizi dati come AI Data Engine.
+* Verifica che le connessioni di rete necessarie ad AI Data Engine per raggiungere le tue origini dati siano aperte. Fai riferimento a link:../deploy/aide-requirements.html["Requisiti di AI Data Engine"].
+
+
+
+
+[[add-a-data-source]]
+== Aggiungi un'origine dati
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, seleziona *Aggiungi sistema*.
+. Seleziona un tipo di origine:
++
+[cols="1,2"]
+|===
+| Tipo di origine | Descrizione 
+
+
+| *Gruppo di condivisione file* | Aggiungi condivisioni file NFS o SMB/CIFS dal cloud o in locale come gruppo denominato. 
+
+
+| *Database* | Aggiungi un database server per analizzare gli schemi selezionati. 
+
+
+| *StorageGRID* | Scansiona i dati da NetApp StorageGRID utilizzando il protocollo S3. 
+|===
+. Inserisci i dettagli di connessione per il tuo tipo di origine:
++
+[cols="1,3"]
+|===
+| Tipo di origine | Dettagli richiesti 
+
+
+| *Gruppo di condivisione file* | Un nome per il gruppo di condivisione, quindi i dettagli dell'host e del percorso della condivisione. 
+
+
+| *Database* | Tipo di database, host, porta e credenziali per l'autenticazione. 
+
+
+| *StorageGRID* | Nome del sistema, URL dell'endpoint S3, chiave di accesso S3 e chiave segreta. 
+|===
+. Rivedi le tue selezioni e seleziona *Conferma* per aggiungere l'origine dati.
+
+
+
+
+[[activate-scanning]]
+== Attiva la scansione
+
+Dopo aver configurato un'origine dati, la scansione non si avvia automaticamente. Devi attivare la scansione per ogni sistema.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, individua il sistema che vuoi scansionare.
+. Seleziona *Attiva scansioni*.
+
+
+.Risultato
+Lo stato del sistema si aggiorna nella scheda Sistemi scansionati per indicare che la scansione è in corso. Per monitorare l'avanzamento della scansione e verificare che AI Data Engine stia eseguendo l'indicizzazione delle risorse di dati, fai riferimento a link:manage-data-sources.html["Gestisci le fonti di dati"] e link:monitor-scanning-health.html["Monitora lo stato di salute della scansione"].
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:manage-data-sources.html["Gestisci le fonti di dati"]
+* link:../deploy/aide-requirements.html["Requisiti di AI Data Engine"]
+* link:../investigate/understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+* link:monitor-scanning-health.html["Monitora lo stato di salute della scansione"]
+

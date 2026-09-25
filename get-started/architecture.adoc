@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: get-started/architecture.html 
+keywords: architecture, components, metadata engine, policy, deployment, data flow 
+summary: Scopri i componenti di AI Data Engine e come interagiscono per catalogare i metadati dai tuoi sistemi di storage. 
+---
+= Architettura di AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine (AIDE) è composto da un Metadata Engine e da un framework di policy. Queste funzionalità lavorano insieme per estrarre metadati dai tuoi sistemi di storage, catalogarli in un indice ricercabile e consentirti di definire query salvate per identificare e agire sui file che corrispondono a criteri specifici.
+
+
+
+[[components]]
+== Componenti
+
+Interagisci principalmente con AI Data Engine attraverso quattro aree funzionali: dashboard, analisi, criteri e configurazione. Queste aree funzionali sono supportate dai seguenti componenti sottostanti.
+
+
+
+[[metadata-engine]]
+=== Metadata Engine
+
+Il Metadata Engine è la funzionalità principale di AI Data Engine. Analizza i sistemi di storage connessi per estrarre i metadati del file system e memorizzarli in un catalogo consultabile. Il Metadata Engine aggiorna il catalogo a ogni ciclo di scansione, rilevando aggiunte, modifiche ed eliminazioni nei tuoi sistemi di storage.
+
+
+
+[[netapp-console-agent]]
+=== Agent di NetApp Console
+
+AI Data Engine richiede un Console Agent NetApp distribuito nel tuo ambiente. Il Console Agent è un componente della piattaforma NetApp per uso generale che mantiene la connettività tra il tuo ambiente on-premises e NetApp Console. Gestisce l'autenticazione e la comunicazione tra il tuo sito e il servizio AIDE.
+
+
+NOTE: L'agente della console non è specifico di AI Data Engine. Se hai già un agente della console distribuito per altri servizi NetApp, puoi utilizzare lo stesso agente. Per le istruzioni sulla distribuzione dell'agente della console, consulta la link:https://docs.netapp.com/us-en/console-setup-admin/concept-agents.html["Documentazione di NetApp Console Agent"].
+
+
+
+[[deployment-models]]
+== Modelli di implementazione
+
+AI Data Engine supporta due modelli di implementazione:
+
+AIDE Lite:: Una distribuzione su singola VM, adatta ad ambienti più piccoli. Disponibile nelle configurazioni Small, Medium e Large in base al numero di file da catalogare.
+AIDE Enterprise:: Implementazione di un cluster multi-nodo basato su Kubernetes per ambienti di grandi dimensioni che richiedono elevata disponibilità.
+
+
+AIDE Enterprise è scalabile da una configurazione a tre nodi che supporta fino a circa un miliardo di file e 250 milioni di file al giorno a una configurazione a nove nodi che supporta fino a circa sei miliardi di file e due miliardi di file al giorno. Fai riferimento a link:../deploy/aide-requirements.html["Requisiti AIDE"] per i dettagli sul dimensionamento dei nodi. Nodi aggiuntivi possono estendere la capacità oltre i sei miliardi di file. Consulta link:../deploy/aide-requirements.html#flexible-sizing-enterprise["linee guida flessibili per il dimensionamento"] per i dettagli sullo scale-out.
+
+link:../deploy/deployment-overview.html["Scopri di più sulle opzioni di implementazione"].
+
+
+
+[[data-flow]]
+== Flusso di dati
+
+. AI Data Engine viene distribuito nel tuo ambiente on-premises.
+. Aggiungi i sistemi di archiviazione che vuoi che AIDE cataloghi in *Configurazione > Sistemi*. I sistemi supportati includono NetApp ONTAP, StorageGRID, sistemi di database e qualsiasi sistema NAS o di storage a oggetti che espone i protocolli NFS, SMB/CIFS o S3.
+. Il Metadata Engine monta le condivisioni utilizzando i protocolli NFS e SMB/CIFS e analizza i file system per estrarre i metadati dei file.
+. I metadati sono indicizzati nel catalogo.
+. La dashboard mostra informazioni dettagliate sullo storage ricavate dal catalogo.
+. La funzione Investigation ti consente di interrogare direttamente il catalogo utilizzando filtri dei metadati.
+. Puoi salvare i criteri di ricerca come policy e rieseguirli per identificare e intervenire sui file corrispondenti.
+
+
+
+NOTE: Una volta che il Metadata Engine ha completato la scansione di tutti i volumi configurati, avvia immediatamente un nuovo ciclo di scansione, eseguendo nuovamente la scansione dei file system per rilevare aggiunte, modifiche ed eliminazioni.
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:learn-about.html["Scopri AI Data Engine"]
+* link:../deploy/deployment-overview.html["Scopri come implementare AIDE"]
+

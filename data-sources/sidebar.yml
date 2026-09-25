@@ -1,0 +1,10 @@
+---
+section: data-sources
+title: Connetti le fonti di dati
+entries:
+- title: Connetti una origine dati
+  url: "/data-sources/connect-data-source.html"
+- title: Gestisci le fonti di dati
+  url: "/data-sources/manage-data-sources.html"
+- title: Monitora lo stato di salute della scansione
+  url: "/data-sources/monitor-scanning-health.html"

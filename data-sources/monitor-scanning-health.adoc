@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: data-sources/monitor-scanning-health.html 
+keywords: scan health, scanning, health monitor, coverage, migration 
+summary: Conferma che la scansione funzioni correttamente e che i risultati della tua indagine rispecchino i dati attuali. 
+---
+= Monitora lo stato della scansione in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Prima di agire in base ai risultati di una dashboard o di un'indagine, verifica che i dati sottostanti siano aggiornati. Controlla che la scansione funzioni correttamente e che i risultati riflettano dati aggiornati.
+
+
+
+[[verify-scan-status-and-coverage]]
+== Verifica lo stato e la copertura della scansione
+
+Verifica che tutti i tuoi sistemi storage siano connessi e vengano sottoposti a scansione.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, verifica che tutti i sistemi storage che ti aspetti di vedere siano elencati e abilitati per la scansione.
+. Seleziona *Visualizza dettagli* da una riga di sistema per controllare l'avanzamento della scansione e gli eventuali errori. Per i dettagli, consulta link:../data-sources/manage-data-sources.html["Gestisci le fonti di dati"].
+
+
+
+
+[[validate-that-investigation-findings-reflect-current-data]]
+== Verifica che i risultati dell'indagine riflettano i dati attuali
+
+Se la dashboard mostra una grande quantità di dati cold o stale, verifica che i numeri siano aggiornati prima di prendere decisioni basate su di essi.
+
+* Verifica l'ora dell'ultima scansione per ciascun sistema storage che contribuisce al rilevamento. Un sistema che non è stato scansionato di recente potrebbe sottostimare o sovrastimare i dati cold e stale.
+* Verifica che la scansione sia completa per quel sistema. Una scansione parziale (in pausa, in corso o con errori) significa che alcuni dati non sono ancora stati valutati.
+* Se la copertura risulta incompleta, attendi il ciclo di scansione successivo oppure risolvi l'errore sottostante.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:../data-sources/connect-data-source.html["Connetti una origine dati"]
+* link:../investigate/understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+* link:../investigate/investigate-data.html["Analizza i tuoi dati"]
+

@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: investigate/investigate-data.html 
+keywords: investigate, metadata, unstructured, structured, directories, cold data, stale data, permissions, reclaimable storage 
+summary: 'Utilizza la vista Investigation per esplorare l"archiviazione basata su file, le tabelle del database e le strutture delle directory nei sistemi connessi. Scegli la scheda corrispondente a ciò che stai cercando.' 
+---
+= Analizza i tuoi dati con AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando hai bisogno di capire cosa sta consumando spazio di archiviazione, identificare quali tabelle del database stanno crescendo in modo incontrollato o trovare directory con permessi di accesso eccessivamente permissivi, usa i filtri dei metadati per analizzare i tuoi dati in tutti i sistemi connessi.
+
+
+
+[[choose-a-starting-point]]
+== Scegli un punto di partenza
+
+Seleziona *Investigation* nella navigazione a sinistra per aprire la vista. Puoi anche aprire la vista Investigation dalla dashboard selezionando *Investigate* nella tabella _Top data resources by reclaimable storage_, che applica automaticamente un filtro per quella risorsa.
+
+*Indagine* è organizzata in tre schede. Seleziona la scheda corrispondente al tipo di dati che stai esaminando.
+
+[cols="1,2,1"]
+|===
+| Scheda | Usalo quando vuoi | Ulteriori informazioni 
+
+
+| *Non strutturati* | Individua i dati obsoleti, non aggiornati o duplicati basati su file nei volumi NFS e SMB/CIFS | link:investigate-unstructured.html["Analizza i dati non strutturati"] 
+
+
+| *Strutturato* | Identifica le tabelle del database sovradimensionate o inutilizzate che occupano spazio di archiviazione | link:investigate-structured.html["Analizza i dati strutturati"] 
+
+
+| *Directory* | Verifica i permessi a livello di directory e individua i percorsi ampiamente accessibili | link:investigate-directories.html["Esamina le directory"] 
+|===
+Il conteggio riepilogativo e la dimensione totale nella parte superiore della pagina si aggiornano per riflettere la scheda attiva (ad esempio, "Dati non strutturati (400M) | 5.7 PiB").
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:investigate-unstructured.html["Analizza i dati non strutturati"]
+* link:investigate-structured.html["Analizza i dati strutturati"]
+* link:investigate-directories.html["Esamina le directory"]
+* link:use-filters.html["Lavora con i filtri"]
+* link:take-actions.html["Agisci sui tuoi dati"]
+

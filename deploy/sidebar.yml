@@ -1,0 +1,12 @@
+---
+section: deploy
+title: Distribuisci
+entries:
+- title: Scopri come implementare AIDE
+  url: "/deploy/deployment-overview.html"
+- title: Requisiti AIDE
+  url: "/deploy/aide-requirements.html"
+- title: Distribuisci AIDE Lite
+  url: "/deploy/deploy-aide-lite.html"
+- title: Implementa AIDE Enterprise
+  url: "/deploy/deploy-enterprise.html"

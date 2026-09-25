@@ -1,0 +1,76 @@
+---
+sidebar: sidebar 
+permalink: investigate/investigate-directories.html 
+keywords: investigate, directories, permissions, org-wide access, open access, directory owner, overly permissive, exposed directories 
+summary: Verifica le autorizzazioni a livello di directory nei tuoi sistemi di archiviazione per individuare i percorsi ampiamente accessibili, controlla chi ha accesso e salva i risultati come policy riutilizzabile. 
+---
+= Esamina le directory in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando devi identificare quali directory sono esposte a più utenti del previsto, filtra per autorizzazioni per trovare le cartelle aperte all'intera organizzazione. Ad esempio, un amministratore della sicurezza che vede le directory esposte segnalate nella dashboard può trovare tutte le directory con accesso a livello di organizzazione, verificare chi dispone delle autorizzazioni di lettura e scrittura e creare una policy per monitorare nuove esposizioni dopo ogni scansione.
+
+.Prima di iniziare
+* Almeno una sorgente dati deve essere connessa e in fase di scansione. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
+
+
+
+
+[[find-broadly-accessible-directories]]
+== Trova directory ampiamente accessibili
+
+Utilizza i filtri delle autorizzazioni per identificare le directory aperte oltre il pubblico previsto.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Indagine*.
+. Seleziona la scheda *Directories*.
++
+La tabella visualizza il nome della directory (full path), il container di dati, il proprietario della directory, il tipo di directory e il sistema.
+
+. Seleziona *Aggiungi filtro*, quindi seleziona *Apri autorizzazioni*.
+. Imposta il filtro su *Open to organization* per visualizzare le directory accessibili a tutta l'organizzazione.
++
+La tabella dei risultati si aggiorna per mostrare le directory che corrispondono ai criteri di autorizzazione, inclusa la data dell'ultimo accesso e lo stato delle autorizzazioni.
+
+
+
+Per un elenco completo dei filtri disponibili, fai riferimento a link:use-filters.html["Lavora con i filtri"].
+
+
+
+[[review-directory-permissions]]
+== Rivedi i permessi della directory
+
+Seleziona una riga della directory per aprire il pannello dei dettagli e verificare chi ha accesso.
+
+Il pannello dei dettagli mostra il tipo di directory, il sistema, il proprietario della directory e un riepilogo delle autorizzazioni (ad esempio, "Aperto all'organizzazione"). Seleziona *Visualizza autorizzazioni* per visualizzare un dettaglio dell'accesso in lettura e scrittura per ciascun utente o gruppo con accesso alla directory.
+
+Utilizza queste informazioni per verificare se il livello di accesso è intenzionale prima di creare una policy o inoltrare la richiesta al proprietario della directory.
+
+
+
+[[save-findings-as-a-policy]]
+== Salva i risultati come policy
+
+Dopo aver filtrato per identificare le directory ampiamente accessibili, salva i criteri come policy per monitorare nuove esposizioni dopo ogni ciclo di scansione.
+
+.Passaggi
+. Dopo aver applicato i filtri di autorizzazione, seleziona *Crea policy* nella barra degli strumenti dei filtri.
+. Compila il modulo di policy. Fai riferimento a link:../policies/create-policy.html["Crea una policy"].
+
+
+Per scaricare i risultati filtrati dalla scheda Directory, seleziona image:icon_download_file.png["Scarica"].
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:use-filters.html["Lavora con i filtri"]
+* link:../policies/create-policy.html["Crea una policy"]
+* link:../administer/manage-users-roles.html["Gestisci utenti e ruoli"]
+* link:understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+

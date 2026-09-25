@@ -1,0 +1,18 @@
+---
+section: investigate
+title: Esaminare i dati
+entries:
+- title: Valuta lo stato di salute dello storage con la dashboard AIDE
+  url: "/investigate/understand-dashboard.html"
+- title: Analizza i tuoi dati
+  url: "/investigate/investigate-data.html"
+- title: Analizza i dati non strutturati
+  url: "/investigate/investigate-unstructured.html"
+- title: Analizza i dati strutturati
+  url: "/investigate/investigate-structured.html"
+- title: Esamina le directory
+  url: "/investigate/investigate-directories.html"
+- title: Lavora con i filtri
+  url: "/investigate/use-filters.html"
+- title: Intervieni sui dati
+  url: "/investigate/take-actions.html"

@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: policies/manage-policies.html 
+keywords: manage policies, edit policy, enable policy, disable policy, delete policy 
+summary: Esamina le policy salvate per vedere quali file corrispondono attualmente a ciascun set di criteri e rimuovi le policy che non ti servono più. 
+---
+= Gestisci le policy in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando vuoi verificare quali dei criteri salvati corrispondono ai dati, confrontare il numero di file interessati per dare priorità alle azioni o rimuovere i criteri che non ti servono più, usa la pagina Criteri. Ad esempio, un amministratore dello storage con diversi criteri per i dati inattivi può confrontare il numero di file interessati per decidere quali gruppi di dati richiedono attenzione per primi.
+
+Ogni policy elencata mostra il numero di file e oggetti che attualmente corrispondono ai suoi criteri. Usa questo conteggio per identificare quali policy stanno acquisendo attivamente dati che vale la pena esaminare.
+
+
+
+[[check-which-files-match-a-policy]]
+== Verifica quali file corrispondono a una policy
+
+Prima di modificare o eliminare un criterio, rivedi i file a cui corrisponde attualmente per verificare che i criteri acquisiscano ancora i dati giusti.
+
+.Passaggi
+. Dall'interfaccia AI Data Engine, seleziona *Criteri*.
+. Apri il menu delle azioni accanto al criterio e seleziona *Analizza i risultati*.
+
+
+
+
+[[edit-a-policy]]
+== Modifica una policy
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+
+
+.Passaggi
+. Dall'interfaccia AI Data Engine, seleziona *Criteri*.
+. Apri il menu delle azioni relativo al criterio che vuoi modificare e seleziona *Modifica criterio*.
+. Aggiorna il nome, la descrizione o l'azione della policy secondo necessità.
+. Seleziona *Salva*.
+
+
+
+
+[[delete-a-policy]]
+== Elimina una policy
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+
+
+
+CAUTION: L'eliminazione è permanente e non può essere annullata.
+
+.Passaggi
+. Dall'interfaccia AI Data Engine, seleziona *Criteri*.
+. Apri il menu delle azioni relativo al criterio che vuoi eliminare e seleziona *Elimina criterio*.
+. Conferma l'eliminazione nella finestra di dialogo di anteprima.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:create-policy.html["Crea una policy"]
+* link:../investigate/take-actions.html["Agisci sui tuoi dati"]
+

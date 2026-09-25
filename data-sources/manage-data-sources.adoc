@@ -1,0 +1,157 @@
+---
+sidebar: sidebar 
+permalink: data-sources/manage-data-sources.html 
+keywords: manage, data source, storage system, scanned systems, pause scanning, resume scanning, scan all, retry scans, CIFS credentials, DP volumes, deactivate, scan status, scan errors, scanning toggle 
+summary: 'Monitora lo stato delle scansioni e gestisci le origini dati connesse, inclusa la sospensione delle scansioni, la modifica delle credenziali, l"abilitazione dell"accesso ai volumi DP e la disattivazione dei sistemi.' 
+---
+= Gestisci le origini dati in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dopo aver collegato le origini dati, puoi monitorarne lo stato di scansione e gestirle dalla scheda *Sistemi scansionati*. Usa queste procedure per sospendere o riprendere la scansione, aggiornare le credenziali, regolare le impostazioni di accesso ai dati e disattivare i sistemi che non ti serve più scansionare.
+
+
+
+[[view-scan-status-and-details]]
+== Visualizza lo stato e i dettagli della scansione
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, individua il sistema che vuoi esaminare.
+. Seleziona la riga del sistema per aprire la vista dettagliata.
++
+La visualizzazione dettagliata mostra:
+
++
+** Una panoramica dello stato con l'avanzamento attuale della scansione
+** Analisi dettagliata degli stati di scansione delle risorse dati: in esecuzione, completata, in pausa ed errori
+** Modalità di autorizzazione alla scansione (ad esempio, "Scansione senza autorizzazioni di scrittura")
++
+Se vengono visualizzati errori di scansione, espandi i dettagli dell'errore per vedere quali volumi o condivisioni sono interessati e il motivo dell'errore.
+
+
+
+
+
+
+
+[[pause-scanning]]
+== Metti in pausa la scansione
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, individua il sistema che vuoi mettere in pausa.
+. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Seleziona *Pausa*.
+
+
+
+
+[[resume-scanning]]
+== Riprendi scansione
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi analizzati*, individua il sistema in pausa.
+. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Seleziona *Resume*.
+
+
+
+
+[[scan-all-data-resources]]
+== Scansiona tutte le risorse dati
+
+Avvia una scansione immediata di tutte le risorse dati su un sistema. Usa questa funzione per aggiornare i metadati dopo una modifica significativa dei dati.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, individua il sistema che vuoi scansionare.
+. Seleziona il menu Azioni accanto al sistema.
+. Seleziona *Scansiona tutti i volumi* (nel menu delle azioni è presente un'opzione equivalente per condivisioni e bucket).
+
+
+
+
+[[retry-failed-scans]]
+== Riprova le scansioni non riuscite
+
+Rimetti in coda le risorse dati che si trovano in uno stato di errore o non riuscito. Risolvi prima la causa principale, come un problema di credenziali, un errore di rete o un problema di autorizzazione, prima di riprovare.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, individua il sistema con scansioni non riuscite.
+. Seleziona il menu Azioni accanto al sistema.
+. Seleziona *Riprova tutte le scansioni*.
+
+
+
+
+[[edit-cifs-credentials]]
+== Modifica le credenziali CIFS
+
+Aggiorna le credenziali che AI Data Engine utilizza per autenticarsi alle condivisioni SMB/CIFS.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi analizzati*, individua il sistema SMB/CIFS.
+. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Seleziona *Modifica credenziali CIFS*.
+. Inserisci il nome utente e la password aggiornati, quindi seleziona *Salva*.
+
+
+
+
+[[enable-or-disable-access-to-dp-volumes]]
+== Abilita o disabilita l'accesso ai volumi DP
+
+I volumi di protezione dei dati (DP) sono volumi di destinazione di NetApp SnapMirror. Per impostazione predefinita, AI Data Engine non esegue la scansione dei volumi DP. Puoi abilitare o disabilitare l'accesso ai volumi DP per ciascun sistema.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, individua il sistema.
+. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Seleziona *Abilita l'accesso ai volumi DP* oppure *Disabilita l'accesso ai volumi DP*.
+
+
+
+
+[[enable-or-disable-scanning-of-specific-shares-buckets-or-volumes]]
+== Abilita o disabilita la scansione di condivisioni, bucket o volumi specifici
+
+Dopo aver connesso e avviato la scansione di un'origine dati, puoi abilitare o disabilitare la scansione per singoli volumi o condivisioni senza dover riconfigurare l'intero sistema. Usalo per affinare l'ambito della scansione dopo la configurazione iniziale. Ad esempio, puoi escludere i volumi che contengono dati che non devi analizzare oppure aggiungere volumi che non erano selezionati o disponibili durante la scansione iniziale.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi analizzati*, individua il sistema che vuoi aggiornare.
+. Nella riga del sistema, seleziona *Visualizza dettagli*.
+. Nell'elenco delle risorse dati, individua il volume, il bucket o la condivisione che desideri modificare.
+. Usa l'interruttore *Scansione* per abilitare o disabilitare la scansione per quella risorsa.
+
+
+
+
+[[deactivate-ai-data-engine-for-a-system]]
+== Disattiva AI Data Engine per un sistema
+
+La disattivazione di un sistema interrompe tutte le scansioni e lo rimuove dalla copertura di scansione attiva. La configurazione del sistema viene conservata e puoi riattivarlo in qualsiasi momento selezionando *Activate scans* nella riga del sistema.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Nella scheda *Sistemi scansionati*, individua il sistema che vuoi disattivare.
+. Seleziona il menu Azioni accanto al sistema.
+. Seleziona *Disattiva AI Data Engine*.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:connect-data-source.html["Connetti una origine dati"]
+* link:monitor-scanning-health.html["Monitora lo stato di salute della scansione"]
+* link:../investigate/understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+

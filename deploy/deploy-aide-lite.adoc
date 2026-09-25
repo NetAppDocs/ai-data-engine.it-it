@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: deploy/deploy-aide-lite.html 
+keywords: deploy, install, lite, wizard, NetApp Console, deployment wizard, onboarding 
+summary: Distribuisci AIDE Lite da NetApp Console utilizzando la procedura guidata di distribuzione. 
+---
+= Implementa AI Data Engine Lite
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Distribuisci AIDE Lite da NetApp Console utilizzando la procedura guidata di distribuzione. La procedura guidata ti accompagna nella selezione del percorso di installazione, nella scelta delle dimensioni della configurazione e nell'esecuzione del comando di installazione sull'host di destinazione.
+
+.Prima di iniziare
+* In NetApp Console disponi di autorizzazioni di _Organization admin_ o superiori.
+* Per eseguire il comando di installazione, sono necessari i permessi di sudo (o root) sull'host di destinazione.
+* Il tuo ambiente soddisfa tutti i prerequisiti come descritto in link:aide-requirements.html["Requisiti AIDE"].
+* Un agente NetApp Console https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["viene distribuito"^] raggiungibile dall'host di AI Data Engine. L'indirizzo IP dell'agente di Console è necessario per eseguire il comando di installazione.
+
+
+.Passaggi
+. Nella NetApp Console, vai a *Governance* > *AI Data Engine*.
++
+Viene visualizzata la landing page di AI Data Engine.
+
+. Seleziona *Deploy AI Data Engine*.
+. Seleziona l'opzione di distribuzione *Lite* e fai clic su *Avanti*.
+. Copia il comando di installazione preconfigurato visualizzato nella procedura guidata in un editor.
+. Seleziona la dimensione della tua configurazione:
++
+** *Piccolo*: consigliato per ambienti con fino a circa 200 milioni di file.
+** *Media (Predefinita)*: consigliata per ambienti con fino a circa 1 miliardo di file.
+** *Grande*: consigliato per ambienti con fino a circa 3 miliardi di file.
++
+Queste dimensioni rappresentano valori di riferimento consigliati, non limiti rigidi. Consulta link:aide-requirements.html#flexible-sizing-lite["linee guida flessibili per il dimensionamento"] se il tuo ambiente non rientra in questi intervalli.
+
+
+
+. Per configurazioni piccole o grandi, adatta il comando di installazione in base alle dimensioni scelte: `--flavor <small|medium|large>`
+. Esegui il comando di installazione con eventuali modifiche alle dimensioni della configurazione sull'host di destinazione.
++
+
+NOTE: L'installazione richiede circa 45 minuti per essere completata. Potrebbero verificarsi timeout e nuovi tentativi, ed è normale.
+
+. Quando richiesto, conferma l'indirizzo IP dell'host e l'ID utente per continuare l'installazione.
+. Monitora la schermata di avanzamento finché non viene visualizzata la schermata di esito positivo con il messaggio "AI Data Engine deployed".
+
+
+.Risultato
+AI Data Engine è distribuito e connesso a NetApp Console. Ora puoi link:../data-sources/connect-data-source.html["collega una fonte di dati"] per iniziare la scansione.

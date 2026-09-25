@@ -1,0 +1,162 @@
+---
+sidebar: sidebar 
+permalink: investigate/take-actions.html 
+keywords: actions, tag, archive, delete, data lifecycle, storage optimization, breadcrumb 
+summary: Intervieni sui file che hai identificato come inattivi, vecchi o obsoleti archiviandoli, etichettando gli elementi per tenerne traccia o eliminando definitivamente quelli che non ti servono più. 
+---
+= Agisci sui tuoi dati in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Dopo aver identificato i file utilizzando i filtri definiti, puoi intervenire direttamente per applicare le policy del ciclo di vita dei dati della tua organizzazione. Ad esempio, un amministratore dello storage che applica un filtro per trovare terabyte di snapshot di VM a cui non si accede da oltre un anno può archiviarli in blocco in una condivisione di cold storage oppure eliminarli, a seconda dei requisiti di conservazione e delle policy aziendali.
+
+.Informazioni su questa attività
+Per intervenire, seleziona uno o più elementi nella tabella dei risultati dell'indagine utilizzando le caselle di controllo. La barra degli strumenti si attiva con quattro opzioni: *Elimina*, *Archivia*, *Copia* e *Aggiungi tag*.
+
+Le azioni a tua disposizione dipendono dal ruolo che ti è stato assegnato:
+
+[cols="2,1,1"]
+|===
+| Azione | amministratore di AI Data Engine | Visualizzatore di AI Data Engine 
+
+
+| Etichetta | Sì | Sì 
+
+
+| Archivio | Sì | - 
+
+
+| Copia | Sì | - 
+
+
+| Elimina | Sì | - 
+|===
+Per una descrizione completa dei ruoli, fai riferimento a link:../administer/manage-users-roles.html["Gestisci utenti e ruoli"].
+
+
+
+[[decide-what-to-do]]
+== Decidi cosa fare
+
+Scegli un'azione in base al grado di certezza che hai riguardo ai dati:
+
+[cols="1,2"]
+|===
+| Azione | Quando usarlo 
+
+
+| Etichetta | Ti serve più tempo o devi coordinarti con un altro team prima di impegnarti ad archiviare o eliminare. L'assegnazione di tag consente di tracciare i file senza modificarne la posizione. 
+
+
+| Archivio | I dati potrebbero ancora avere valore, ma non appartengono allo storage primario. L'archiviazione li sposta in una destinazione a costo inferiore mantenendoli recuperabili. 
+
+
+| Copia | I dati dovrebbero essere presenti in una seconda posizione, ad esempio per scopi di backup o migrazione. La copia preserva l'originale nella sua posizione. 
+
+
+| Elimina | I dati non sono più necessari e non sono soggetti ad alcun obbligo di conservazione. La cancellazione è definitiva, quindi utilizzala solo quando sei sicuro. 
+|===
+Quando i dati potrebbero ancora avere valore o richiedere un'ulteriore revisione, scegli di etichettarli, archiviarli o copiarli invece di eliminarli. Elimina i dati solo quando sei certo che sia sicuro rimuoverli in modo permanente.
+
+
+
+[[archive-files]]
+== File di archivio
+
+L'archiviazione sposta i file in una destinazione di storage a freddo tramite NFS o SMB/CIFS. Facoltativamente, puoi lasciare un file breadcrumb nella posizione originale.
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+
+
+.Passaggi
+. Nella vista Investigation, seleziona i file che vuoi archiviare.
+. Seleziona *Archive*.
+. Nella finestra di dialogo Archivio, seleziona il protocollo del volume di destinazione:
++
+** *NFS*: inserisci il percorso della cartella di destinazione NFS.
+** *CIFS*: inserisci il percorso della cartella di destinazione CIFS nel formato `\\Hostname\share_name`. Fornisci le credenziali di Active Directory: inserisci il nome utente nel formato `domain\user` o  `user@domain` e inserisci la password.
+
+
+. Per creare un file breadcrumb nella posizione originale, abilita *Leave breadcrumb*.
++
+Un file breadcrumb aiuta gli utenti a capire perché un file è stato spostato.
+
+. Seleziona *Archive*.
+
+
+
+
+[[copy-files]]
+== Copia file
+
+Copia file duplicati in un volume di destinazione senza rimuoverli dalla posizione originale.
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+
+
+.Passaggi
+. Nella vista Investigation, seleziona i file che vuoi copiare.
+. Seleziona *Copia*.
+. Nella finestra di dialogo Copia, seleziona il protocollo del volume di destinazione:
++
+** *NFS*: inserisci il percorso della cartella di destinazione NFS.
+** *CIFS*: inserisci il percorso della cartella di destinazione CIFS nel formato `\\Hostname\share_name`. Fornisci le credenziali di Active Directory: inserisci il nome utente nel formato `domain\user` o  `user@domain` e inserisci la password.
+
+
+. Seleziona *Copia*.
+
+
+
+
+[[delete-files]]
+== Elimina file
+
+L'eliminazione rimuove definitivamente i file dallo storage e non può essere annullata.
+
+
+CAUTION: L'eliminazione è permanente e non può essere annullata. Questa azione elimina i file sorgente anche se contengono dati attivi.
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+
+
+.Passaggi
+. Nella vista Investigation, seleziona i file che vuoi eliminare.
+. Seleziona *Delete*.
+. Nella finestra di dialogo Elimina, digita *elimina definitivamente* nel campo di conferma.
+. Seleziona *Delete*.
+
+
+.Risultato
+I file selezionati vengono eliminati definitivamente dallo storage.
+
+
+
+[[tag-files]]
+== Tagga i file
+
+L'assegnazione di tag applica un'etichetta aziendale ai file per la classificazione e il tracciamento.
+
+.Passaggi
+. Nella vista Investigation, seleziona i file che vuoi taggare.
+. Seleziona *Tag*.
+. Inserisci o seleziona i tag da applicare (ad esempio, "Candidato per l'archiviazione").
+. Conferma per applicare i tag.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:investigate-data.html["Analizza i tuoi dati"]
+* link:investigate-unstructured.html["Analizza i dati non strutturati"]
+* link:use-filters.html["Lavora con i filtri"]
+* link:../policies/create-policy.html["Crea una policy"]
+* link:../administer/manage-users-roles.html["Gestisci utenti e ruoli"]
+

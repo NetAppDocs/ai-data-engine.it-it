@@ -1,0 +1,86 @@
+---
+sidebar: sidebar 
+permalink: investigate/investigate-structured.html 
+keywords: investigate, structured, database, tables, schema, oversized, unused, DB server, table size, discovered time 
+summary: Individua le tabelle di database sovradimensionate o inutilizzate nei server di database connessi, quindi salva i risultati come policy di governance riutilizzabile. 
+---
+= Analizza i dati strutturati in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando lo storage del database cresce inaspettatamente, puoi filtrare in base ai metadati delle tabelle per trovare quali tabelle sono sovradimensionate o non hanno mostrato alcuna attività da quando sono state rilevate per la prima volta. Ad esempio, un amministratore dello storage può identificare le tabelle di grandi dimensioni che non sono cambiate da una scansione iniziale e poi coordinarsi con il proprietario di database per valutare se sono ancora necessarie.
+
+.Prima di iniziare
+* Almeno un'origine dati del database deve essere connessa e in fase di scansione. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
+
+
+
+
+[[review-the-database-table-listing]]
+== Esamina l'elenco delle tabelle del database
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Indagine*.
+. Seleziona la scheda *Structured*.
++
+La tabella visualizza il nome della tabella del database, lo schema, il server del database, l'ora di individuazione, le dimensioni della tabella (colonne × righe) e la dimensione della tabella.
+
+
+
+
+
+[[identify-oversized-or-unused-tables]]
+== Identifica le tabelle troppo grandi o inutilizzate
+
+Utilizza i filtri per restringere l'elenco alle tabelle che molto probabilmente offrono opportunità di recupero.
+
+.Passaggi
+. Seleziona *Aggiungi filtro*, quindi seleziona *Discovered time*.
+. Imposta l'intervallo per visualizzare le tabelle presenti in più cicli di scansione, ad esempio le tabelle scoperte per la prima volta più di un anno fa.
+. Per restringere ulteriormente la ricerca, seleziona di nuovo *Aggiungi filtro* e filtra per server DB o schema per concentrarti su un sistema specifico.
++
+I filtri applicati vengono visualizzati come etichette sotto la barra dei filtri. I risultati si aggiornano man mano che aggiungi ogni filtro.
+
+
+
+Per un elenco completo dei filtri disponibili, fai riferimento a link:use-filters.html["Lavora con i filtri"].
+
+
+
+[[review-table-details]]
+== Esamina i dettagli della tabella
+
+Seleziona una riga della tabella per aprire il pannello dei dettagli e valutare se la tabella è candidata al recupero.
+
+Il pannello dei dettagli mostra il server del database, lo schema, le dimensioni della tabella, la dimensione della tabella e l'ora di individuazione. Usa queste informazioni per determinare se la tabella è cresciuta dal momento dell'individuazione o se è rimasta invariata.
+
+
+NOTE: Prima di intervenire sulle tabelle del database, coordinati con il proprietario di database per confermare che la tabella non sia più necessaria.
+
+
+
+[[save-findings-as-a-policy]]
+== Salva i risultati come policy
+
+Dopo aver applicato i filtri che identificano le tabelle di interesse, salva i criteri per il monitoraggio continuo.
+
+.Passaggi
+. Seleziona *Crea criterio* nella barra degli strumenti dei filtri.
+. Compila il modulo di policy. Fai riferimento a link:../policies/create-policy.html["Crea una policy"].
+
+
+Per scaricare i risultati filtrati dalla scheda Strutturati, seleziona image:icon_download_file.png["Scarica"].
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:use-filters.html["Lavora con i filtri"]
+* link:../policies/create-policy.html["Crea una policy"]
+* link:../data-sources/connect-data-source.html["Connetti una origine dati"]
+* link:understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+

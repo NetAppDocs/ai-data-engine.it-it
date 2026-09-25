@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: get-started/storage-optimization-workflows.html 
+keywords: storage optimization, cold data, stale data, retention, workflow, dashboard, investigate, policy 
+summary: 'Usa flussi end-to-end per gestire i risultati di una dashboard, dall"analisi all"azione e al monitoraggio continuo delle politiche.' 
+---
+= Esplora i flussi di lavoro di ottimizzazione dello storage in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Questi flussi di lavoro di AI Data Engine ti guidano dall'identificazione di un problema di storage nella dashboard, passando per l'analisi e l'intervento, fino alla definizione di una policy di monitoraggio continuo. Ogni flusso di lavoro segue lo stesso percorso: dashboard, analisi, intervento e salvataggio come policy.
+
+
+
+[[identify-and-act-on-cold-data]]
+== Identifica e intervieni sui dati freddi
+
+.Scenario
+Noti nel dashboard che una risorsa di storage presenta una grande quantità di dati contrassegnati come "freddi". I file freddi non sono stati consultati entro la soglia configurata per i dati freddi, che per impostazione predefinita è di un anno ed è configurabile in *Configuration* > *Settings*.
+
+.Passaggi
+. Da link:../investigate/understand-dashboard.html["la dashboard"], identifica la risorsa con la maggiore concentrazione di dati cold e seleziona *Investigate*.
+. In link:../investigate/investigate-unstructured.html["Indagine"], conferma le risorse utilizzando il filtro *Ultimo accesso* impostato in modo da corrispondere alla soglia configurata per i dati inattivi (impostazione predefinita: *1+ anno*).
+. Esamina i risultati per decidere link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] i file corrispondenti.
+. Se vale la pena monitorare queste risorse costantemente, link:../policies/create-policy.html["salva il set di filtri come criterio"] riceverai una notifica quando nuovi file diventano inattivi.
+
+
+
+
+[[identify-and-act-on-stale-data]]
+== Identifica e agisci sui dati obsoleti
+
+.Scenario
+I file a cui accedi ancora occasionalmente ma che non modifichi da anni vengono classificati come obsoleti quando superano la soglia di obsolescenza definita dalla tua organizzazione (impostazione predefinita: tre anni dall'ultimo accesso o modifica).
+
+
+NOTE: Questa soglia è configurabile in *Configuration* > *Settings*.
+
+.Passaggi
+. Da link:../investigate/understand-dashboard.html["la dashboard"], identifica una risorsa con dati obsoleti significativi.
+. In link:../investigate/investigate-unstructured.html["Indagine"], applica il filtro *Ultima modifica* impostato sulla tua soglia di obsolescenza (predefinita *3+ anni*).
+. Esamina i risultati per decidere link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] i file corrispondenti.
+. link:../policies/create-policy.html["Salva il set di filtri come criterio"] per tracciare queste risorse nelle scansioni successive.
+
+
+
+
+[[manage-data-retention-compliance]]
+== Gestisci la conformità in materia di conservazione dei dati
+
+.Scenario
+La tua organizzazione richiede che i file più vecchi di una certa età vengano esaminati ai fini della conservazione. La soglia di conservazione predefinita in AI Data Engine è di sette anni o più dalla data di creazione del file. Puoi modificare questa soglia in base alle politiche di conformità e conservazione della tua organizzazione.
+
+
+NOTE: Questa soglia è configurabile in *Configuration* > *Settings*.
+
+.Passaggi
+. In link:../investigate/investigate-unstructured.html["Indagine"], applica il filtro *Ultima creazione* impostato sulla soglia di conservazione (predefinita *7+ anni*).
+. Prima di agire, esamina i risultati con le parti interessate. I file contrassegnati per la conservazione vengono spesso monitorati anziché eliminati automaticamente.
+. link:../policies/create-policy.html["Crea una policy"] con un'azione di solo monitoraggio o di notifica via email, in modo da avvisarti quando nuovi file raggiungono la soglia di conservazione, invece di intervenire su queste risorse una sola volta.
+
+
+
+
+[[find-and-eliminate-duplicate-files]]
+== Trova ed elimina i file duplicati
+
+.Scenario
+Esistono più copie identiche degli stessi file in volumi o condivisioni, un problema comune in ambienti con processi di backup, migrazioni di dati o cartelle di progetto condivise.
+
+.Passaggi
+. In link:../investigate/investigate-unstructured.html["Indagine"], seleziona *Add filter* e poi seleziona *Duplicates*.
+. Esamina i risultati. I file elencati hanno una o più copie identiche altrove nel catalogo.
+. Seleziona i file su cui intervenire e scegli link:../investigate/take-actions.html["un'azione"]. Archivia o elimina i duplicati confermati che hanno una copia originale altrove.
+. link:../policies/create-policy.html["Salva il filtro come criterio"] per monitorare l'accumulo di duplicati nel tempo e ricevere notifiche quando il conteggio aumenta.
+
+
+
+
+[[target-cleanup-by-data-owner]]
+== Pulizia della destinazione da parte del proprietario dei dati
+
+.Scenario
+I dati che rientrano nelle soglie di obsolescenza e inattività della tua organizzazione sono distribuiti tra diversi proprietari. Identificare quali proprietari dei dati detengono il maggior numero di file in queste categorie può aiutarti a dare priorità alla pulizia.
+
+.Passaggi
+. Da link:../investigate/understand-dashboard.html["la dashboard"], individua la tabella _Principali proprietari dei dati per storage recuperabile_.
+. Seleziona una riga del proprietario per aprire link:../investigate/investigate-unstructured.html["Indagine"] filtrato in base ai file di quel proprietario.
+. Esamina i risultati e decidi link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] quali file inviare.
+. link:../policies/create-policy.html["Salva il set di filtri come criterio"] per monitorare come cambiano nel tempo i dati potenzialmente recuperabili di quel proprietario.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:../investigate/understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+* link:../investigate/investigate-data.html["Analizza i tuoi dati"]
+* link:../investigate/investigate-unstructured.html["Analizza i dati non strutturati"]
+* link:../investigate/take-actions.html["Agisci sui tuoi dati"]
+* link:../policies/create-policy.html["Crea una policy"]
+

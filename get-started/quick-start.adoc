@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: get-started/quick-start.html 
+keywords: quick start, deploy, connect, investigate, policies 
+summary: Configura e rendi operativo AI Data Engine implementando il servizio, collegando i tuoi sistemi di storage e avviando la tua prima analisi. 
+---
+= Avvio rapido per AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Configura e rendi operativo AI Data Engine implementando il servizio, collegando i tuoi sistemi di storage e avviando la tua prima analisi.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Uno"]Requisiti di revisione
+[role="quick-margin-para"]
+Esamina i link:../deploy/aide-requirements.html["Requisiti AIDE"]documenti link:../deploy/deployment-overview.html["Scopri le modalità di implementazione"] per determinare se installare AIDE Lite o AIDE Enterprise.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Due"] Distribuisci AI Data Engine
+[role="quick-margin-para"]
+Distribuisci link:../deploy/deploy-aide-lite.html["AIDE Lite"] o link:../deploy/deploy-enterprise.html["AIDE Enterprise"] da NetApp Console. La pagina di configurazione ti guida nella selezione della posizione di installazione e delle dimensioni della configurazione, nonché nell'esecuzione del comando di installazione.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Tre"] Connetti un'origine dati
+[role="quick-margin-para"]
+link:../data-sources/connect-data-source.html["Connetti una origine dati"] per iniziare la scansione. AI Data Engine cataloga i metadati del file system dai sistemi di storage che specifichi.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Quattro"] Esplora i tuoi dati
+[role="quick-margin-para"]
+Apri link:../investigate/understand-dashboard.html["dashboard"] per visualizzare informazioni sull'ottimizzazione dello storage oppure vai a link:../investigate/investigate-data.html["Indagine"] per cercare e filtrare direttamente i metadati.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["Cinque"] Crea una policy
+[role="quick-margin-para"]
+link:../policies/create-policy.html["Salva i filtri di indagine come criterio"] per monitorare i file che corrispondono agli stessi criteri nel tempo. Puoi configurare una policy per inviare una notifica, eliminare definitivamente i file corrispondenti o tenere traccia dei risultati.

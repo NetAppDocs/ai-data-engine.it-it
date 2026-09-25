@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: investigate/understand-dashboard.html 
+keywords: dashboard, overview, reclaimable storage, cold data, stale data, storage health, capacity risk, data owners, investigate 
+summary: Valuta lo stato di salute dello storage nel tuo ambiente, identifica dove si concentra lo storage potenzialmente recuperabile e decidi quali sistemi o proprietari dei dati esaminare per primi. 
+---
+= Valuta lo stato di salute dello storage con la dashboard di AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Prima di poter decidere cosa esaminare, devi comprendere lo stato del tuo storage. Quanto storage soddisfa le soglie di classificazione dei dati cold e stale della tua organizzazione e quali sistemi o proprietari detengono la maggior parte dei dati in queste categorie? Ad esempio, un amministratore dello storage che risponde a un avviso di capacità può vedere che una gran parte dello storage analizzato è costituita da dati cold, quindi può approfondire il sistema con l'impatto maggiore per iniziare subito a indagare.
+
+Da NetApp Console, seleziona *Governance* > *AI Data Engine UI*. La dashboard si apre per impostazione predefinita.
+
+
+
+[[understand-how-much-storage-is-affected]]
+== Scopri quanto storage è interessato
+
+Il pannello di riepilogo mostra l'entità del problema nell'ambiente analizzato:
+
+* *Dati freddi*: storage a cui non si accede entro la soglia dei dati freddi (impostazione predefinita: un anno). La tua organizzazione può valutare questi dati in base alle tue policy di conservazione e governance.
+* *Dati obsoleti*: Storage a cui non si è avuto accesso o che non è stato modificato entro la soglia dei dati obsoleti (impostazione predefinita: tre anni). I dati obsoleti potrebbero richiedere una revisione in base alle politiche del ciclo di vita dei dati della tua organizzazione prima di decidere azioni come l'archiviazione o l'eliminazione.
+* *Directory esposte*: Directory con impostazioni di accesso eccessivamente permissive. Queste rappresentano un rischio di governance indipendente dal consumo di storage.
+* *Risorse dati*: Il numero di volumi, condivisioni e bucket attualmente analizzati.
+* *Numero totale di file analizzati*: Il numero totale di file indicizzati in tutte le risorse di dati analizzate.
+
+
+Le soglie cold e stale riflettono le impostazioni configurate e possono essere modificate in *Configurazione* > *Impostazioni*. I valori predefiniti sono quelli del prodotto e non rappresentano i periodi di conservazione previsti dalla legge, dalla conformità o dagli standard di settore. Fai riferimento a link:../administer/configure-settings.html["Configura le soglie per i dati cold e stale"].
+
+Il grafico _Storage attivo rispetto a quello recuperabile_ mostra la proporzione di dati attivi rispetto a dati freddi e obsoleti in tutte le risorse analizzate. Un'elevata proporzione di dati freddi, obsoleti o duplicati potrebbe indicare una significativa opportunità di ottimizzazione dello storage.
+
+I filtri *Sistema* e *Tipo di sistema* controllano l'ambito del dashboard. Se un sistema storage non compare nell'elenco dei filtri, consulta link:../data-sources/connect-data-source.html["Connetti una origine dati"].
+
+
+
+[[identify-storage-optimization-opportunities]]
+== Individua le opportunità di ottimizzazione dello storage
+
+Utilizza il pannello di riepilogo e il grafico per identificare e dare priorità alle opportunità di ottimizzazione dello storage:
+
+* Concentrati sulle risorse che hanno la maggiore dimensione potenzialmente recuperabile, piuttosto che su quelle con la dimensione totale più elevata. Un piccolo sistema composto principalmente da dati obsoleti o inattivi potrebbe essere una risorsa migliore da valutare per prima rispetto a un grande sistema prevalentemente attivo.
+* Cerca grandi concentrazioni di dati cold o obsoleti, piuttosto che file isolati. Decine di terabyte di dati che soddisfano la tua soglia di obsolescenza su una singola risorsa giustificano una valutazione; i file isolati potrebbero non richiedere alcun intervento.
+
+
+
+
+[[move-from-the-dashboard-to-investigation]]
+== Passa dalla dashboard all'indagine
+
+Una volta individuata una risorsa o un proprietario che merita di essere approfondito, utilizza le tabelle in fondo alla dashboard per passare direttamente ai dettagli.
+
+La tabella _Top data resources by reclaimable storage_ elenca le tue risorse di storage sottoposte a scansione, classificate in base alla percentuale di dati duplicati o che soddisfano le soglie di dati cold e stale della tua organizzazione. Seleziona una riga qualsiasi per aprire la vista Investigation filtrata per quella risorsa. Da lì, usa la scheda link:investigate-unstructured.html["Non strutturato"] per identificare i file cold o stale oppure la scheda link:investigate-directories.html["Directory"] per controllare l'esposizione delle autorizzazioni.
+
+La tabella _Principali proprietari di dati per spazio di archiviazione recuperabile_ mostra quali proprietari di dati possiedono dati potenzialmente recuperabili. Seleziona una riga qualsiasi per aprire la visualizzazione link:investigate-unstructured.html["Indagine"] filtrata in base ai file di quel proprietario. Da lì, puoi esaminare i risultati, intervenire o salvarli come criterio.
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:investigate-data.html["Analizza i tuoi dati"]
+* link:investigate-unstructured.html["Analizza i dati non strutturati"]
+* link:../data-sources/connect-data-source.html["Connetti una origine dati"]
+* link:../administer/configure-settings.html["Configura le soglie per i dati cold e stale"]
+

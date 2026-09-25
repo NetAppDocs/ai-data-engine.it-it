@@ -1,0 +1,8 @@
+---
+section: policies
+title: Gestisci criteri e azioni
+entries:
+- title: Crea una policy
+  url: "/policies/create-policy.html"
+- title: Gestisci le policy
+  url: "/policies/manage-policies.html"

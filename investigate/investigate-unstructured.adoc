@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: investigate/investigate-unstructured.html 
+keywords: investigate, unstructured, cold data, stale data, last accessed, file size, file owner, reclaimable storage, NFS, SMB, CIFS 
+summary: 'Individua e classifica i file come "freddi", "obsoleti" o "di grandi dimensioni" nei volumi NFS e SMB/CIFS utilizzando filtri dei metadati, quindi esamina i risultati, intervieni secondo necessità o salva i criteri di filtro come policy riutilizzabile.' 
+---
+= Analizza i dati non strutturati in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Quando lo storage basato su file cresce in modo inaspettato, puoi filtrare per data dell'ultimo accesso, dimensione del file e proprietario per individuare i file che stanno consumando capacità. Ad esempio, un amministratore dello storage può identificare terabyte di snapshot di VM a cui non si accede da oltre un anno e valutare se archiviarli, eliminarli o conservarli.
+
+.Prima di iniziare
+* Almeno una sorgente dati deve essere connessa e in fase di scansione. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
+
+
+
+
+[[find-cold-or-stale-files-by-last-access-time]]
+== Trova i file inattivi o obsoleti in base all'ora dell'ultimo accesso
+
+Utilizza i filtri basati sulla data per identificare i file a cui non è stato effettuato l'accesso entro le soglie dei dati cold o stale della tua organizzazione. Le soglie sono configurabili in *Configuration* > *Settings*. Vedi link:../administer/configure-settings.html["Configura le soglie per i dati cold e stale"].
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Indagine*.
++
+La scheda Non strutturato è selezionata per impostazione predefinita.
+
+. Seleziona *Aggiungi filtro*, quindi seleziona *Ultimo accesso*.
+. Seleziona un intervallo di tempo che corrisponda alla tua soglia dei dati cold, ad esempio *1+ anno*.
+. Per concentrarti sui maggiori consumatori, seleziona di nuovo *Aggiungi filtro*, quindi seleziona *Dimensione file* e imposta un valore minimo, ad esempio *>1 GiB*.
++
+I filtri applicati vengono visualizzati come etichette sotto la barra dei filtri. La tabella dei risultati e il conteggio degli elementi si aggiornano man mano che aggiungi ciascun filtro.
+
+
+
+Per un elenco completo dei filtri disponibili, fai riferimento a link:use-filters.html["Lavora con i filtri"].
+
+
+
+[[group-results-by-owner]]
+== Raggruppa i risultati per proprietario
+
+Raggruppare i dati per proprietario ti aiuta a capire chi detiene la maggior parte dei dati potenzialmente recuperabili prima di decidere dove intervenire.
+
+.Passaggi
+. Con i filtri applicati, seleziona il menu a tendina *Visualizza per*.
+. Seleziona *Owner*.
++
+I risultati si riorganizzano per mostrare il numero totale di file e la dimensione per ciascun proprietario. Seleziona una riga di proprietario qualsiasi per espanderla e visualizzare i singoli file.
+
+
+
+
+
+[[review-file-details]]
+== Rivedi i dettagli del file
+
+Seleziona una riga del file per aprire il pannello dei dettagli e verifica che il file corrisponda all'ambito desiderato prima di procedere.
+
+Il pannello dei dettagli mostra il sistema del file, il repository di storage, il proprietario del file e gli eventuali tag o criteri applicati. Verifica il sistema e il proprietario prima di archiviare o eliminare il file.
+
+
+
+[[act-on-results-or-save-as-a-policy]]
+== Agisci in base ai risultati o salva come policy
+
+Dopo aver identificato i file su cui vuoi intervenire, seleziona uno o più elementi utilizzando le caselle di controllo nella tabella dei risultati.
+
+* Per eseguire subito un'azione, fai riferimento a link:take-actions.html["Agisci sui tuoi dati"].
+* Per salvare i criteri di filtro per il monitoraggio continuo, seleziona *Crea criterio* nella barra degli strumenti del filtro. Fai riferimento a link:../policies/create-policy.html["Crea una policy"].
+
+
+Per scaricare i risultati filtrati dalla scheda Non strutturato, seleziona image:icon_download_file.png["Scarica"].
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:use-filters.html["Lavora con i filtri"]
+* link:take-actions.html["Agisci sui tuoi dati"]
+* link:../policies/create-policy.html["Crea una policy"]
+* link:../get-started/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
+* link:understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+

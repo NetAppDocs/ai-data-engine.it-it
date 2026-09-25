@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: administer/configure-settings.html 
+keywords: cold threshold, stale threshold, configuration, settings, data classification, cold data, stale data 
+summary: 'Configura le soglie temporali che AI Data Engine utilizza per classificare i dati come "freddi" o "obsoleti" nel tuo ambiente.' 
+---
+= Configura le soglie dei dati cold e stale in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine classifica i file come "freddi" o "obsoleti" in base alle soglie temporali che definisci. Queste soglie influenzano quali dati compaiono nei riepiloghi del dashboard, quali file compaiono quando applichi i filtri per file "freddi" o "obsoleti" in Investigation e quali file sono interessati dalle policy. Imposta soglie che corrispondano alle pratiche di classificazione e conservazione dei dati della tua organizzazione e che ti aiutino a identificare i dati che ritieni importanti da monitorare.
+
+
+
+[[what-is-cold-and-stale-data]]
+== Che cosa sono i dati cold e stale?
+
+Dati freddi:: File a cui non è stato effettuato l'accesso entro la soglia configurata dei dati "freddi". I dati "freddi" sono una metrica chiave che la tua organizzazione può utilizzare per identificare lo storage che potrebbe essere ottimizzato in base alle tue policy di conservazione e aziendali.
+Dati obsoleti:: File a cui non hai effettuato l'accesso o che non hai modificato entro la soglia di dati obsoleti configurata. I dati obsoleti includono file a cui accedi occasionalmente ma che non hai modificato di recente e che la tua organizzazione può monitorare o gestire in base alle proprie policy.
+
+
+
+NOTE: I valori soglia predefiniti sono quelli predefiniti del prodotto forniti come punto di partenza. Non rappresentano periodi di conservazione previsti dalla legge, dalle normative o dagli standard di settore. Imposta soglie che rispecchino le politiche e i requisiti specifici della tua organizzazione.
+
+Le modifiche a entrambe le soglie avranno effetto al termine del successivo ciclo di scansione.
+
+
+
+[[configure-the-cold-data-threshold]]
+== Configura la soglia dei dati cold
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Seleziona *Impostazioni*.
+. Seleziona *Modifica* per *Definizione dei dati inattivi*.
+. Imposta la proprietà del file su *Ultimo accesso* o *Ultima modifica*.
+. Imposta la soglia temporale. Il valore predefinito è un anno.
+. Seleziona *Salva*.
+
+
+
+
+[[configure-the-stale-data-threshold]]
+== Configura la soglia dei dati obsoleti
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Seleziona *Impostazioni*.
+. Seleziona *Modifica* per *Definizione dei dati obsoleti*.
+. Imposta la proprietà del file su *Ultimo accesso* o *Ultima modifica*.
+. Imposta la soglia temporale. Il valore predefinito è tre anni.
+. Seleziona *Salva*.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:../investigate/understand-dashboard.html["Scopri la dashboard di AI Data Engine"]
+* link:../get-started/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
+* link:manage-users-roles.html["Gestisci utenti e ruoli"]
+

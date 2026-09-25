@@ -1,0 +1,100 @@
+---
+sidebar: sidebar 
+permalink: policies/create-policy.html 
+keywords: create policy, save query, policy, filters, actions, automation 
+summary: 'Salva i criteri di filtro dell"indagine come policy denominata, in modo da poter monitorare lo stesso raggruppamento di dati nel tempo e ricevere notifiche quando le condizioni cambiano.' 
+---
+= Crea una policy in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Crea una policy quando vuoi monitorare una condizione ricorrente dei dati senza ripetere manualmente la stessa analisi. Ad esempio, un responsabile della governance dei dati può salvare una policy per i "file obsoleti di grandi dimensioni" per tenere traccia di tale gruppo nei cicli di scansione e ricevere un aggiornamento via email quando il numero di file interessati cambia.
+
+
+
+[[about-policies]]
+== Informazioni sulle policy
+
+Le policy salvano i criteri di filtro che definisci in Investigation come regola riutilizzabile. AI Data Engine valuta ogni policy rispetto al catalogo dei metadati dopo ogni ciclo di scansione. Puoi aprire una policy in qualsiasi momento per visualizzare il set di risultati corrispondenti corrente. Se alleghi un'azione Delete, AI Data Engine rimuove i file corrispondenti dopo ogni ciclo di scansione. Se alleghi una notifica email, AI Data Engine invia un aggiornamento quando il numero di file interessati cambia.
+
+
+
+[[choose-a-policy-action]]
+== Scegli un'azione del criterio
+
+Una policy è un set di filtri salvato con un'azione facoltativa associata:
+
+* *Solo monitoraggio (nessuna azione)*: Tieni traccia del raggruppamento corrispondente nel tempo senza intervenire. Usa questa opzione quando vuoi avere visibilità senza impegnarti in una risposta automatizzata.
+* *Invia notifica via email*: Avvisa un utente via email quando cambia il numero di file corrispondenti.
+* *Elimina definitivamente*: Elimina in modo permanente e automatico tutti i file corrispondenti al termine di ogni ciclo di scansione, senza ulteriore conferma. Questa azione è irreversibile. Verifica che i criteri di filtro siano precisi e di essere autorizzato a eliminare i file identificati prima di applicare questa azione.
+
+
+
+
+[[create-a-policy-from-investigation]]
+== Crea una policy da Investigation
+
+.Prima di iniziare
+* Per associare un'azione di eliminazione o di notifica via email, devi avere il ruolo di _AI Data Engine administrator_. Il ruolo _AI Data Engine viewer_ può creare policy di solo monitoraggio.
+
+
+.Passaggi
+. In NetApp Console, vai a *Governance* > *AI Data Engine* > *Investigation*.
+. Applica uno o più filtri che identificano i file a cui vuoi che la policy si applichi.
++
+Ad esempio: *Tipo di file* = .vmdk E *Ora dell'ultimo accesso* > 365 giorni.
+
++
+Esamina la tabella dei risultati per confermare che il set di filtri acquisisca il raggruppamento di dati desiderato.
+
+. Nella barra delle azioni del filtro, seleziona *Crea criterio*.
+. Inserisci il *nome del criterio*.
+. Facoltativamente, inserisci una *Descrizione* (fino a 500 caratteri).
+. Esamina l'espressione dei criteri di filtro (ad esempio, `last_access_time <= 3 Years AND file_size >= 5GiB`) per confermare che rifletta le tue selezioni.
+. Per associare un'azione, seleziona una delle seguenti opzioni in *Azione*:
++
+** *Solo monitoraggio (nessuna azione)* (impostazione predefinita): la policy viene salvata come condizione di solo monitoraggio.
+** *Invia notifica via email*: Invia una notifica via email al destinatario che specifichi.
+** *Elimina definitivamente*: Non è richiesto alcun input aggiuntivo.
++
+
+CAUTION: L'azione "Elimina definitivamente" elimina automaticamente e in modo irreversibile tutti i file che corrispondono a questa policy dopo ogni ciclo di scansione. Verifica i criteri di filtro e conferma di essere autorizzato a eliminare questi file prima di salvare.
+
+
+
+. Seleziona *Crea*.
+
+
+.Risultato
+La policy viene salvata e appare nella pagina link:manage-policies.html["Politiche"]. Se hai associato un'azione, AI Data Engine la applica ai file che corrispondono ai criteri della policy.
+
+
+
+[[example-identify-cold-archive-files]]
+== Esempio: identifica i file di archivio inattivi
+
+L'esempio seguente crea una policy per inviare una notifica via e-mail quando rileva file a cui non accedi da oltre un anno.
+
+. In Investigation, applica questi filtri:
++
+** *Ora dell'ultimo accesso* > 365 giorni
+
+
+. Seleziona *Crea policy*.
+. Inserisci il nome della policy: *Cold Files — Unaccessed 1 Year*.
+. Seleziona l'azione *Invia notifica via email* e inserisci l'indirizzo email del destinatario.
+. Seleziona *Crea*.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:manage-policies.html["Gestisci le policy"]
+* link:../investigate/take-actions.html["Agisci sui tuoi dati"]
+* link:../investigate/investigate-data.html["Analizza i tuoi dati"]
+

@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: deploy/deployment-overview.html 
+keywords: deployment, aide lite, aide enterprise, kubernetes, vm, deployment modes, sizing 
+summary: 'Distribuisci AI Data Engine come AIDE Lite o come AIDE Enterprise se il tuo ambiente richiede un"elevata disponibilità basata su Kubernetes.' 
+---
+= Scopri il deployment di AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Implementa AI Data Engine come AIDE Lite, un'installazione su singola macchina virtuale. Se il tuo ambiente richiede alta disponibilità basata su Kubernetes su larga scala, puoi invece implementare AIDE Enterprise.
+
+
+
+[[aide-lite]]
+== AIDE Lite
+
+AIDE Lite si installa su una singola VM Linux. Non ti serve esperienza con Kubernetes perché il programma di installazione esegue automaticamente il provisioning di k3s.
+
+AIDE Lite è disponibile in tre dimensioni — Small, Medium e Large — per ambienti fino a circa 200 milioni, 1 miliardo e 3 miliardi di file, rispettivamente. Per i requisiti completi di dimensionamento delle VM e del sistema operativo, fai riferimento a link:aide-requirements.html["Requisiti AIDE"]. Queste dimensioni sono valori di riferimento consigliati, non limiti rigidi; consulta link:aide-requirements.html#flexible-sizing-lite["linee guida flessibili per il dimensionamento"] per i fattori che influenzano il dimensionamento e come scalare ulteriormente.
+
+
+
+[[aide-enterprise]]
+== AIDE Enterprise
+
+Implementa AIDE Enterprise se il tuo ambiente richiede elevata disponibilità, tolleranza ai guasti, aggiornamenti progressivi o scalabilità orizzontale oltre le dimensioni massime di AIDE Lite. AIDE Enterprise viene distribuito come cluster Kubernetes multinodo su un cluster RKE2 fornito e gestito dal cliente.
+
+AIDE Enterprise è disponibile in tre dimensioni — Small, Medium e Large — per ambienti fino a circa 1 miliardo, 3 miliardi e 6 miliardi di file, rispettivamente. Per il dimensionamento completo dei nodi e i requisiti del cluster, fai riferimento a link:aide-requirements.html["Requisiti AIDE"]. Queste dimensioni sono valori di riferimento consigliati, non limiti rigidi: gli ambienti che superano i 6 miliardi di file sono supportati tramite scale-out orizzontale. Per i dettagli, consulta link:aide-requirements.html#flexible-sizing-enterprise["linee guida flessibili per il dimensionamento"].
+
+
+
+[[deployment-process]]
+== Processo di implementazione
+
+NetApp Console non esegue il provisioning dell'infrastruttura per AI Data Engine. Prepari una macchina o un cluster Linux che soddisfi i requisiti, quindi copi il comando di installazione pregenerato da NetApp Console e lo esegui sull'host di destinazione. Il comando inizializza il runtime e distribuisce automaticamente lo stack di AI Data Engine. Durante l'installazione, il programma di installazione ti chiede di confermare l'indirizzo IP dell'host di destinazione e l'ID utente prima di procedere con l'installazione.
+
+L'installazione di AIDE Lite si completa in genere entro 45 minuti. L'installazione di AIDE Enterprise si completa in genere entro 30 minuti. Il programma di installazione include timeout e tentativi di ripetizione integrati per gestire eventuali problemi temporanei durante l'avvio dei componenti.
+
+
+
+[[deployment-mode-reference]]
+== Riferimento della modalità di distribuzione
+
+[cols="1h,2,2"]
+|===
+|  | AIDE Lite | AIDE Enterprise 
+
+
+| Modello di implementazione | Singola macchina virtuale Linux | cluster Kubernetes multi-node (RKE2 fornito dal cliente) 
+
+
+| velocità di scansione | Da 50 milioni a 1 miliardo di file al giorno, a seconda delle dimensioni | Da 250 milioni a 2 miliardi di file al giorno, varia in base alle dimensioni 
+
+
+| Numero massimo di file (dimensioni grandi) | Circa 3 miliardi | Circa 6 miliardi 
+|===
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:aide-requirements.html["Requisiti AIDE"]
+* link:deploy-aide-lite.html["Implementa AI Data Engine — Lite"]
+* link:deploy-enterprise.html["Implementa AI Data Engine — Enterprise"]
+
