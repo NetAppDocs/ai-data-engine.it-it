@@ -13,7 +13,7 @@ summary: Valuta lo stato di salute dello storage nel tuo ambiente, identifica do
 [role="lead"]
 Prima di poter decidere cosa esaminare, devi comprendere lo stato del tuo storage. Quanto storage soddisfa le soglie di classificazione dei dati cold e stale della tua organizzazione e quali sistemi o proprietari detengono la maggior parte dei dati in queste categorie? Ad esempio, un amministratore dello storage che risponde a un avviso di capacità può vedere che una gran parte dello storage analizzato è costituita da dati cold, quindi può approfondire il sistema con l'impatto maggiore per iniziare subito a indagare.
 
-Da NetApp Console, seleziona *Governance* > *AI Data Engine UI*. La dashboard si apre per impostazione predefinita.
+Da NetApp Console, seleziona *AI data hub* > *AI Data Engine UI*. La dashboard si apre per impostazione predefinita.
 
 
 

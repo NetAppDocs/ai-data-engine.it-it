@@ -14,6 +14,7 @@ summary: Distribuisci AIDE Lite da NetApp Console utilizzando la procedura guida
 Distribuisci AIDE Lite da NetApp Console utilizzando la procedura guidata di distribuzione. La procedura guidata ti accompagna nella selezione del percorso di installazione, nella scelta delle dimensioni della configurazione e nell'esecuzione del comando di installazione sull'host di destinazione.
 
 .Prima di iniziare
+* La tua organizzazione ha accesso all'anteprima privata di AI Data Engine in NetApp Console. Contatta il tuo referente NetApp per richiedere l'accesso, così potrai implementare AI Data Engine.
 * In NetApp Console disponi di autorizzazioni di _Organization admin_ o superiori.
 * Per eseguire il comando di installazione, sono necessari i permessi di sudo (o root) sull'host di destinazione.
 * Il tuo ambiente soddisfa tutti i prerequisiti come descritto in link:aide-requirements.html["Requisiti AIDE"].
@@ -21,7 +22,7 @@ Distribuisci AIDE Lite da NetApp Console utilizzando la procedura guidata di dis
 
 
 .Passaggi
-. Nella NetApp Console, vai a *Governance* > *AI Data Engine*.
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine*.
 +
 Viene visualizzata la landing page di AI Data Engine.
 

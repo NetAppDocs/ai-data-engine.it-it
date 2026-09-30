@@ -15,7 +15,7 @@ Configura e rendi operativo AI Data Engine implementando il servizio, collegando
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Uno"]Requisiti di revisione
 [role="quick-margin-para"]
-Esamina i link:../deploy/aide-requirements.html["Requisiti AIDE"]documenti link:../deploy/deployment-overview.html["Scopri le modalità di implementazione"] per determinare se installare AIDE Lite o AIDE Enterprise.
+Esamina la link:../deploy/aide-requirements.html["Requisiti AIDE"]documentazione link:../deploy/deployment-overview.html["Scopri le modalità di implementazione"] per determinare se installare AIDE Lite o AIDE Enterprise. AI Data Engine è disponibile in anteprima privata in NetApp Console. Contatta il tuo rappresentante NetApp per richiedere l'accesso e poter distribuire AI Data Engine.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Due"] Distribuisci AI Data Engine
 [role="quick-margin-para"]

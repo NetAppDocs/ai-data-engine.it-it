@@ -42,7 +42,7 @@ Una policy è un set di filtri salvato con un'azione facoltativa associata:
 
 
 .Passaggi
-. In NetApp Console, vai a *Governance* > *AI Data Engine* > *Investigation*.
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine* > *Investigation*.
 . Applica uno o più filtri che identificano i file a cui vuoi che la policy si applichi.
 +
 Ad esempio: *Tipo di file* = .vmdk E *Ora dell'ultimo accesso* > 365 giorni.

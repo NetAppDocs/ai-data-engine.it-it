@@ -14,6 +14,7 @@ summary: Distribuisci AIDE Enterprise da NetApp Console utilizzando la procedura
 Distribuisci AIDE Enterprise da NetApp Console utilizzando la procedura guidata di distribuzione. La procedura guidata ti aiuta a selezionare la posizione di installazione, scegliere le dimensioni della configurazione ed eseguire il comando di installazione sul tuo cluster RKE2.
 
 .Prima di iniziare
+* La tua organizzazione ha accesso all'anteprima privata di AI Data Engine in NetApp Console. Contatta il tuo referente NetApp per richiedere l'accesso, così potrai implementare AI Data Engine.
 * In NetApp Console disponi di autorizzazioni di _Organization admin_ o superiori.
 * Il tuo cluster RKE2 soddisfa i prerequisiti del nodo Enterprise descritti in link:aide-requirements.html["Requisiti AIDE"].
 * Sul computer da cui esegui il comando di installazione sono necessari i permessi di sudo (o root).
@@ -25,7 +26,7 @@ Distribuisci AIDE Enterprise da NetApp Console utilizzando la procedura guidata 
 
 
 .Passaggi
-. Nella NetApp Console, vai a *Governance* > *AI Data Engine*.
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine*.
 +
 Viene visualizzata la landing page di AI Data Engine.
 
