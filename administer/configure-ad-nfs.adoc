@@ -1,0 +1,149 @@
+---
+sidebar: sidebar 
+permalink: administer/configure-ad-nfs.html 
+keywords: active directory, nfs, uidNumber, gidNumber, global catalog, identity mapping, file owner, ldap, general settings 
+summary: Configura la mappatura di Active Directory per gli ID utente e gli ID di gruppo NFS. AI Data Engine utilizza le identità utente risolte per visualizzare i nomi dei proprietari dei file per i dati NFS. 
+---
+= Configura la mappatura delle identità di Active Directory per NFS in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Identifica i proprietari dei tuoi file NFS per nome anziché per ID numerico. AI Data Engine (AIDE) può mappare gli ID utente (UID) e gli ID di gruppo (GID) numerici nei file NFS alle identità di Active Directory e utilizza le identità utente risolte per visualizzare i nomi dei proprietari dei file.
+
+Questa mappatura non autentica AI Data Engine nello storage NFS. Converte gli ID che AI Data Engine trova durante la scansione in nomi di Active Directory.
+
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+.Permessi e accesso
+* Hai i privilegi di amministratore di _AI Data Engine_.
+
+
+.Configurazione di AI Data Engine
+* Hai link:../deploy/aide-requirements.html#networking-requirements["hai aperto le porte necessarie"] da AI Data Engine ai tuoi domain controller Active Directory.
+* Hai link:configure-settings.html#find-access-risks-with-permission-scanning["scansione delle autorizzazioni attivata"].
+
+
+.Active Directory
+* Hai un account di Active Directory che AI Data Engine può utilizzare per interrogare gli attributi di utenti e gruppi. Devi inserire il nome utente e la password di tale account in AI Data Engine.
+* Hai a disposizione il domain name del tuo Active Directory e l'indirizzo IP del tuo DNS server oppure l'indirizzo IP e la porta del tuo LDAP server.
+* Sai se la tua directory richiede una connessione LDAP sicura.
+* Se AI Data Engine interroga il Catalogo globale e gli attributi non sono ancora stati replicati al Catalogo globale, tu o il tuo amministratore di Active Directory dovete avere il ruolo _Schema Admins_ per apportare la modifica allo schema.
+
+
+
+
+[[prepare-active-directory]]
+== Prepara Active Directory
+
+Associa gli attributi UID e GID in Active Directory agli ID numerici utilizzati nel tuo storage NFS, in modo che AI Data Engine possa risolvere i proprietari dei file.
+
+AI Data Engine legge i seguenti attributi di Active Directory:
+
+[cols="1,2,1"]
+|===
+| Attributo | Scopo | Richiesto 
+
+
+| `uidNumber` | L'UID numerico di un utente. Deve corrispondere all'UID che l'utente ha sul tuo storage NFS. | Sì 
+
+
+| `gidNumber` | L'identificativo numerico (GID) di un gruppo. Deve corrispondere al GID del gruppo presente sul tuo storage NFS. | Sì 
+
+
+| `mail` | L'indirizzo email del proprietario del file. Se questo attributo non è impostato, l'indirizzo email del proprietario viene visualizzato come *Non disponibile*. | No 
+|===
+Compila `uidNumber` per gli utenti e `gidNumber` per i gruppi che vuoi che AI Data Engine risolva.
+
+
+NOTE: Imposta `gidNumber` sull'oggetto gruppo. L `gidNumber` su un oggetto utente identifica il gruppo principale di quell'utente. Non è l'attributo del gruppo che AI Data Engine utilizza per questa ricerca.
+
+.Passaggi
+. Verifica che ogni utente che desideri risolvere abbia un `uidNumber` valore e che ogni gruppo abbia un `gidNumber` valore. Ogni UID deve essere univoco tra gli utenti e ogni GID deve essere univoco tra i gruppi. Un utente e un gruppo possono avere lo stesso valore numerico.
+. Se AI Data Engine interroga il Global Catalog e gli attributi non sono già replicati in esso, replica in esso gli attributi `uidNumber` e `gidNumber`. La replica è una modifica una tantum per l'intera foresta. Devi essere membro del gruppo _Schema Admins_.
++
+.. Su un domain controller, apri lo snap-in Schema di Active Directory.
+.. Apri le proprietà dell `uidNumber`attributo.
+.. Seleziona *Replica questo attributo nel Catalogo globale*.
+.. Ripeti per l' `gidNumber`attributo.
+
+
+
+
+
+CAUTION: Se AI Data Engine interroga il Global Catalog, gli attributi che non vi sono replicati non vengono restituiti dalle ricerche di identità. Gli ID corrispondenti rimangono irrisolti.
+
+
+
+[[enable-active-directory-for-nfs]]
+== Abilita Active Directory per NFS
+
+Collega AI Data Engine al dominio Active Directory che contiene gli attributi UID e GID corrispondenti, quindi abilita la mappatura delle identità in modo che i file NFS scansionati possano mostrare i nomi dei proprietari risolti.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
+. Seleziona *Impostazioni generali*.
+. Nella pagina, individua *Active Directory* e seleziona *Abilitato*.
+. Inserisci i dettagli di connessione per il tuo dominio Active Directory. Seleziona l'opzione *Indirizzo IP del server DNS* oppure l'opzione *Indirizzo IP del server LDAP*.
++
+
+NOTE: Le credenziali che inserisci qui sono per l'integrazione della directory. Sono separate dalle credenziali che fornisci per una destinazione di archiviazione SMB. Fai riferimento a link:../investigate/take-actions.html["Agisci sui tuoi dati"].
+
++
+[cols="1,3"]
+|===
+| Campo | Descrizione 
+
+
+| *Nome utente* | L'account di Active Directory che AI Data Engine utilizza per interrogare gli attributi di utenti e gruppi. Inserisci il nome nel formato  `domain\user` o  `user@domain`. 
+
+
+| *Password* | La password dell'account. 
+
+
+| *Indirizzo IP del server DNS* | L'indirizzo IP del DNS server che risolve il tuo dominio Active Directory. Ad esempio, `10.0.1.50`. Seleziona questa opzione anziché *Indirizzo IP del server LDAP*. 
+
+
+| *domain name* | Il nome pienamente qualificato del tuo dominio Active Directory. Ad esempio, `corp.example.com`. Questo campo è obbligatorio sia per l'opzione DNS che per quella LDAP. 
+
+
+| *Indirizzo IP del server LDAP* | L'indirizzo IP del LDAP server, che è un domain controller. Ad esempio, `10.0.1.50`. Seleziona questa opzione invece di *DNS Server IP address*. 
+
+
+| *Porta del server LDAP* | La porta del LDAP server. Il valore predefinito è `389`. 
+
+
+| *Connessione LDAP sicura* | Seleziona questa opzione per connetterti al LDAP server tramite una connessione sicura. È disponibile sia con l'opzione DNS che con quella LDAP. 
+|===
+. Facoltativamente, attiva *Abilita mappatura delle identità NFS*.
++
+L'attivazione della mappatura delle identità NFS consente ad AIDE di risolvere gli ID numerici dei proprietari dei file NFS nei nomi dei proprietari di Active Directory. Abilita questa opzione solo se Active Directory contiene gli attributi UID/GID Unix utilizzati dal tuo ambiente NFS.
+
++
+.. Inserisci l'attributo *numero UID* e l'attributo *numero GID*, ad esempio  `uidNumber` e  `gidNumber`. Entrambi i campi sono obbligatori quando è abilitata la mappatura delle identità NFS. Le informazioni sul proprietario vengono risolte in background.
+
+
+. Salva le modifiche.
+
+
+.Risultato
+AI Data Engine utilizza Active Directory per risolvere i proprietari dei file NFS che analizza.
+
+AI Data Engine risolve le identità in modo asincrono. I nomi dei proprietari potrebbero non essere visualizzati immediatamente dopo aver abilitato la mappatura o aggiornato gli attributi in Active Directory.
+
+Per verificare il risultato, apri i dettagli del file nella vista link:../investigate/investigate-unstructured.html["Indagine"] e verifica che il proprietario del file mostri un nome utente di Active Directory.
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:../deploy/aide-requirements.html["Requisiti di AI Data Engine"]
+* link:configure-kerberos-smb.html["Autenticazione Kerberos per condivisioni SMB/CIFS in AI Data Engine"]
+* link:configure-settings.html["Configurare le soglie di classificazione dei dati"]
+

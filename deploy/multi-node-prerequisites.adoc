@@ -1,0 +1,371 @@
+---
+sidebar: sidebar 
+permalink: deploy/multi-node-prerequisites.html 
+keywords: multi-node, prerequisites, RKE2, OpenShift, AKS, kubernetes, cluster, NFS, StorageClass, namespace, kubectl, installer host 
+summary: 'Prepara il tuo cluster Kubernetes, l"host di installazione, i nodi, il server NFS e lo storage per una distribuzione multi-node di AIDE su RKE2, OpenShift o AKS.' 
+---
+= Prerequisiti per la distribuzione multi-node di AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Per una distribuzione multi-node di AI Data Engine (AIDE), devi usare il tuo cluster Kubernetes. Il programma di installazione distribuisce AI Data Engine sul tuo cluster esistente e non lo sottopone a provisioning né lo gestisce. Prepara il cluster, i nodi, lo storage e l'host del programma di installazione prima di eseguire il comando di installazione.
+
+Il tuo ambiente deve soddisfare i requisiti indicati nelle sezioni seguenti prima di eseguire il comando di installazione. Per informazioni sul dimensionamento dei nodi, le versioni di Kubernetes supportate e le porte di rete, consulta link:aide-requirements.html["Requisiti AIDE"].
+
+
+
+[[installer-host]]
+== Host di installazione
+
+L'host di installazione è una macchina di gestione leggera. Non esegue i carichi di lavoro di AI Data Engine. Deve essere una macchina Linux con bash e accesso di rete al server API di Kubernetes. macOS non è supportato. Prima di eseguire i comandi della shell in questa pagina, passa a bash.
+
+* Hai un kubeconfig valido per il cluster di destinazione. Specificalo con l'opzione `--kubeconfig` o la variabile d'ambiente `KUBECONFIG`. Se non ne fornisci uno, il programma di installazione te lo richiederà. Il contesto corrente deve puntare al cluster in cui vuoi eseguire il deployment. Per verificarlo o modificarlo, esegui `kubectl config current-context` o `kubectl config use-context <name>`.
+* L'utente kubeconfig dispone delle autorizzazioni cluster-admin o equivalenti sul cluster di destinazione. Come minimo, l'utente può eseguire le seguenti operazioni:
++
+** Leggi gli spazi dei nomi, StorageClasses e i nodi.
+** Applica risorse personalizzate.
+** Crea PersistentVolumes, PersistentVolumeClaims, Secrets, ConfigMaps, Deployments, Services, StatefulSets, DaemonSets, CronJobs e Jobs.
+** Crea e aggiorna CustomResourceDefinitions. Il programma di installazione installa le definizioni  `aidecomponents`,  `aideservices` e  `aideoperators`.
+** Crea ClusterRoles e ClusterRoleBindings.
+** Crea ServiceAccounts, ruoli e RoleBindings nello `aide` spazio dei nomi.
+
+
+* L'host del programma di installazione esegue Linux e dispone di bash 4.0 o versioni successive, curl e tar.
+* Il programma di installazione scarica automaticamente  `helm`,  `kubectl` e  `jq` in una directory degli strumenti. Se  `kubectl` è già presente nel tuo  `PATH`, il programma di installazione utilizza quella copia e non ne scarica una. Non devi installare in anticipo nessuno di questi strumenti. Il programma di installazione non li aggiunge al tuo  `PATH`.
+* La directory predefinita degli strumenti è `/opt/netapp/aide/.aide-installer-tools`. Il programma di installazione scrive anche il log di installazione in quella directory. Se la directory predefinita è scrivibile, puoi omettere l'opzione `--tools-dir`.
++
+** Se la directory predefinita non è scrivibile e avvii il programma di installazione da un terminale, il programma di installazione ti chiede un'altra directory. Premi Invio per utilizzare `$HOME/.cache/netapp/aide`.
+** Se la directory predefinita non è scrivibile e il programma di installazione non ha un terminale, l'installazione si interrompe. Specifica una directory di cui sei proprietario con l `--tools-dir`opzione, ad esempio `--tools-dir "$HOME/.aide-installer-tools"`.
+
+
+* Esegui il programma di installazione come utente che ha accesso al cluster.
+
+
+I kubeconfig dei cluster gestiti si autenticano tramite un plugin di credenziali exec che legge l'accesso alla CLI cloud per l'utente corrente. Esegui il programma di installazione come l'utente che dispone di tale accesso. Per indicazioni specifiche su AKS, consulta <<aks-requirements,Requisiti AKS>>.
+
+All'avvio, il programma di installazione esegue  `kubectl config current-context` e  `kubectl cluster-info` e si arresta se uno dei due comandi non riesce. Esegui prima questi comandi, con lo stesso utente e con gli stessi privilegi che usi per il programma di installazione. Il programma di installazione ti chiede anche di confermare di aver completato la preparazione del nodo, di NFS e del cluster nelle sezioni seguenti.
+
+
+
+[[kubernetes-cluster]]
+== cluster Kubernetes
+
+* Devi fornire un cluster Kubernetes che esegue RKE2, OpenShift o Azure Kubernetes Service (AKS) e soddisfa i link:aide-requirements.html#supported-kubernetes["versioni di Kubernetes supportate"].
+* I componenti di AI Data Engine vengono eseguiti sui nodi che hai etichettato. Vedi <<node-labels,Etichette dei nodi>>. Altri carichi di lavoro su quei nodi non possono utilizzare le porte host 80 e 443.
+* Il cluster ha almeno tre nodi con capacità allocabile sufficiente per la tua configurazione. Vedi link:aide-requirements.html#multi-node-sizes["dimensionamento del nodo"].
+* Ogni nodo ha accesso di rete outbound al registry dei container NetApp. Vedi link:aide-requirements.html#outbound-internet-access["Accesso Internet outbound"]. Se limiti le origini da cui è possibile estrarre le immagini, consenti il registry NetApp.
+* Se il tuo ambiente richiede un outbound proxy, consulta link:configure-proxy.html["Scopri di più sui proxy per AI Data Engine"]. Per eseguire il deployment con un proxy, inclusa la configurazione del proxy del runtime del container e dell'attendibilità del certificato CA su ogni nodo, segui link:deploy-aide-multi-node-proxy.html["Distribuisci AI Data Engine come implementazione multi-node con un proxy"].
+
+
+
+
+[[node-preparation]]
+== Preparazione del nodo
+
+Completa questi passaggi su ogni nodo che pianifica i carichi di lavoro di AI Data Engine.
+
+
+
+[[kernel-version]]
+=== Versione del kernel
+
+Per l'opzione di montaggio  `nconnect`NFS, ti consigliamo di usare il kernel Linux 5.3 o versioni successive, che fornisce il throughput richiesto dal volume di configurazione condiviso. Per le distribuzioni e le versioni che soddisfano questa raccomandazione, consulta le linee guida del kernel Linux in link:aide-requirements.html#multi-node-requirements["Requisiti AIDE"]. Per verificare la versione del kernel, esegui  `uname -r`.
+
+
+
+[[kernel-parameters]]
+=== Parametri del kernel
+
+. Verifica il valore di `net.core.somaxconn`:
++
+[source, bash]
+----
+sysctl net.core.somaxconn
+----
++
+Se il valore è pari o superiore a 511, non devi fare nulla. Se il valore è inferiore, contatta il supporto di NetApp prima di continuare.
+
+. Aggiungi le seguenti righe a `/etc/sysctl.conf`:
++
+[source, ini]
+----
+vm.max_map_count=262144
+fs.inotify.max_user_instances=1280
+sunrpc.min_resvport=1000
+----
++
+Se un nodo ha già un valore più alto per `vm.max_map_count` o `fs.inotify.max_user_instances`, mantieni il valore più alto. Imposta sempre `sunrpc.min_resvport=1000`.
+
+. Carica il `sunrpc` modulo, rendilo permanente e applica le impostazioni:
++
+[source, bash]
+----
+sudo modprobe sunrpc
+echo "sunrpc" | sudo tee /etc/modules-load.d/aide-sunrpc.conf
+sudo sysctl -p
+----
+. Verifica le impostazioni su ciascun nodo:
++
+[source, bash]
+----
+lsmod | grep sunrpc
+cat /etc/modules-load.d/aide-sunrpc.conf
+sysctl vm.max_map_count sunrpc.min_resvport
+----
++
+Il `sunrpc` modulo deve essere caricato, il file deve contenere `sunrpc`, `vm.max_map_count` deve essere almeno 262144 e `sunrpc.min_resvport` deve essere 1000. Se `sysctl -p` segnala `cannot stat /proc/sys/...` per una chiave, carica il modulo del kernel per quell'impostazione, ad esempio `sudo modprobe sunrpc`, ed esegui `sudo sysctl -p` di nuovo.
+
+
+
+
+
+[[host-directories]]
+=== Directory dell'host
+
+Crea le seguenti directory e impostane la proprietà e i permessi:
+
+[source, bash]
+----
+sudo mkdir -p /var/lib/netapp/aide /var/lib/netapp/aide/filebeat /var/lib/netapp/aide/elasticsearch /var/log/netapp/aide
+sudo chown 4321:4321 /var/lib/netapp/aide /var/lib/netapp/aide/filebeat /var/lib/netapp/aide/elasticsearch /var/log/netapp/aide
+sudo chmod 775 /var/lib/netapp/aide /var/lib/netapp/aide/filebeat /var/lib/netapp/aide/elasticsearch /var/log/netapp/aide
+----
+
+
+[[kerberos-cifssmb-support-optional]]
+=== Supporto Kerberos CIFS/SMB (opzionale)
+
+Il `cifs-utils` pacchetto è necessario solo per la scansione CIFS/SMB basata su Kerberos, su ogni nodo che pianifica i carichi di lavoro di AI Data Engine. Salta questo passaggio se usi solo CIFS con NTLM o non esegui la scansione delle condivisioni SMB.
+
+.RHEL
+[source, bash]
+----
+sudo dnf install -y cifs-utils
+----
+.Ubuntu
+[source, bash]
+----
+sudo apt-get update
+sudo apt-get install -y cifs-utils
+----
+
+
+[[nfs-server]]
+== Server NFS
+
+Il volume di configurazione di AI Data Engine si basa su NFS. Devi fornire un server NFS e un'esportazione prima di eseguire il programma di installazione. L'installazione non può procedere senza di essi. Specifica l'host name o l'indirizzo IP del server NFS con `--nfs-server <host>` e il percorso di esportazione con `--nfs-data-share <path>` quando esegui il comando di installazione.
+
+Per il dimensionamento della distribuzione e i requisiti di performance dello storage, consulta link:aide-requirements.html#multi-node-sizes["dimensionamento del nodo"].
+
+[cols="1,2"]
+|===
+| Requisito | Valore 
+
+
+| Accesso all'esportazione | Lettura/scrittura, raggiungibile da tutti gli indirizzi IP dei nodi Kubernetes 
+
+
+| Proprietario | UID:GID 4321:4321 
+
+
+| Modalità dei permessi | 0770 
+
+
+| Squash | Non rimappare l'UID 4321 a un altro utente. L'UID 4321 deve mantenere l'accesso in scrittura all'esportazione montata. 
+|===
+Per preparare l'esportazione, esegui i seguenti comandi sul server NFS o su qualsiasi host su cui è montata l'esportazione:
+
+[source, bash]
+----
+sudo mkdir -p <nfs-data-share>
+sudo chown 4321:4321 <nfs-data-share>
+sudo chmod 0770 <nfs-data-share>
+----
+Il programma di installazione crea le sottocartelle necessarie nell'esportazione alla prima installazione.
+
+
+
+[[cluster-configuration]]
+== Configurazione del cluster
+
+
+
+[[namespace]]
+=== Spazio dei nomi
+
+Il `aide` namespace Kubernetes deve esistere prima di eseguire il programma di installazione. Il programma di installazione non lo crea. AI Data Engine supporta solo il `aide` namespace.
+
+[source, bash]
+----
+kubectl create namespace aide
+----
+
+
+[[node-labels]]
+=== Etichette dei nodi
+
+AI Data Engine pianifica i suoi componenti utilizzando le etichette dei nodi. Applica le seguenti etichette ai nodi che pianificano i carichi di lavoro di AI Data Engine. Ogni etichetta deve essere presente su almeno tre nodi. Alcune configurazioni utilizzano più nodi, quindi applica le etichette a ogni nodo che pianifica i carichi di lavoro. Sostituisci  `<node-name>` con il nome di ciascun nodo.
+
+Il programma di installazione non applica né verifica queste etichette. Devi etichettare i nodi prima di eseguire il programma di installazione. Se manca un'etichetta, i pod di AI Data Engine rimarranno successivamente nello stato  `Pending`.
+
+Il seguente comando applica tutte le etichette a un nodo:
+
+[source, bash]
+----
+kubectl label node <node-name> \
+  3rdparty-aide-nginx=true 3rdparty-aide-postgres=true \
+  3rdparty-aide-rabbitmq=true 3rdparty-aide-redis=true \
+  3rdparty-aide-es=true 3rdparty-aide-kafka=true \
+  3rdparty-aide-logstash=true 3rdparty-aide-filebeat=true \
+  3rdparty-aide-k8s-event-exporter=true 3rdparty-aide-telegraf=true \
+  microservices-aide=true --overwrite
+----
+
+
+[[taints-and-tolerations]]
+[[taints-tolerations]]
+=== Taint e toleration
+
+Questo passaggio è facoltativo. Completalo solo se AI Data Engine condivide un cluster con altri carichi di lavoro.
+
+In un cluster condiviso, in genere riservi dei nodi per AI Data Engine. Applica un taint di Kubernetes a questi nodi per impedire l'esecuzione di altri carichi di lavoro. Le etichette che hai applicato in <<node-labels,Etichette dei nodi>> mantengono i pod di AI Data Engine su quei nodi. Ogni carico di lavoro di AI Data Engine include una toleration integrata per il seguente taint, così i relativi pod possono essere pianificati sui nodi con taint:
+
+[source, text]
+----
+netapp.com/aide=true:NoSchedule
+----
+Se non usi i taint, la toleration non ha alcun effetto e non devi modificare nulla.
+
+[cols="2,1,2,3"]
+|===
+| Distribuzione | Etichetta i nodi | Taint sui nodi di AI Data Engine | Risultato 
+
+
+| Cluster dedicato | Sì | Non richiesto | La tolleranza integrata non ha alcun effetto. 
+
+
+| Nodi dedicati in un cluster condiviso | Sì | `netapp.com/aide=true:NoSchedule` | I pod di AI Data Engine vengono eseguiti solo su quei nodi, mentre gli altri carichi di lavoro non vengono eseguiti su di essi. 
+|===
+
+NOTE: Se un nodo ha un taint che i pod AI Data Engine non tollerano, i pod restano nello stato `Pending`.
+
+. Per un cluster condiviso, contrassegna ogni nodo che hai riservato per AI Data Engine. Sostituisci `<node-name>`con il nome del nodo:
++
+[source, bash]
+----
+kubectl taint node <node-name> netapp.com/aide=true:NoSchedule
+----
++
+I pod di dati non AI non possono essere pianificati sul nodo. I pod di AI Data Engine tollerano il taint.
+
+. Se i nodi presentano altri taint, aggiungi il `--extra-toleration` parametro alla fine del comando di installazione, dopo l'ultimo parametro esistente. Ripeti il parametro per ogni taint aggiuntivo.
++
+** Per associare una chiave e un valore, usa `--extra-toleration KEY=VALUE:EFFECT`.
+** Per abbinare solo una chiave, usa `--extra-toleration KEY:EFFECT`.
++
+`EFFECT`è `NoSchedule`, `PreferNoSchedule`, o `NoExecute`. Se specifichi un effetto non valido, il programma di installazione si arresta. Il programma di installazione applica le tolleranze aggiuntive a ogni componente di AI Data Engine.
+
++
+Ad esempio, se un nodo ha anche un taint `dedicated=redis:NoSchedule`, aggiungi il seguente parametro:
+
++
+[source, bash]
+----
+--extra-toleration dedicated=redis:NoSchedule
+----
+
+
+
+
+
+
+[[ingress-ports]]
+=== Porte in ingresso
+
+AI Data Engine distribuisce un controller Ingress che utilizza le porte host TCP 80 e 443 sui nodi che hanno l' `3rdparty-aide-nginx=true`etichetta. Nessun altro carico di lavoro Kubernetes può richiedere queste porte su quei nodi. Rimuovi o disabilita altri controller Ingress, come Traefik, pianificali su nodi diversi da questi oppure configurali in modo che non utilizzino le porte host 80 e 443.
+
+Per verificare la presenza di richieste host-port Kubernetes esistenti, esegui:
+
+[source, bash]
+----
+kubectl get pods -A -o json | jq -r '
+  .items[] | . as $pod
+  | .spec.containers[]?.ports[]?
+  | select(.hostPort == 80 or .hostPort == 443)
+  | "\($pod.spec.nodeName // "-")  \($pod.metadata.namespace)/\($pod.metadata.name)  hostPort=\(.hostPort)"
+'
+----
+
+
+[[storageclass]]
+=== StorageClass
+
+Una StorageClass per i componenti stateful (Elasticsearch, Kafka, PostgreSQL, RabbitMQ e Redis) deve esistere nel cluster e deve soddisfare gli IOPS e il throughput in link:aide-requirements.html#multi-node-sizes["dimensionamento del nodo"]. Passa il suo nome al programma di installazione con `--storage-class <name>`. Il nome predefinito è `aide-sc`. Se la StorageClass indicata non esiste, il programma di installazione si interrompe ed elenca le StorageClasses disponibili.
+
+Utilizza storage a blocchi, come NVMe o iSCSI. Lo storage condiviso offre prestazioni scadenti.
+
+Lo StorageClass è separato dal volume di configurazione NFS.
+
+Sulle piattaforme Kubernetes gestite, il tipo di disco predisposto dalla StorageClass deve essere collegabile al tipo di istanza del nodo worker. Il programma di installazione non può verificare questa compatibilità in anticipo. Se i tipi di disco e di nodo sono incompatibili, il pod può essere pianificato, ma il collegamento del volume non riesce durante il deployment.
+
+
+
+[[cloud-specific-requirements]]
+== Requisiti specifici del cloud
+
+
+
+[[aks]]
+[[aks-requirements]]
+=== AKS
+
+Oltre ai requisiti precedenti, un cluster AKS deve soddisfare i seguenti requisiti.
+
+La dimensione della VM del nodo deve supportare il tipo di disco di cui StorageClass esegue il provisioning. I dischi premium di Azure (`Premium_LRS`, `Premium_ZRS`, e `PremiumV2_LRS`) si collegano solo a dimensioni di VM compatibili con Premium, che hanno un `s` nello SKU, ad esempio `Standard_D16s_v5`. Se la dimensione della VM non supporta il disco di cui è stato eseguito il provisioning, il pod viene pianificato ma il collegamento del volume non riesce con un errore `FailedAttachVolume`.
+
+Usa una dimensione VM con supporto premium per il node pool AIDE, perché i componenti stateful di AIDE richiedono IOPS e throughput elevati. In alternativa, usa una StorageClass con uno SKU del disco supportato dalla dimensione VM corrente. Le `managed-csi` eseguono il provisioning `StandardSSD_LRS`. `managed-csi-premium` esegue il provisioning `Premium_LRS`.
+
+Per verificare il tipo di disco che una StorageClass esegue il provisioning e le dimensioni della VM dei tuoi nodi, esegui i seguenti comandi:
+
+[source, bash]
+----
+kubectl get sc <name> -o jsonpath='{.provisioner}{"  "}{.parameters}{"\n"}'
+kubectl get nodes -o custom-columns=NAME:.metadata.name,VMSIZE:.metadata.labels.node\.kubernetes\.io/instance-type
+----
+L'esempio seguente utilizza Premium SSD v2 (`PremiumV2_LRS`) e mostra come impostare IOPS e throughput in modo indipendente. Premium SSD v2 richiede una dimensione VM compatibile con Premium e `cachingMode: None`. Imposta `diskIOPSReadWrite` e `diskMBpsReadWrite` sui valori corrispondenti alla tua dimensione in link:aide-requirements.html#multi-node-sizes["dimensionamento del nodo"]. L'esempio utilizza i valori di distribuzione Small:
+
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: aide-sc
+provisioner: disk.csi.azure.com
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+parameters:
+  skuName: PremiumV2_LRS
+  cachingMode: None
+  diskIOPSReadWrite: "8000"
+  diskMBpsReadWrite: "1000"
+----
+Salva il manifesto come  `aide-sc.yaml` e applicalo eseguendo  `kubectl apply -f aide-sc.yaml`. Quindi specifica  `--storage-class aide-sc` quando esegui il comando di installazione.
+
+* Esegui `az login` come l'utente che esegue il programma di installazione. I file kubeconfig di AKS si autenticano usando l'accesso di Azure CLI dell'utente corrente. Specifica una directory degli strumenti di tua proprietà.
+* Se il cluster AKS è privato, l'host di installazione deve raggiungere il server API tramite la rete virtuale, una rete con peering o una VPN. Esegui `kubectl cluster-info` dall'host di installazione per verificare l'accesso.
+
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:aide-requirements.html["Requisiti AIDE"]
+* link:deploy-aide-multi-node.html["Distribuisci AI Data Engine come deployment multi-node"]
+* link:configure-proxy.html["Scopri di più sui proxy per AI Data Engine"]
+* link:deploy-aide-multi-node-proxy.html["Distribuisci AI Data Engine come implementazione multi-node con un proxy"]
+

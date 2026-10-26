@@ -13,8 +13,12 @@ summary: Verifica le autorizzazioni a livello di directory nei tuoi sistemi di a
 [role="lead"]
 Quando devi identificare quali directory sono esposte a più utenti del previsto, filtra per autorizzazioni per trovare le cartelle aperte all'intera organizzazione. Ad esempio, un amministratore della sicurezza che vede le directory esposte segnalate nella dashboard può trovare tutte le directory con accesso a livello di organizzazione, verificare chi dispone delle autorizzazioni di lettura e scrittura e creare una policy per monitorare nuove esposizioni dopo ogni scansione.
 
-.Prima di iniziare
-* Almeno una sorgente dati deve essere connessa e in fase di scansione. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+* Hai collegato almeno un'origine dati e sta eseguendo la scansione. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
 
 
 
@@ -22,7 +26,7 @@ Quando devi identificare quali directory sono esposte a più utenti del previsto
 [[find-broadly-accessible-directories]]
 == Trova directory ampiamente accessibili
 
-Utilizza i filtri delle autorizzazioni per identificare le directory aperte oltre il pubblico previsto.
+Trova le directory accessibili anche al di fuori del pubblico previsto, filtrando in base alle autorizzazioni.
 
 .Passaggi
 . Dall'interfaccia di AI Data Engine, seleziona *Indagine*.
@@ -37,14 +41,12 @@ La tabella dei risultati si aggiorna per mostrare le directory che corrispondono
 
 
 
-Per un elenco completo dei filtri disponibili, fai riferimento a link:use-filters.html["Lavora con i filtri"].
-
 
 
 [[review-directory-permissions]]
 == Rivedi i permessi della directory
 
-Seleziona una riga della directory per aprire il pannello dei dettagli e verificare chi ha accesso.
+Verifica chi ha accesso a una directory e se tale accesso è intenzionale. Seleziona una riga della directory per aprire il pannello dei dettagli.
 
 Il pannello dei dettagli mostra il tipo di directory, il sistema, il proprietario della directory e un riepilogo delle autorizzazioni (ad esempio, "Aperto all'organizzazione"). Seleziona *Visualizza autorizzazioni* per visualizzare un dettaglio dell'accesso in lettura e scrittura per ciascun utente o gruppo con accesso alla directory.
 
@@ -58,9 +60,11 @@ Utilizza queste informazioni per verificare se il livello di accesso è intenzio
 Dopo aver filtrato per identificare le directory ampiamente accessibili, salva i criteri come policy per monitorare nuove esposizioni dopo ogni ciclo di scansione.
 
 .Passaggi
-. Dopo aver applicato i filtri di autorizzazione, seleziona *Crea policy* nella barra degli strumenti dei filtri.
+. Dopo aver applicato i filtri di autorizzazione, seleziona *Crea criterio* nella barra degli strumenti dei filtri.
 . Compila il modulo di policy. Fai riferimento a link:../policies/create-policy.html["Crea una policy"].
 
+
+Per controllare se AI Data Engine esegue la scansione delle autorizzazioni, consulta link:../administer/configure-settings.html["Configura le soglie di classificazione dei dati e la scansione degli accessi"].
 
 Per scaricare i risultati filtrati dalla scheda Directory, seleziona image:icon_download_file.png["Scarica"].
 
@@ -69,8 +73,8 @@ Per scaricare i risultati filtrati dalla scheda Directory, seleziona image:icon_
 [[related-information]]
 == Informazioni correlate
 
-* link:use-filters.html["Lavora con i filtri"]
 * link:../policies/create-policy.html["Crea una policy"]
+* link:../administer/configure-settings.html["Configura le soglie di classificazione dei dati e la scansione degli accessi"]
 * link:../administer/manage-users-roles.html["Gestisci utenti e ruoli"]
 * link:understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
 

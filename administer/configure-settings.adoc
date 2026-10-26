@@ -1,67 +1,98 @@
 ---
 sidebar: sidebar 
 permalink: administer/configure-settings.html 
-keywords: cold threshold, stale threshold, configuration, settings, data classification, cold data, stale data 
-summary: 'Configura le soglie temporali che AI Data Engine utilizza per classificare i dati come "freddi" o "obsoleti" nel tuo ambiente.' 
+keywords: general settings, cold data, stale data, data classification, thresholds, permission scanning, Active Directory, LDAP, NFS identity mapping, access risk, configuration 
+summary: Definisci quali file AI Data Engine classifica come dati freddi o obsoleti, attiva la scansione delle autorizzazioni e connettiti ad Active Directory per identificare opportunità di ottimizzazione dello storage e rischi di accesso. 
 ---
-= Configura le soglie dei dati cold e stale in AI Data Engine
+= Configura le soglie di classificazione dei dati e la scansione degli accessi in AI Data Engine
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
 
 
 [role="lead"]
-AI Data Engine classifica i file come "freddi" o "obsoleti" in base alle soglie temporali che definisci. Queste soglie influenzano quali dati compaiono nei riepiloghi del dashboard, quali file compaiono quando applichi i filtri per file "freddi" o "obsoleti" in Investigation e quali file sono interessati dalle policy. Imposta soglie che corrispondano alle pratiche di classificazione e conservazione dei dati della tua organizzazione e che ti aiutino a identificare i dati che ritieni importanti da monitorare.
+Le soglie di inattività e obsolescenza ti aiutano a individuare lo storage che puoi ottimizzare utilizzando AI Data Engine (AIDE). La scansione delle autorizzazioni e l'integrazione con Active Directory ti aiutano a individuare e comprendere i rischi di accesso. Impostale in modo che corrispondano alle policy di classificazione, conservazione e accesso ai dati della tua organizzazione.
+
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+Devi avere il ruolo di amministratore di _AI Data Engine_.
 
 
 
 [[what-is-cold-and-stale-data]]
 == Che cosa sono i dati cold e stale?
 
-Dati freddi:: File a cui non è stato effettuato l'accesso entro la soglia configurata dei dati "freddi". I dati "freddi" sono una metrica chiave che la tua organizzazione può utilizzare per identificare lo storage che potrebbe essere ottimizzato in base alle tue policy di conservazione e aziendali.
-Dati obsoleti:: File a cui non hai effettuato l'accesso o che non hai modificato entro la soglia di dati obsoleti configurata. I dati obsoleti includono file a cui accedi occasionalmente ma che non hai modificato di recente e che la tua organizzazione può monitorare o gestire in base alle proprie policy.
+Dati freddi:: File a cui non si è acceduto entro la soglia dei dati inattivi. I dati inattivi rappresentano una metrica chiave che la tua organizzazione può utilizzare per identificare lo storage che potrebbe essere ottimizzato in base alle politiche di conservazione e alle esigenze aziendali.
+Dati obsoleti:: File che non sono stati modificati entro la soglia dei dati obsoleti. I dati obsoleti aiutano la tua organizzazione a identificare i file che non sono cambiati di recente e che puoi monitorare o gestire in base alle tue policy.
 
+
+Queste soglie influiscono sui riepiloghi del dashboard, sui file visualizzati quando applichi i filtri per dati inattivi o obsoleti in Investigation e sui file a cui si applicano le policy. Scegli soglie che riflettano per quanto tempo i dati possono rimanere inutilizzati o invariati prima che la tua organizzazione li valuti. Una soglia più breve classifica un maggior numero di dati come inattivi o obsoleti, mentre una soglia più lunga restringe i risultati ai dati che sono rimasti inattivi più a lungo.
 
 
 NOTE: I valori soglia predefiniti sono quelli predefiniti del prodotto forniti come punto di partenza. Non rappresentano periodi di conservazione previsti dalla legge, dalle normative o dagli standard di settore. Imposta soglie che rispecchino le politiche e i requisiti specifici della tua organizzazione.
 
-Le modifiche a entrambe le soglie avranno effetto al termine del successivo ciclo di scansione.
+Le modifiche alle soglie di freddo e di obsolescenza entrano in vigore dopo il completamento del ciclo di scansione successivo.
 
 
 
-[[configure-the-cold-data-threshold]]
-== Configura la soglia dei dati cold
+[[set-the-cold-data-threshold]]
+== Imposta la soglia dei dati freddi
 
-.Prima di iniziare
-* Devi avere il ruolo di amministratore di _AI Data Engine_.
-
+Definisci per quanto tempo i file possono rimanere senza essere consultati prima che la tua organizzazione ne valuti l'archiviazione, l'eliminazione o il monitoraggio. Puoi anche limitare la classificazione in base alle dimensioni del file ed escludere specifici tipi di file o percorsi.
 
 .Passaggi
-. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
-. Seleziona *Impostazioni*.
-. Seleziona *Modifica* per *Definizione dei dati inattivi*.
-. Imposta la proprietà del file su *Ultimo accesso* o *Ultima modifica*.
-. Imposta la soglia temporale. Il valore predefinito è un anno.
+. Dall'interfaccia utente di AI Data Engine, seleziona *Configurazione* > *Impostazioni generali*.
+. Espandi *Definizione dei dati freddi* e abilita la classificazione dei dati freddi se è disabilitata.
+. In *Età basata su*, seleziona il timestamp che determina l'età: *Ultimo accesso* per identificare i file che non sono stati usati di recente, oppure *Ultima modifica* per identificare i file che non sono cambiati di recente.
+. Imposta la *soglia di età a freddo*. Il valore predefinito è un anno.
+. Imposta la *Dimensione minima del file (MiB)* e il *Limite massimo della dimensione del file (MiB)* per concentrarti sui file che ti interessano.
+. Facoltativo: per escludere file specifici da questa classificazione, inserisci *Escludi tipi di file* e *Escludi percorsi*. Inserisci file e percorsi completi, separando più voci con virgole.
 . Seleziona *Salva*.
 
 
 
 
-[[configure-the-stale-data-threshold]]
-== Configura la soglia dei dati obsoleti
+[[set-the-stale-data-threshold]]
+== Imposta la soglia dei dati obsoleti
 
-.Prima di iniziare
-* Devi avere il ruolo di amministratore di _AI Data Engine_.
-
+Decidi per quanto tempo i file possono rimanere invariati prima che la tua organizzazione li esamini in base alle proprie politiche sul ciclo di vita dei dati. Puoi anche limitare la classificazione in base alle dimensioni del file ed escludere specifici tipi di file o percorsi.
 
 .Passaggi
-. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
-. Seleziona *Impostazioni*.
-. Seleziona *Modifica* per *Definizione dei dati obsoleti*.
-. Imposta la proprietà del file su *Ultimo accesso* o *Ultima modifica*.
-. Imposta la soglia temporale. Il valore predefinito è tre anni.
+. Dall'interfaccia utente di AI Data Engine, seleziona *Configurazione* > *Impostazioni generali*.
+. Espandi *Definizione dati obsoleti* e abilita la classificazione dei dati obsoleti se è disabilitata.
+. In *Age based on*, seleziona il timestamp che determina l'età: *Last modified* o *Last accessed*.
+. Imposta la *soglia di anzianità*. Il valore predefinito è tre anni.
+. Imposta la *Dimensione minima del file (MiB)* e il *Limite massimo della dimensione del file (MiB)* per concentrarti sui file che ti interessano.
+. Facoltativo: per escludere file specifici da questa classificazione, inserisci *Escludi tipi di file* e *Escludi percorsi*. Inserisci file e percorsi completi, separando più voci con virgole.
 . Seleziona *Salva*.
 
+
+
+
+[[find-access-risks-with-permission-scanning]]
+== Individua i rischi di accesso tramite la scansione delle autorizzazioni
+
+Attiva la scansione delle autorizzazioni quando devi trovare file e cartelle aperti a più persone di quante consentano le tue policy. Per esaminare i risultati, consulta link:../investigate/investigate-directories.html["Esamina le directory"].
+
+.Passaggi
+. Dall'interfaccia utente di AI Data Engine, seleziona *Configurazione* > *Impostazioni generali*.
+. Espandi *Scansione delle autorizzazioni* e attiva l'interruttore.
++
+Per interrompere la scansione delle autorizzazioni, disattiva l'interruttore.
+
+
+
+
+
+[[show-user-and-group-names-with-active-directory]]
+== Mostra i nomi di utenti e gruppi con Active Directory
+
+Collega AI Data Engine ad Active Directory quando hai bisogno di visualizzare nomi utente e autorizzazioni, anziché ID numerici, mentre esamini i dati. Se il tuo ambiente utilizza NFS, puoi anche mappare gli ID utente numerici (UID) e gli ID di gruppo (GID) agli utenti e ai gruppi della directory.
+
+Per i prerequisiti e i passaggi, consulta link:configure-ad-nfs.html["Configura la mappatura delle identità di Active Directory per NFS"].
 
 
 
@@ -69,6 +100,10 @@ Le modifiche a entrambe le soglie avranno effetto al termine del successivo cicl
 == Informazioni correlate
 
 * link:../investigate/understand-dashboard.html["Scopri la dashboard di AI Data Engine"]
+* link:../investigate/investigate-directories.html["Esamina le directory"]
+* link:../investigate/investigate-unstructured.html["Analizza i dati non strutturati"]
 * link:../get-started/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
+* link:../deploy/aide-requirements.html["Requisiti AIDE"]
 * link:manage-users-roles.html["Gestisci utenti e ruoli"]
+* link:configure-ad-nfs.html["Configura la mappatura delle identità di Active Directory per NFS"]
 

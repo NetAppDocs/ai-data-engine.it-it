@@ -11,7 +11,7 @@ summary: 'Usa flussi end-to-end per gestire i risultati di una dashboard, dall"a
 
 
 [role="lead"]
-Questi flussi di lavoro di AI Data Engine ti guidano dall'identificazione di un problema di storage nella dashboard, passando per l'analisi e l'intervento, fino alla definizione di una policy di monitoraggio continuo. Ogni flusso di lavoro segue lo stesso percorso: dashboard, analisi, intervento e salvataggio come policy.
+Questi flussi di lavoro di AI Data Engine (AIDE) ti guidano dall'identificazione di un problema di storage nella dashboard, passando per l'analisi e l'intervento, fino alla definizione di una policy di monitoraggio continuo. Ogni flusso di lavoro segue lo stesso percorso: esamina la dashboard, analizza, intervieni e salva una policy.
 
 
 
@@ -19,13 +19,13 @@ Questi flussi di lavoro di AI Data Engine ti guidano dall'identificazione di un 
 == Identifica e intervieni sui dati freddi
 
 .Scenario
-Noti nel dashboard che una risorsa di storage presenta una grande quantità di dati contrassegnati come "freddi". I file freddi non sono stati consultati entro la soglia configurata per i dati freddi, che per impostazione predefinita è di un anno ed è configurabile in *Configuration* > *Settings*.
+Noti nella dashboard che una risorsa di storage ha una grande quantità di dati contrassegnati come freddi. I file freddi non sono stati consultati entro la soglia configurata per i dati freddi, che per impostazione predefinita è di un anno. Puoi modificare questa soglia in link:../administer/configure-settings.html["impostazioni di classificazione dei dati"].
 
 .Passaggi
 . Da link:../investigate/understand-dashboard.html["la dashboard"], identifica la risorsa con la maggiore concentrazione di dati cold e seleziona *Investigate*.
-. In link:../investigate/investigate-unstructured.html["Indagine"], conferma le risorse utilizzando il filtro *Ultimo accesso* impostato in modo da corrispondere alla soglia configurata per i dati inattivi (impostazione predefinita: *1+ anno*).
+. In link:../investigate/investigate-unstructured.html["Indagine"], imposta il filtro *Ultimo accesso* in modo che corrisponda alla soglia configurata per i dati inattivi (impostazione predefinita: *1+ anno*) e conferma le risorse.
 . Esamina i risultati per decidere link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] i file corrispondenti.
-. Se vale la pena monitorare queste risorse costantemente, link:../policies/create-policy.html["salva il set di filtri come criterio"] riceverai una notifica quando nuovi file diventano inattivi.
+. Se queste risorse meritano di essere monitorate costantemente, link:../policies/create-policy.html["salva il set di filtri come criterio"] in modo da ricevere una notifica quando nuovi file diventano inattivi.
 
 
 
@@ -34,10 +34,10 @@ Noti nel dashboard che una risorsa di storage presenta una grande quantità di d
 == Identifica e agisci sui dati obsoleti
 
 .Scenario
-I file a cui accedi ancora occasionalmente ma che non modifichi da anni vengono classificati come obsoleti quando superano la soglia di obsolescenza definita dalla tua organizzazione (impostazione predefinita: tre anni dall'ultimo accesso o modifica).
+AI Data Engine classifica i file come obsoleti quando non vengono modificati per un periodo superiore alla soglia di obsolescenza della tua organizzazione (impostazione predefinita: tre anni).
 
 
-NOTE: Questa soglia è configurabile in *Configuration* > *Settings*.
+NOTE: Puoi modificare questa soglia nel link:../administer/configure-settings.html["impostazioni di classificazione dei dati"].
 
 .Passaggi
 . Da link:../investigate/understand-dashboard.html["la dashboard"], identifica una risorsa con dati obsoleti significativi.
@@ -55,12 +55,12 @@ NOTE: Questa soglia è configurabile in *Configuration* > *Settings*.
 La tua organizzazione richiede che i file più vecchi di una certa età vengano esaminati ai fini della conservazione. La soglia di conservazione predefinita in AI Data Engine è di sette anni o più dalla data di creazione del file. Puoi modificare questa soglia in base alle politiche di conformità e conservazione della tua organizzazione.
 
 
-NOTE: Questa soglia è configurabile in *Configuration* > *Settings*.
+NOTE: Puoi configurare questa soglia in *Configuration* > *General settings*.
 
 .Passaggi
 . In link:../investigate/investigate-unstructured.html["Indagine"], applica il filtro *Ultima creazione* impostato sulla soglia di conservazione (predefinita *7+ anni*).
 . Prima di agire, esamina i risultati con le parti interessate. I file contrassegnati per la conservazione vengono spesso monitorati anziché eliminati automaticamente.
-. link:../policies/create-policy.html["Crea una policy"] con un'azione di solo monitoraggio o di notifica via email, in modo da avvisarti quando nuovi file raggiungono la soglia di conservazione, invece di intervenire su queste risorse una sola volta.
+. link:../policies/create-policy.html["Crea una policy"] con un'azione di solo monitoraggio o di notifica via e-mail, in modo da ricevere un avviso quando i nuovi file raggiungono la soglia di conservazione.
 
 
 
@@ -72,10 +72,12 @@ NOTE: Questa soglia è configurabile in *Configuration* > *Settings*.
 Esistono più copie identiche degli stessi file in volumi o condivisioni, un problema comune in ambienti con processi di backup, migrazioni di dati o cartelle di progetto condivise.
 
 .Passaggi
-. In link:../investigate/investigate-unstructured.html["Indagine"], seleziona *Add filter* e poi seleziona *Duplicates*.
-. Esamina i risultati. I file elencati hanno una o più copie identiche altrove nel catalogo.
-. Seleziona i file su cui intervenire e scegli link:../investigate/take-actions.html["un'azione"]. Archivia o elimina i duplicati confermati che hanno una copia originale altrove.
-. link:../policies/create-policy.html["Salva il filtro come criterio"] per monitorare l'accumulo di duplicati nel tempo e ricevere notifiche quando il conteggio aumenta.
+. In link:../investigate/investigate-unstructured.html["Indagine"], seleziona *Unstructured* e apri i dettagli di un file che sospetti abbia delle copie, ad esempio un file proveniente da una recente migrazione dei dati.
+. Accanto a *Duplicati*, seleziona *Visualizza dettagli* per visualizzare ogni copia del file e la sua posizione.
+. Esamina i file corrispondenti e le relative posizioni per confermare quali copie sono ridondanti.
+. Seleziona i file ridondanti, quindi seleziona *Elimina duplicati*.
+. In *Azione*, seleziona *Elimina*. Mantieni la copia con l'opzione *Ultima modifica*, lascia una breadcrumb nella posizione originale e seleziona *Invia*. Quindi conferma l'eliminazione nella finestra di dialogo. Per i dettagli, fai riferimento a link:../investigate/take-actions.html["Individua ed elimina i file duplicati"].
+. link:../policies/create-policy.html["Crea una policy"] per monitorare l'accumulo di duplicati nel tempo e ricevere notifiche quando il conteggio aumenta.
 
 
 
@@ -87,7 +89,7 @@ Esistono più copie identiche degli stessi file in volumi o condivisioni, un pro
 I dati che rientrano nelle soglie di obsolescenza e inattività della tua organizzazione sono distribuiti tra diversi proprietari. Identificare quali proprietari dei dati detengono il maggior numero di file in queste categorie può aiutarti a dare priorità alla pulizia.
 
 .Passaggi
-. Da link:../investigate/understand-dashboard.html["la dashboard"], individua la tabella _Principali proprietari dei dati per storage recuperabile_.
+. Da link:../investigate/understand-dashboard.html["la dashboard"], individua la tabella _Principali consumatori per storage recuperabile_.
 . Seleziona una riga del proprietario per aprire link:../investigate/investigate-unstructured.html["Indagine"] filtrato in base ai file di quel proprietario.
 . Esamina i risultati e decidi link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] quali file inviare.
 . link:../policies/create-policy.html["Salva il set di filtri come criterio"] per monitorare come cambiano nel tempo i dati potenzialmente recuperabili di quel proprietario.

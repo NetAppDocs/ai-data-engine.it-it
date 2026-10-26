@@ -27,7 +27,7 @@ Seleziona *Investigation* nella navigazione a sinistra per aprire la vista. Puoi
 | Scheda | Usalo quando vuoi | Ulteriori informazioni 
 
 
-| *Non strutturati* | Individua i dati obsoleti, non aggiornati o duplicati basati su file nei volumi NFS e SMB/CIFS | link:investigate-unstructured.html["Analizza i dati non strutturati"] 
+| *Non strutturati* | Individua dati basati su file inattivi, obsoleti o duplicati nei volumi NFS e SMB | link:investigate-unstructured.html["Analizza i dati non strutturati"] 
 
 
 | *Strutturato* | Identifica le tabelle del database sovradimensionate o inutilizzate che occupano spazio di archiviazione | link:investigate-structured.html["Analizza i dati strutturati"] 
@@ -45,6 +45,5 @@ Il conteggio riepilogativo e la dimensione totale nella parte superiore della pa
 * link:investigate-unstructured.html["Analizza i dati non strutturati"]
 * link:investigate-structured.html["Analizza i dati strutturati"]
 * link:investigate-directories.html["Esamina le directory"]
-* link:use-filters.html["Lavora con i filtri"]
 * link:take-actions.html["Agisci sui tuoi dati"]
 

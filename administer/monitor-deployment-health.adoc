@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: administer/monitor-deployment-health.html 
+keywords: health monitor, deployment health, system stability, pods, unhealthy pod, OOMKilled, CrashLoopBackOff, evicted, memory, disk, CPU, utilization, eviction threshold, scans paused, node health, troubleshooting 
+summary: Monitora la tua implementazione di AI Data Engine per identificare carichi di lavoro non integri e vincoli delle risorse che potrebbero interrompere la scansione, e raccogli informazioni per la risoluzione dei problemi. 
+---
+= Monitora lo stato di salute della distribuzione e analizza i problemi in AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+L'AI Data Engine (AIDE) health monitor ti aiuta a identificare workload con problemi e vincoli delle risorse che potrebbero interrompere la scansione. Usa i dettagli sullo stato di salute per valutare l'impatto di un problema e raccogliere informazioni per la risoluzione dei problemi.
+
+
+
+[[monitor-deployment-health-and-investigate-issues]]
+== Monitora lo stato di integrità della distribuzione e analizza i problemi
+
+.Passaggi
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine*.
+. Seleziona *Configurazione*, quindi seleziona *Health monitor*.
+. Controlla *System stability* in *Infrastructure Status* per verificare se qualche pod non è in buono stato.
++
+Un pod non integro non può eseguire il suo carico di lavoro come previsto. Gli stati non integri includono Pending, Failed, Evicted, Unknown, OOMKilled e CrashLoopBackOff.
+
+. Identifica i vincoli delle risorse che potrebbero influire sulla tua implementazione:
++
+--
+** Per una distribuzione a nodo singolo, controlla *Node health*. Se il nodo indica un problema di stato di salute, controlla le schede di utilizzo della CPU, della memoria e del disco per individuare eventuali segnali di pressione sulle risorse.
+** Per una distribuzione multi-node, controlla *Node health* per identificare i nodi con stato Critical, Warning o Offline. Confronta le metriche disponibili di utilizzo delle risorse per individuare segnali di pressione sulle risorse. Per i nodi offline, verifica la disponibilità dei nodi.
+
+
+--
+. Per una distribuzione multi-nodo, seleziona *Visualizza dettagli* su una scheda di utilizzo per esaminare la risorsa:
++
+--
+** *utilizzo della CPU*: Confronta l'utilizzo attuale con le soglie di avviso e critiche.
+** *Utilizzo della memoria*: Esamina l'utilizzo corrente, il rischio di esaurimento della memoria (OOM) e la soglia di espulsione.
+** *Utilizzo del disco*: controlla lo spazio disponibile, il rischio e la soglia di arresto.
+
+
+--
++
+Presta particolare attenzione agli avvisi relativi alla memoria e al disco perché queste condizioni possono interrompere la scansione. Segui le azioni consigliate visualizzate nei dettagli.
+
+. Per identificare i carichi di lavoro interessati, usa i filtri *Pod* e *Status* in *Pod health* per restringere l'elenco.
++
+Esamina il carico di lavoro, lo stato e l'utilizzo delle risorse di ciascun pod interessato. Utilizza queste informazioni per distinguere la pressione sulle risorse dai pod che non funzionano, si riavviano ripetutamente o sono in attesa di essere eseguiti.
+
+. Esamina i *carichi di lavoro problematici* per identificare quelli che si sono arrestati o che si riavviano frequentemente. Prendi nota degli orari segnalati per poter correlare questi eventi con l'utilizzo delle risorse.
+. Analizza le tendenze di utilizzo delle risorse per verificare se la pressione sulle risorse è temporanea o persistente:
++
+--
+** Per una distribuzione a nodo singolo, consulta *Distribuzione dell'utilizzo delle risorse* per l'intervallo di tempo pertinente.
+** Per una distribuzione multi-node, esamina *Top 20 Nodes (Utilization)* per l'intervallo di tempo pertinente. Confronta l'utilizzo tra i nodi e controlla l'utilizzo di CPU, memoria e disco per i nodi interessati, per identificare brevi picchi o un utilizzo elevato prolungato.
+
+
+--
+. Se hai bisogno di aiuto per risolvere un problema, seleziona image:icon_download_file.png["Scarica"] in *Integrità del pod* per scaricare le informazioni sul pod. Raccogli i dettagli rilevanti da *Informazioni di sistema*, inclusi nome host, sistema operativo, kernel, versione di Console, versione di Kubernetes e ID account di Console, da condividere con l'amministratore o il team di supporto.
+
+
+.Risultato
+Dopo aver intrapreso azioni correttive, torna a *health monitor* e rivedi *Stabilità del sistema*, *Stato del pod*, *Stato del nodo* e l'utilizzo delle risorse per verificare che le condizioni segnalate siano state risolte. Se la scansione è stata interrotta, vai a *Origini dati* per verificare che sia ripresa. Fai riferimento a link:../data-sources/manage-data-sources.html#view-scan-status-and-details["Visualizza lo stato e i dettagli della scansione"].
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:../data-sources/manage-data-sources.html["Gestisci le fonti di dati"]
+* link:../deploy/aide-requirements.html["Requisiti di AI Data Engine"]
+

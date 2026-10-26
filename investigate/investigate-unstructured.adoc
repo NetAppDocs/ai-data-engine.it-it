@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: investigate/investigate-unstructured.html 
-keywords: investigate, unstructured, cold data, stale data, last accessed, file size, file owner, reclaimable storage, NFS, SMB, CIFS 
-summary: 'Individua e classifica i file come "freddi", "obsoleti" o "di grandi dimensioni" nei volumi NFS e SMB/CIFS utilizzando filtri dei metadati, quindi esamina i risultati, intervieni secondo necessità o salva i criteri di filtro come policy riutilizzabile.' 
+keywords: investigate, unstructured, cold data, stale data, last accessed, file size, file owner, reclaimable storage, NFS, SMB, CIFS, duplicates, duplicate files, file hash 
+summary: Individua e classifica i file come inattivi, obsoleti, di grandi dimensioni o duplicati nei volumi NFS e SMB utilizzando filtri dei metadati, quindi esamina i risultati, intervieni se necessario oppure salva i criteri di filtro come policy riutilizzabile. 
 ---
 = Analizza i dati non strutturati in AI Data Engine
 :allow-uri-read: 
@@ -13,8 +13,12 @@ summary: 'Individua e classifica i file come "freddi", "obsoleti" o "di grandi d
 [role="lead"]
 Quando lo storage basato su file cresce in modo inaspettato, puoi filtrare per data dell'ultimo accesso, dimensione del file e proprietario per individuare i file che stanno consumando capacità. Ad esempio, un amministratore dello storage può identificare terabyte di snapshot di VM a cui non si accede da oltre un anno e valutare se archiviarli, eliminarli o conservarli.
 
-.Prima di iniziare
-* Almeno una sorgente dati deve essere connessa e in fase di scansione. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+* Hai collegato almeno un'origine dati e sta eseguendo la scansione. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
 
 
 
@@ -22,7 +26,7 @@ Quando lo storage basato su file cresce in modo inaspettato, puoi filtrare per d
 [[find-cold-or-stale-files-by-last-access-time]]
 == Trova i file inattivi o obsoleti in base all'ora dell'ultimo accesso
 
-Utilizza i filtri basati sulla data per identificare i file a cui non è stato effettuato l'accesso entro le soglie dei dati cold o stale della tua organizzazione. Le soglie sono configurabili in *Configuration* > *Settings*. Vedi link:../administer/configure-settings.html["Configura le soglie per i dati cold e stale"].
+Trova i file a cui non si accede entro le soglie dei dati cold o obsoleti della tua organizzazione usando filtri basati sulla data. Puoi definire queste soglie, incluso il timestamp usato da ciascuna, nelle impostazioni di classificazione dei dati. Vedi link:../administer/configure-settings.html["Configura le soglie di classificazione dei dati e la scansione degli accessi"].
 
 .Passaggi
 . Dall'interfaccia di AI Data Engine, seleziona *Indagine*.
@@ -36,8 +40,6 @@ La scheda Non strutturato è selezionata per impostazione predefinita.
 I filtri applicati vengono visualizzati come etichette sotto la barra dei filtri. La tabella dei risultati e il conteggio degli elementi si aggiornano man mano che aggiungi ciascun filtro.
 
 
-
-Per un elenco completo dei filtri disponibili, fai riferimento a link:use-filters.html["Lavora con i filtri"].
 
 
 
@@ -59,9 +61,30 @@ I risultati si riorganizzano per mostrare il numero totale di file e la dimensio
 [[review-file-details]]
 == Rivedi i dettagli del file
 
-Seleziona una riga del file per aprire il pannello dei dettagli e verifica che il file corrisponda all'ambito desiderato prima di procedere.
+Prima di procedere, verifica che il file corrisponda all'ambito desiderato. Seleziona una riga qualsiasi del file per aprire il pannello dei dettagli.
 
-Il pannello dei dettagli mostra il sistema del file, il repository di storage, il proprietario del file e gli eventuali tag o criteri applicati. Verifica il sistema e il proprietario prima di archiviare o eliminare il file.
+Il pannello dei dettagli mostra il sistema del file, il repository di storage, il percorso, le dimensioni, i timestamp, i permessi di accesso, il proprietario del file e gli eventuali tag o criteri applicati. Il campo *Duplicati* indica il numero di copie duplicate del file. Verifica il sistema e il proprietario prima di archiviare o eliminare il file.
+
+
+
+[[find-duplicate-files]]
+== Trova i file duplicati
+
+Scopri quanto sono diffusi i file duplicati prima di decidere dove ripulire. Il filtro *Duplicati* elenca tutti i file che hanno una o più copie identiche altrove nel catalogo.
+
+.Passaggi
+. Dall'interfaccia di AI Data Engine, seleziona *Indagine*.
++
+La scheda Non strutturato è selezionata per impostazione predefinita.
+
+. Seleziona *Add filter*, quindi seleziona *Duplicates*.
++
+La tabella dei risultati elenca i file che hanno copie duplicate.
+
+. Per visualizzare tutte le copie di un file specifico e la relativa posizione, seleziona il nome del file e poi seleziona *Visualizza dettagli* accanto a *Duplicati*.
+
+
+Per rivedere le copie e ripulirle, consulta link:take-actions.html["Individua ed elimina i file duplicati"].
 
 
 
@@ -81,9 +104,9 @@ Per scaricare i risultati filtrati dalla scheda Non strutturato, seleziona image
 [[related-information]]
 == Informazioni correlate
 
-* link:use-filters.html["Lavora con i filtri"]
 * link:take-actions.html["Agisci sui tuoi dati"]
 * link:../policies/create-policy.html["Crea una policy"]
+* link:../administer/configure-settings.html["Configura le soglie di classificazione dei dati e la scansione degli accessi"]
 * link:../get-started/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
 * link:understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
 

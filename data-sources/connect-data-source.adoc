@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: data-sources/connect-data-source.html 
-keywords: connect, data source, storage system, scanned systems, configuration, scan, NFS, CIFS, StorageGRID, database, file shares, console agent, scope, content intelligence, activate 
-summary: 'Collega i sistemi di archiviazione ad AI Data Engine completando la procedura guidata di onboarding dell"origine dati, quindi attiva la scansione per avviare la raccolta dei metadati.' 
+keywords: connect, data source, storage system, add system, scan, NFS, CIFS, SMB, StorageGRID, database, file shares, console agent, scope, activate, Kerberos 
+summary: Collega le origini dati ad AI Data Engine e configura le risorse dati da analizzare. 
 ---
 = Collega un'origine dati ad AI Data Engine
 :allow-uri-read: 
@@ -11,70 +11,137 @@ summary: 'Collega i sistemi di archiviazione ad AI Data Engine completando la pr
 
 
 [role="lead"]
-AI Data Engine analizza i tuoi sistemi di archiviazione per raccogliere e analizzare metadati. Per aggiungere un'origine dati, completa la procedura guidata di configurazione. La procedura guidata raccoglie i dettagli di connessione, l'ambito della scansione e le impostazioni per il tipo di origine dati. Dopo aver aggiunto il sistema, attiva la scansione per iniziare la raccolta dei metadati.
+Collega le origini dati che desideri che AI Data Engine (AIDE) analizzi e scegli quali risorse dati scansionare. AI Data Engine scansiona le origini dati connesse per raccogliere metadati e la procedura di connessione dipende dal tipo di origine.
 
-.Prima di iniziare
-* Per connetterti e configurare le origini dati in AI Data Engine, devi disporre dei privilegi di amministratore di AI Data Engine.
-* Individua i sistemi di storage in NetApp Console utilizzando un Console Agent prima di aggiungerli ad AI Data Engine. Questo vale per tutti i tipi di storage supportati, inclusi i cluster ONTAP on-premises, Cloud Volumes ONTAP, Amazon FSx for NetApp ONTAP, Google Cloud NetApp Volumes e Azure NetApp Files. Per i cluster ONTAP on-premises, consulta link:https://docs.netapp.com/us-en/storage-management-ontap-onprem/task-discovering-ontap.html["Scopri i cluster ONTAP on-premises"] nella documentazione di NetApp Console. L'individuazione diretta non abilita servizi dati come AI Data Engine.
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+* Devi disporre dei privilegi di amministratore di _AI Data Engine_ per connetterti e configurare le origini dati.
+* Per i sistemi connessi tramite il rilevamento di NetApp Console, usa un agente Console per rilevare i sistemi di storage in NetApp Console prima di aggiungerli ad AI Data Engine. Questo vale per tutti i tipi di storage supportati, inclusi i cluster ONTAP on-premises, Cloud Volumes ONTAP, Amazon FSx for NetApp ONTAP, Google Cloud NetApp Volumes e Azure NetApp Files. Per i cluster ONTAP on-premises, consulta link:https://docs.netapp.com/us-en/storage-management-ontap-onprem/task-discovering-ontap.html["Scopri i cluster ONTAP on-premises"] nella documentazione di NetApp Console. Il rilevamento diretto non abilita servizi dati come AI Data Engine.
 * Verifica che le connessioni di rete necessarie ad AI Data Engine per raggiungere le tue origini dati siano aperte. Fai riferimento a link:../deploy/aide-requirements.html["Requisiti di AI Data Engine"].
+* Per eseguire la scansione delle condivisioni SMB/CIFS con autenticazione Kerberos, completa prima la procedura per il tuo tipo di implementazione in link:../administer/configure-kerberos-smb.html["Autenticazione Kerberos per condivisioni SMB/CIFS in AI Data Engine"].
 
 
 
 
 [[add-a-data-source]]
+[[add-data-source]]
 == Aggiungi un'origine dati
 
-.Passaggi
-. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
-. Nella scheda *Sistemi scansionati*, seleziona *Aggiungi sistema*.
-. Seleziona un tipo di origine:
-+
-[cols="1,2"]
-|===
-| Tipo di origine | Descrizione 
-
-
-| *Gruppo di condivisione file* | Aggiungi condivisioni file NFS o SMB/CIFS dal cloud o in locale come gruppo denominato. 
-
-
-| *Database* | Aggiungi un database server per analizzare gli schemi selezionati. 
-
-
-| *StorageGRID* | Scansiona i dati da NetApp StorageGRID utilizzando il protocollo S3. 
-|===
-. Inserisci i dettagli di connessione per il tuo tipo di origine:
-+
-[cols="1,3"]
-|===
-| Tipo di origine | Dettagli richiesti 
-
-
-| *Gruppo di condivisione file* | Un nome per il gruppo di condivisione, quindi i dettagli dell'host e del percorso della condivisione. 
-
-
-| *Database* | Tipo di database, host, porta e credenziali per l'autenticazione. 
-
-
-| *StorageGRID* | Nome del sistema, URL dell'endpoint S3, chiave di accesso S3 e chiave segreta. 
-|===
-. Rivedi le tue selezioni e seleziona *Conferma* per aggiungere l'origine dati.
+Importa i tuoi dati in AI Data Engine per poterli analizzare. Utilizza *Add system* nella pagina *Data sources* per connettere un gruppo di condivisioni file, un database server o un sistema StorageGRID. Dopo aver aggiunto l'origine dati, configura la scansione per specificare quali risorse AI Data Engine analizza per raccogliere metadati. Fai riferimento a <<configure-scanning>>.
 
 
 
+[[add-a-file-shares-group]]
+[[add-file-shares-group]]
+=== Aggiungi un gruppo di condivisioni file
 
-[[activate-scanning]]
-== Attiva la scansione
+Importa le condivisioni NFS o SMB in AI Data Engine come un unico sistema denominato, in modo da poterle gestire insieme. Crea il gruppo, aggiungi le condivisioni e configura quali condivisioni analizzare.
 
-Dopo aver configurato un'origine dati, la scansione non si avvia automaticamente. Devi attivare la scansione per ogni sistema.
+[[add-file-shares-group-prerequisites]]
+.Prima di iniziare
+* Identifica un nome per il gruppo e l'host e il percorso di ciascuna condivisione.
+* Verifica che la distribuzione di AI Data Engine possa raggiungere i server di condivisione.
+* Per NFS, configura l'accesso all'esportazione necessario per AI Data Engine.
+* Per SMB, prepara il metodo di autenticazione e l'accesso necessario per leggere le share.
+
 
 .Passaggi
-. Dall'interfaccia di AI Data Engine, seleziona *Configurazione*.
-. Nella scheda *Sistemi scansionati*, individua il sistema che vuoi scansionare.
-. Seleziona *Attiva scansioni*.
+. Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
+. Seleziona *Aggiungi sistema*, quindi seleziona *Aggiungi gruppo di condivisioni file*.
+. Inserisci un nome per il gruppo e continua.
+. Seleziona il protocollo delle condivisioni da aggiungere.
+. Inserisci le condivisioni da aggiungere e inviale.
++
 
+NOTE: Per le condivisioni SMB/CIFS che utilizzano l'autenticazione Kerberos, immetti il percorso della condivisione come FQDN seguito dal nome della condivisione, ad esempio `filer.corp.example.com/sharename`, e lascia vuote le credenziali. Fai riferimento a link:../administer/configure-kerberos-smb.html["Autenticazione Kerberos per condivisioni SMB/CIFS in AI Data Engine"].
+
+. Esamina il risultato per ogni condivisione. Risolvi eventuali problemi relativi alle condivisioni e poi aggiungile di nuovo.
+. Configura la scansione per il gruppo. Fai riferimento a <<configure-scanning>>.
+
+
+
+
+[[add-a-database-server]]
+[[add-database]]
+=== Aggiungi un database server
+
+Importa i dati da un database server in AI Data Engine per poterne eseguire la scansione. Connetti il database server e poi scegli gli schemi di cui eseguire la scansione.
+
+.Prima di iniziare
+* Devi conoscere il tipo di database, l'host name o l'indirizzo IP del server, la porta e le credenziali dell'account di scansione.
+* Verifica che l'account abbia i permessi di lettura per gli schemi e le tabelle che desideri analizzare.
+* Verifica che AI Data Engine possa raggiungere il database server.
+
+
+.Passaggi
+. Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
+. Seleziona *Add system*, quindi seleziona *Add Database Server*.
+. Seleziona il tipo di database e inserisci i dettagli di connessione.
+. Inserisci i dettagli di connessione.
+. Configura la scansione per il database server. Fai riferimento a <<configure-scanning>>.
+
+
+
+
+[[add-storagegrid]]
+=== Aggiungi StorageGRID
+
+Importa i dati degli oggetti di StorageGRID in AI Data Engine tramite il suo endpoint S3, così puoi analizzarli. Connetti StorageGRID, quindi scegli i bucket da analizzare.
+
+.Prima di iniziare
+* Prepara un nome di sistema, l'URL dell'endpoint S3 di StorageGRID, una chiave di accesso S3 e una chiave segreta.
+* Verifica che AI Data Engine possa raggiungere l'endpoint.
+
+
+.Passaggi
+. Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
+. Seleziona *Aggiungi sistema*, quindi seleziona *Aggiungi StorageGRID*.
+. Inserisci il nome del sistema, l'URL dell'endpoint S3, la chiave di accesso e la chiave segreta.
+. Inserisci i dettagli di connessione.
+. Configura la scansione per il sistema StorageGRID. Fai riferimento a <<configure-scanning>>.
+
+
+
+
+[[configure-scanning]]
+== Configurare la scansione
+
+Dopo aver collegato un sistema, scegli quali delle sue risorse dati AI Data Engine deve analizzare in modo che la raccolta dei metadati includa i dati che devi analizzare. Scegli uno dei seguenti approcci:
+
+* Attiva la scansione automatica dell'intero sistema nella pagina *Origini dati*. AI Data Engine analizza tutte le risorse esistenti e future del sistema.
+* Abilita la scansione di singoli volumi, condivisioni, bucket o schemi nella pagina *View details* del sistema.
+
+
+.Passaggi
+* Abilita la scansione automatica per un sistema:
++
+.. Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
+.. Individua il sistema e attiva l'interruttore di scansione automatica per abilitare la scansione automatica.
++
+
+NOTE: Devi disattivare la scansione automatica per gestire la scansione delle singole risorse.
+
+
+
+* Abilita la scansione per singole risorse:
++
+.. Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
+.. Individua il sistema e seleziona *Visualizza dettagli*.
+.. Nell'elenco delle risorse dati, abilita la scansione per i volumi, le condivisioni, i bucket o gli schemi che desideri includere.
+.. Torna a *Origini dati*, individua il sistema e seleziona *Attiva scansioni*.
+
+
+
+
+Per ulteriori procedure a livello di risorse, consulta link:manage-data-sources.html["Gestisci le fonti di dati"].
 
 .Risultato
-Lo stato del sistema si aggiorna nella scheda Sistemi scansionati per indicare che la scansione è in corso. Per monitorare l'avanzamento della scansione e verificare che AI Data Engine stia eseguendo l'indicizzazione delle risorse di dati, fai riferimento a link:manage-data-sources.html["Gestisci le fonti di dati"] e link:monitor-scanning-health.html["Monitora lo stato di salute della scansione"].
+Lo stato del sistema nella pagina *Origini dati* si aggiorna per indicare che la scansione è in corso. La pagina mostra lo stato della scansione per ciascuna risorsa.
+
+Se le scansioni si interrompono o si mettono in pausa inaspettatamente, consulta link:../administer/monitor-deployment-health.html["Monitora lo stato di integrità della distribuzione e analizza i problemi"].
 
 
 
@@ -83,6 +150,7 @@ Lo stato del sistema si aggiorna nella scheda Sistemi scansionati per indicare c
 
 * link:manage-data-sources.html["Gestisci le fonti di dati"]
 * link:../deploy/aide-requirements.html["Requisiti di AI Data Engine"]
+* link:../administer/configure-kerberos-smb.html["Autenticazione Kerberos per condivisioni SMB/CIFS in AI Data Engine"]
 * link:../investigate/understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
-* link:monitor-scanning-health.html["Monitora lo stato di salute della scansione"]
+* link:../administer/monitor-deployment-health.html["Monitora lo stato di integrità della distribuzione e analizza i problemi"]
 

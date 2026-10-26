@@ -1,0 +1,363 @@
+---
+sidebar: sidebar 
+permalink: mcp/connect-ai-clients-mcp.html 
+keywords: mcp, governed ai access, claude code, claude desktop, cursor, opencode, ai client, mcp server, prompts, tags 
+summary: Collega Claude Code, Claude Desktop, Cursor o OpenCode al server MCP di AI Data Engine e utilizza i prompt di esempio per cercare i metadati dei file e taggare i file in una raccolta. 
+---
+= Connetti i client AI al server MCP di AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Collega Claude Code, Claude Desktop, Cursor o OpenCode al server Model Context Protocol (MCP) per AI Data Engine (AIDE) in modo da poter cercare i metadati dei file e assegnare tag ai file nelle raccolte a cui hai accesso.
+
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+.Configurazione dell'amministratore
+* Un amministratore ha completato la configurazione in link:configure-entra-id-mcp.html["Configurare Microsoft Entra ID per l'accesso all'IA con governance"] e link:connect-entra-id-aide-mcp.html["Collega AI Data Engine a Microsoft Entra ID"], inclusi i seguenti elementi:
++
+** Ti assegno il `AIDE Power Users` ruolo dell'app.
+** Configura una raccolta per MCP con un ambito che ti include. Consulta link:manage-data-collections.html#configure-a-collection-for-mcp["Configurare una raccolta per MCP"].
+** Attiva *Enable connection to MCP* in *MCP settings*. Se la connessione è disattivata, i client AI non possono connettersi ad alcuna raccolta.
+** Aggiunta dell'URI di reindirizzamento per il tuo client AI all'applicazione AI Data Engine e abilitazione dei flussi client pubblici. Il client AI effettua l'accesso come client pubblico, quindi non ti serve un client secret.
+
+
+
+
+.Configurazione client MCP
+* Hai a disposizione la configurazione del client MCP fornita dal tuo amministratore. L'amministratore la genera in NetApp Console configurando la raccolta per MCP, copia l'URL del server MCP o il frammento di codice specifico del client dal passaggio *Genera frammento di codice MCP* e la condivide con te. Include quanto segue:
++
+** L'URL del server MCP, nel formato `\https://<mcp-server-host>/mcp/tools`.
+** L'ID tenant di Microsoft Entra ID.
+** L'ID client, che corrisponde all'ID applicazione (client) dell'applicazione AI Data Engine in Entra ID.
+** Gli ambiti richiesti dal tuo client AI:
++
+*** `\https://<mcp-server-host>/mcp/tools/power_users`, che è l'URI dell'ID dell'applicazione più `/power_users`.
+*** `offline_access`, in modo che il client possa aggiornare i token senza chiederti di accedere di nuovo.
+
+
+** L'ID della collezione con cui vuoi lavorare.
+
+
+
+
+.Accesso alla rete
+* Il tuo dispositivo può raggiungere il server MCP tramite HTTPS sulla porta 443. Il server MCP è in esecuzione nella tua rete, quindi connettiti dalla rete aziendale o tramite VPN. Il tuo dispositivo deve inoltre essere in grado di eseguire le seguenti operazioni:
++
+** Risolvi l'host name del cluster AIDE tramite DNS.
+** Fidati del certificato presentato dall'host. Se il certificato è autofirmato, installalo come certificato attendibile sul tuo dispositivo.
+** Vai all'accesso di Microsoft Entra ID (`login.microsoftonline.com`).
+
+
+
+
+.client AI
+* Disponi di una versione supportata del client AI.
+
+
+
+
+[[validated-ai-clients]]
+== Client AI convalidati
+
+Le istruzioni in questa pagina riguardano i client AI che NetApp ha convalidato: Claude Code, Claude Desktop, Cursor e OpenCode. Per i dettagli, consulta link:learn-about-mcp.html#validated-ai-clients["Client AI convalidati"].
+
+I client AI che si connettono da un servizio di un cloud provider alla tua rete non sono supportati. Ad esempio, i connettori personalizzati integrati in un client AI e richiamati dal cloud del provider non possono raggiungere il server MCP nella tua rete. Usa invece i passaggi di configurazione in questa pagina.
+
+
+
+[[check-your-configuration-before-you-paste-it]]
+== Verifica la configurazione prima di incollarla
+
+Prima di incollare un frammento nel tuo client AI, verifica quanto segue:
+
+* L'host è il tuo host name del cluster AIDE, non un indirizzo IP del cluster o del servizio.
+* L'URL termina con `/mcp/tools` e include il `collection_id` della raccolta con cui vuoi lavorare.
+* L'ambito è `\https://<mcp-server-host>/mcp/tools/power_users`, che corrisponde all'URI dell'ID dell'applicazione più `/power_users`.
+* L'ID client è l'ID applicazione (client) dell'applicazione AI Data Engine in Entra ID.
+
+
+
+
+[[connect-claude-desktop]]
+== Collega Claude Desktop
+
+
+NOTE: La generazione dei dettagli di connessione in NetApp Console non connette né convalida il tuo client AI. Completa queste attività nel client AI.
+
+Claude Desktop si connette al server MCP di AI Data Engine tramite `mcp-remote`, un piccolo programma di supporto che viene eseguito sul tuo computer.
+
+.Prima di iniziare
+Installa Node.js sul tuo computer. Il `mcp-remote` programma di supporto funziona con Node.js.
+
+.Passaggi
+. In Claude Desktop, apri il file di configurazione `claude_desktop_config.json`. Di default, il file si trova in una delle seguenti posizioni:
++
+** macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+** Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+
+. Aggiungi il server MCP di AI Data Engine sotto  `mcpServers`. Sostituisci i segnaposto con i valori forniti dal tuo amministratore:
++
+[source, json]
+----
+{
+  "mcpServers": {
+    "netapp-ai-data-engine": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@<tested version>",
+        "https://<mcp-server-host>/mcp/tools?collection_id=<collection-id>",
+        "--static-oauth-client-info",
+        "{\"client_id\": \"<application-client-id>\"}",
+        "--static-oauth-client-metadata",
+        "{\"scope\": \"https://<mcp-server-host>/mcp/tools/power_users offline_access\"}",
+        "--disable-resource-parameter"
+      ]
+    }
+  }
+}
+----
++
+
+NOTE: Mantieni l' `--disable-resource-parameter`argomento. Senza di esso, Microsoft Entra ID rifiuta la richiesta di accesso con errore `AADSTS9010010`.
+
+. Salva il file e riavvia Claude Desktop.
+. Quando il browser si apre, accedi con il tuo account Microsoft Entra ID e accetta la richiesta di consenso se compare.
+. In Claude Desktop, apri *Connectors* e verifica che il server AI Data Engine sia presente nell'elenco con i relativi strumenti.
+
+
+
+
+[[connect-claude-code]]
+== Collega Claude Code
+
+Claude Code si connette direttamente al server MCP di AI Data Engine.
+
+.Passaggi
+. Aggiungi il server MCP di AI Data Engine. Sostituisci i segnaposto con i valori forniti dall'amministratore:
++
+[source, bash]
+----
+claude mcp add --transport http \
+  --client-id <application-client-id> \
+  --callback-port 8080 \
+  --scope user \
+  netapp-ai-data-engine "https://<mcp-server-host>/mcp/tools?collection_id=<collection-id>"
+----
++
+
+NOTE: Non passare `--client-secret`. L'applicazione client è un client pubblico.
+
+. Per richiedere gli ambiti di AI Data Engine, apri il file di configurazione di Claude Code e modifica la voce `netapp-ai-data-engine`. Le voci con ambito utente si trovano in `~/.claude.json`. Le voci con ambito progetto si trovano in `.mcp.json`.
++
+[source, json]
+----
+{
+  "mcpServers": {
+    "netapp-ai-data-engine": {
+      "type": "http",
+      "url": "https://<mcp-server-host>/mcp/tools?collection_id=<collection-id>",
+      "oauth": {
+        "clientId": "<application-client-id>",
+        "callbackPort": 8080,
+        "scopes": "https://<mcp-server-host>/mcp/tools/power_users offline_access",
+        "authServerMetadataUrl": "https://login.microsoftonline.com/<tenant-id>/v2.0/.well-known/openid-configuration"
+      }
+    }
+  }
+}
+----
+. In Claude Code, esegui `/mcp` e accedi con il tuo account Microsoft Entra ID. Oppure, da una shell, esegui `claude mcp login netapp-ai-data-engine`.
+. Esegui `claude mcp list` e conferma che il server AI Data Engine risulti connesso.
+
+
+
+
+[[connect-cursor]]
+== Connetti Cursor
+
+Cursor si connette direttamente al server MCP di AI Data Engine.
+
+.Passaggi
+. In Cursor, apri il file di configurazione MCP `mcp.json`. Per utilizzare il server in tutti i tuoi progetti, apri `~/.cursor/mcp.json`. Per utilizzarlo solo nel progetto corrente, apri `.cursor/mcp.json`.
+. Aggiungi il server MCP di AI Data Engine. Sostituisci i segnaposto con i valori forniti dall'amministratore:
++
+[source, json]
+----
+{
+  "mcpServers": {
+    "netapp-ai-data-engine": {
+      "url": "https://<mcp-server-host>/mcp/tools?collection_id=<collection-id>",
+      "auth": {
+        "CLIENT_ID": "<application-client-id>",
+        "scopes": [
+          "https://<mcp-server-host>/mcp/tools/power_users",
+          "offline_access"
+        ]
+      }
+    }
+  }
+}
+----
++
+
+NOTE: Non incollare un bearer token in questo file. Cursor usa il client ID per farti accedere.
+
+. Salva il file, quindi ricarica Cursor.
+. In *Cursor Settings* > *MCP*, seleziona *Connect* per il server AI Data Engine.
+. Quando il browser si apre, accedi con il tuo account Microsoft Entra ID e accetta la richiesta di consenso se compare.
+. In *Cursor Settings* > *MCP*, verifica che il server AI Data Engine sia abilitato e che i relativi strumenti siano elencati. In caso contrario, controlla *Output* > *MCP Logs*.
+
+
+
+
+[[connect-opencode]]
+== Connetti OpenCode
+
+OpenCode si connette direttamente al server MCP di AI Data Engine.
+
+.Passaggi
+. Aggiungi il server MCP di AI Data Engine. Sostituisci i segnaposto con i valori forniti dall'amministratore:
++
+[source, bash]
+----
+opencode mcp add netapp-ai-data-engine --global --url "https://<mcp-server-host>/mcp/tools?collection_id=<collection-id>"
+----
+. Per aggiungere la tua applicazione client, apri `~/.config/opencode/opencode.json`, oppure il file `opencode.json` nel tuo progetto e modifica la voce `netapp-ai-data-engine`:
++
+[source, json]
+----
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "netapp-ai-data-engine": {
+        "type": "remote",
+        "url": "https://<mcp-server-host>/mcp/tools?collection_id=<collection-id>",
+        "oauth": {
+          "client_id": "<application-client-id>",
+          "scope": "https://<mcp-server-host>/mcp/tools/power_users offline_access"
+        }
+      }
+    }
+  }
+}
+----
++
+
+NOTE: Non impostare `oauth` su `false`, e non aggiungere un client secret a questo file.
+
+. In OpenCode, esegui `/mcps`, seleziona il server AI Data Engine e accedi con il tuo account Microsoft Entra ID quando si apre il browser.
+. Esegui `opencode mcp list` e verifica che il server AI Data Engine risulti connesso.
++
+Lo stato di `needs authentication` indica che OpenCode ha salvato la configurazione, ma non hai ancora completato l'accesso.
+
+
+
+
+
+[[what-you-can-do]]
+== Cosa puoi fare
+
+Dopo la connessione, il tuo client AI può utilizzare cinque strumenti: `get_collection`, `search`, `list_tags`, `create_tag` e `tag_document`. La connessione è limitata alla raccolta nell'URL del server MCP. Per lavorare con una raccolta diversa, usa i dettagli di connessione per quella raccolta. Fai riferimento a link:mcp-tools-reference.html["Strumenti MCP per l'accesso all'IA governato da AI Data Engine"] per sapere cosa fa ciascuno strumento.
+
+Gli strumenti sono disponibili in una sessione per utenti avanzati, che richiede il  `AIDEPowerUsers`ruolo dell'app e l' `power_users`ambito.
+
+
+NOTE: Per cercare in tutti i sistemi e volumi analizzati, usa i dettagli di connessione per la raccolta *Tutti i file*.
+
+Il tuo client AI non può recuperare il contenuto dei file, aggiungere, eliminare o modificare file, cambiare le origini dati o creare raccolte.
+
+I tag si applicano in tutto AI Data Engine, non solo a una raccolta. Un nome di tag scritto in modo errato crea un nuovo tag e i nomi dei tag fanno distinzione tra maiuscole e minuscole. Ad esempio, `Finance` e  `finance` sono tag diversi. Non puoi rinominare un tag dopo averlo creato. Per le limitazioni sui nomi dei tag, consulta link:../release-notes/known-limitations.html["Limitazioni note"].
+
+
+
+[[sample-prompts]]
+== Esempi di prompt
+
+Sostituisci i segnaposto con i valori del tuo ambiente.
+
+
+
+[[search-metadata]]
+=== Ricerca metadati
+
+* "Elenca le raccolte di dati che posso cercare."
+* "Nella raccolta <collection name>, trova tutti i file PDF."
+* "Nella <collection name> raccolta, trova i file i cui nomi iniziano con `<prefix>`."
+* "Nella <collection name>raccolta, elenca i file di proprietà di <owner>."
+* "Quanti file <file type> ci sono nella raccolta <collection name>?"
+* "Mostra il percorso, la dimensione e la data dell'ultima modifica dei file denominati `<prefix>` nella raccolta <collection name>."
+
+
+
+TIP: I filtri di ricerca si basano sul prefisso del nome del file, sul tipo di file e sul proprietario. Se cerchi i file in base a dimensione, data o cartella, il client AI deve scorrere molti risultati e la risposta potrebbe essere incompleta.
+
+
+
+[[tag-files]]
+=== Tagga i file
+
+* "Elenca i tag in uso e quanti file hanno ciascun tag."
+* "Crea il tag <tag name> e applicalo a <file name>."
+* "Applica il tag <tag name> ai file della mia ultima ricerca."
+* "Rimuovi il tag <tag name> da <file name> nella <collection name> raccolta."
+
+
+
+
+[[troubleshoot-connection-problems]]
+== Risoluzione dei problemi di connessione
+
+[cols="1,2"]
+|===
+| Problema | Risoluzione 
+
+
+| L'accesso dal browser non riesce con l'errore `AADSTS50011` o un altro errore relativo all'URI di reindirizzamento. | Chiedi al tuo amministratore di aggiungere l'URI di reindirizzamento esatto mostrato nell'errore alle impostazioni di *Autenticazione*, nella sezione *Applicazioni per dispositivi mobili e desktop*, dell'applicazione AI Data Engine in Entra ID. La porta nella configurazione del client deve corrispondere all'URI registrato. 
+
+
+| L'accesso non riesce con l'errore `AADSTS65001`. | Il consenso non è stato concesso oppure il client non è autorizzato. Chiedi al tuo amministratore di concedere il consenso o di aggiungere l'ID dell'applicazione (client) come applicazione client autorizzata per l' `power_users`ambito. 
+
+
+| L'accesso non riesce e viene visualizzato l'errore `AADSTS70011`. | La stringa di ambito non corrisponde. Usa l'URI dell'ID applicazione più `/power_users` esattamente, ad esempio `\https://<mcp-server-host>/mcp/tools/power_users`. 
+
+
+| Claude Code o OpenCode mostra `needs authentication`. | Accedi. In Claude Code, esegui `/mcp`. In OpenCode, esegui `/mcps`. 
+
+
+| L'accesso a Claude Desktop non riesce e restituisce un errore `AADSTS9010010`. | Assicurati che gli `mcp-remote` argomenti includano `--disable-resource-parameter`. 
+
+
+| Il client AI lo riceve `401 Unauthorized` subito dopo aver effettuato l'accesso. | Entra ID potrebbe aver emesso un token v1 oppure il tenant ID o l'ID client non corrispondono. Chiedi al tuo amministratore di confermare che `requestedAccessTokenVersion` sia impostato su `2` nel manifest dell'applicazione e che il tenant ID e l'ID applicazione (client) in AI Data Engine siano corretti. 
+
+
+| Il client AI riceve `401 Unauthorized`. | Accedi di nuovo per ottenere un nuovo token. Se l'errore persiste, chiedi al tuo amministratore di confermare che il client AI richieda l' `power_users` scope e che il token audience sia l'Application (client) ID dell'applicazione AI Data Engine. 
+
+
+| Il client AI non elenca nessuno strumento oppure l'assegnazione di tag viene rifiutata. | Chiedi al tuo amministratore di confermare che tu abbia il `AIDEPowerUsers` ruolo dell'app e che il tuo client AI richieda lo `power_users` scope. Una sessione da power user richiede entrambi. 
+
+
+| Il client AI segnala un errore TLS o di connessione. | Verifica che il tuo dispositivo risolva l'host name del cluster AIDE e che consideri attendibile il certificato presentato dall'host. Se il certificato è autofirmato, installalo come certificato attendibile sul tuo dispositivo. Consulta link:prepare-mcp-host.html#make-the-host-reachable["Rendere l'host raggiungibile dalle macchine client"]. 
+|===
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:learn-about-mcp.html["Scopri l'accesso all'AI regolato"]
+* link:mcp-tools-reference.html["Strumenti MCP per l'accesso all'IA governato da AI Data Engine"]
+* link:prepare-mcp-host.html["Prepara l'host MCP"]
+* link:manage-data-collections.html["Gestisci le raccolte di dati"]
+* link:maintain-mcp-setup.html["Mantieni la tua configurazione MCP"]
+* link:configure-entra-id-mcp.html["Configurare Microsoft Entra ID per l'accesso all'IA con governance"]
+* link:connect-entra-id-aide-mcp.html["Collega AI Data Engine a Microsoft Entra ID"]
+* link:../release-notes/known-limitations.html["Limitazioni note"]
+

@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: get-started/learn-about.html 
-keywords: ai data engine, aide, overview, use cases, storage optimization, data governance 
-summary: Scopri AI Data Engine, che offre visibilità sui dati strutturati e non strutturati archiviati nei tuoi sistemi di storage. 
+keywords: ai data engine, aide, overview, metadata, use cases, storage optimization, data lifecycle, access risk, governed ai access, mcp 
+summary: Scopri come AI Data Engine utilizza i metadati per aiutarti a recuperare capacità di archiviazione, individuare i rischi di accesso e organizzare i tuoi dati per usarli con i client AI. 
 ---
 = Scopri AI Data Engine
 :allow-uri-read: 
@@ -11,49 +11,66 @@ summary: Scopri AI Data Engine, che offre visibilità sui dati strutturati e non
 
 
 [role="lead"]
-AI Data Engine è un servizio di intelligence dei metadati che ti offre visibilità sui dati strutturati e non strutturati archiviati nei tuoi sistemi di storage. Analizzando i tuoi sistemi di storage e catalogando i metadati del file system, AI Data Engine ti aiuta a identificare opportunità di ottimizzazione dello storage, a esaminare i tuoi dati e ad applicare le policy di governance analizzando i metadati sul posto, senza spostare o copiare i dati.
+AI Data Engine (AIDE) è un servizio di intelligence dei metadati che ti offre visibilità sui dati strutturati e non strutturati archiviati nei tuoi sistemi di storage. AI Data Engine analizza i tuoi sistemi di storage e cataloga i metadati del file system, così puoi identificare opportunità di ottimizzazione dello storage, analizzare i tuoi dati e applicare le policy di governance.
 
 
 
 [[what-ai-data-engine-does]]
 == Cosa fa AI Data Engine
 
-AI Data Engine analizza i sistemi di storage connessi per estrarre i metadati del file system e crea un catalogo che si aggiorna dopo ogni ciclo di scansione. Da questo catalogo, puoi:
+AI Data Engine analizza le origini dati a cui ti connetti e crea un catalogo di metadati ricercabile che viene aggiornato a ogni ciclo di scansione. Dal catalogo puoi:
 
-* Visualizza informazioni dettagliate sull'ottimizzazione dello storage in una dashboard, inclusi i proprietari dei dati che detengono storage potenzialmente recuperabile, come file che soddisfano le soglie di inattività e obsolescenza della tua organizzazione e file duplicati
-* Analizza i tuoi dati utilizzando filtri dei metadati flessibili per creare raggruppamenti di dati mirati
-* Crea policy che salvano i criteri di indagine come regole riutilizzabili
-* Intervieni sui dati: etichetta, archivia, copia o elimina i file che corrispondono ai criteri delle policy
+* *Comprendi il tuo storage.* Scopri quanti dati hai, a chi appartengono e dove si trovano.
+* *Recupera capacità.* Trova dati obsoleti, inattivi e duplicati e scopri quali proprietari di dati ne detengono la maggior parte, in modo da sapere chi contattare per la pulizia.
+* *Individua i rischi di accesso.* Identifica le directory con permessi aperti in modo da poter dare priorità alla loro revisione.
+* *Esamina e organizza.* Utilizza i filtri dei metadati per trovare i dati che ti interessano, etichettali e salva i criteri come una policy che puoi monitorare nel tempo.
+* *Agisci sui dati.* Etichetta, archivia, copia o elimina i file che hai esaminato.
+* *Prepara i dati per l'AI.* Consenti ai client AI che hai autorizzato di cercare nei tuoi metadati ed eseguire azioni sui dati.
 
 
 
 
-[[storage-optimization-and-data-governance]]
-== Ottimizzazione dello storage e governance dei dati
+[[storage-optimization-and-data-lifecycle-management]]
+== Ottimizzazione dello storage e gestione del ciclo di vita dei dati
 
-AI Data Engine si concentra sull'ottimizzazione dello storage e sulla gestione del ciclo di vita dei dati strutturati e dei dati non strutturati archiviati sui tuoi sistemi di storage.
+Utilizza i metadati per identificare i dati che meritano di essere esaminati, come i file che soddisfano le soglie di inattività e obsolescenza stabilite dalla tua organizzazione e i file duplicati. Analizza i risultati prima di decidere se conservare, etichettare, archiviare, copiare o eliminare i dati.
+
+Le informazioni sull'ottimizzazione dello storage indicano delle opportunità. La capacità che potresti recuperare dipende dalle azioni che sceglierai di intraprendere.
+
+
+
+[[governed-ai-access]]
+== Accesso all'AI regolamentato
+
+L'accesso governato all'AI consente ai client AI di cercare nei tuoi metadati tramite il Model Context Protocol (MCP), entro i limiti che imposti. Scegli quali dati rendere disponibili creando raccolte. Una raccolta è un insieme di dati sottoposti a scansione che rendi disponibile ai client AI. Controlli quali raccolte un utente può cercare definendo gli ambiti di Microsoft Entra ID.
+
+I client basati sull'IA lavorano esclusivamente con i metadati. Non possono recuperare il contenuto dei file.
+
+link:../mcp/learn-about-mcp.html["Scopri di più sull'accesso governato all'AI"].
 
 
 
 [[who-uses-ai-data-engine]]
 == Chi utilizza AI Data Engine
 
-AI Data Engine è progettato per i seguenti utenti:
+I seguenti esempi mostrano come persone diverse potrebbero usare AI Data Engine:
 
-* *Amministratori dello storage* che devono identificare e monitorare quali proprietari dei dati detengono file che soddisfano le soglie di inutilizzo e obsolescenza della propria organizzazione, identificare i file duplicati e valutare le opportunità di ottimizzazione dello storage.
+* *Amministratori dello storage* che devono esaminare i file che soddisfano le soglie di inattività e obsolescenza stabilite dalla propria organizzazione, identificare i file duplicati e valutare le opportunità di ottimizzazione dello storage.
 * *I team delle operazioni IT* che hanno bisogno di una vista centralizzata dei dati strutturati e non strutturati presenti nel loro ambiente di storage.
+* *Membri del team Data o AI* che utilizzano un client AI per cercare i metadati in una raccolta autorizzata e per etichettare i dati con cui vogliono lavorare.
+* I *responsabili IT* che stanno implementando strumenti AI e devono scegliere in quali raccolte i client AI possono cercare e chi può usarle.
 
 
 
 
-[[where-ai-data-engine-lives]]
-== Dove risiede AI Data Engine
+[[where-ai-data-engine-runs]]
+== Dove viene eseguito AI Data Engine
 
-Accedi a AI Data Engine tramite NetApp Console, in *AI data hub > AI Data Engine*. AI Data Engine è disponibile in anteprima privata. Contatta il tuo referente NetApp per richiedere l'accesso. Distribuisci AI Data Engine come AIDE Lite, un'installazione su singola VM, su un'infrastruttura Linux che gestisci come macchina virtuale nel tuo account cloud o come macchina nel tuo ambiente on-premises. Se il tuo ambiente richiede alta disponibilità basata su Kubernetes su larga scala, puoi distribuire invece AIDE Enterprise.
-
-AI Data Engine analizza i dati sui sistemi NetApp ONTAP e StorageGRID, nonché sui sistemi non NetApp che supportano i protocolli NFS, SMB/CIFS o S3.
+Accedi a AI Data Engine tramite NetApp Console, in *AI data hub > AI Data Engine*. I servizi di scansione e catalogazione vengono eseguiti sull'infrastruttura che fornisci, sia nel tuo account cloud sia nel tuo ambiente on-premises. Scegli una distribuzione AIDE a nodo singolo su una VM Linux o una distribuzione AIDE a più nodi su un cluster Kubernetes se il tuo ambiente richiede un'elevata disponibilità su larga scala.
 
 link:../deploy/deployment-overview.html["Scopri di più sulle opzioni di implementazione"].
+
+AI Data Engine analizza le origini dati supportate che colleghi. Per ulteriori informazioni, consulta link:../data-sources/connect-data-source.html["Connetti una origine dati"].
 
 
 
@@ -62,5 +79,6 @@ link:../deploy/deployment-overview.html["Scopri di più sulle opzioni di impleme
 
 * link:architecture.html["Architettura di AI Data Engine"]
 * link:quick-start.html["Avvio rapido"]
+* link:../mcp/learn-about-mcp.html["Scopri l'accesso all'AI regolato"]
 * link:storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
 

@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: deploy/deploy-aide-single-node.html 
+keywords: deploy, install, single-node, single node, wizard, NetApp Console, deployment wizard, onboarding 
+summary: Distribuisci AIDE come deployment a nodo singolo da NetApp Console utilizzando la procedura guidata di distribuzione. 
+---
+= Distribuisci AI Data Engine come implementazione a nodo singolo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Distribuisci AI Data Engine (AIDE) come installazione a nodo singolo da NetApp Console utilizzando la procedura guidata di distribuzione. La procedura guidata ti aiuta a selezionare il percorso di installazione, scegliere le dimensioni della configurazione ed eseguire il comando di installazione sull'host di destinazione.
+
+
+IMPORTANT: Se l'host di destinazione raggiunge Internet solo tramite un outbound proxy, usa link:deploy-aide-single-node-proxy.html["Distribuisci AI Data Engine come implementazione a nodo singolo con un proxy"] invece.
+
+.Prima di iniziare
+* In NetApp Console disponi di autorizzazioni di _Organization admin_ o superiori.
+* Hai i permessi sudo o root sull'host di destinazione per eseguire il comando di installazione.
+* Il tuo ambiente soddisfa tutti i prerequisiti come descritto in link:single-node-prerequisites.html["Prerequisiti per la distribuzione di AIDE su un singolo nodo"] e link:aide-requirements.html["Requisiti AIDE"].
+* Un agente NetApp Console https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["viene distribuito"^] raggiungibile dall'host di AI Data Engine. L'indirizzo IP dell'agente Console è necessario per eseguire il comando di installazione.
+
+
+
+NOTE: Usa il programma di installazione solo per la prima installazione di AIDE. Non usarlo per aggiornare AIDE. Dopo l'installazione, l'operatore di AIDE gestisce gli aggiornamenti. Per informazioni sugli aggiornamenti, contatta NetApp Support.
+
+.Passaggi
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine*.
++
+Viene visualizzata la landing page di AI Data Engine.
+
+. Seleziona *Deploy AI Data Engine*.
+. Seleziona l'opzione di distribuzione *Single-node* e seleziona *Next*.
+. Seleziona la dimensione della tua configurazione:
++
+** *Piccolo*: consigliato per ambienti con fino a circa 200 milioni di file.
+** *Media (Predefinita)*: consigliata per ambienti con fino a circa 1 miliardo di file.
+** *Grande*: consigliato per ambienti con fino a circa 3 miliardi di file.
++
+Queste dimensioni rappresentano valori di riferimento consigliati, non limiti rigidi. Consulta link:aide-requirements.html#flexible-sizing-single-node["linee guida flessibili per il dimensionamento"] se il tuo ambiente non rientra in questi intervalli.
+
+
+
+. Copia il comando di installazione visualizzato nella procedura guidata in un editor.
++
+La procedura guidata genera il comando di installazione con le dimensioni di configurazione che selezioni.
+
+. Esegui il comando di installazione sull'host di destinazione.
++
+Se il programma di installazione chiede se configurare un outbound proxy, inserisci `n`.
+
++
+
+NOTE: L'installazione richiede circa 45 minuti per essere completata. È normale che si verifichino timeout e nuovi tentativi.
+
+. Rispondi alla richiesta di conferma del programma di installazione per continuare l'installazione.
++
+Il programma di installazione rileva l'indirizzo IP del nodo che esegue l'ingress NGINX di AI Data Engine e ti chiede di confermarlo. Premi Invio per mantenere l'indirizzo visualizzato oppure digita un indirizzo diverso. Usa un indirizzo raggiungibile dall'esterno della VM. Non inserire l'indirizzo dell'agente di Console.
+
+. Monitora la schermata di avanzamento finché non viene visualizzata la schermata di successo, che conferma che l'installazione di AIDE è completa.
+
+
+.Risultato
+AI Data Engine è distribuito e connesso a NetApp Console. Ora puoi link:../data-sources/connect-data-source.html["collega una fonte di dati"] per iniziare la scansione.

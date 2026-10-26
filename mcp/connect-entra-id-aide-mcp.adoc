@@ -1,0 +1,132 @@
+---
+sidebar: sidebar 
+permalink: mcp/connect-entra-id-aide-mcp.html 
+keywords: mcp, governed ai access, microsoft entra id, identity provider, collections, verify configuration, netapp console, aide administrator 
+summary: 'Come amministratore di AI Data Engine, connetti Microsoft Entra ID ad AI Data Engine come provider di identità in NetApp Console, configura le raccolte per MCP e verifica la configurazione dell"accesso all"AI con governance.' 
+---
+= Collega AI Data Engine a Microsoft Entra ID per un accesso all'AI controllato
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Collega Microsoft Entra ID a AI Data Engine (AIDE) come provider di identità, così puoi autenticare gli utenti e controllare con quali raccolte possono lavorare tramite il Model Context Protocol (MCP). Come amministratore di AI Data Engine, configuri il provider di identità, imposti le raccolte per MCP e verifichi la configurazione in NetApp Console.
+
+L'accesso governato all'AI utilizza Entra ID per autenticare gli utenti e gli ambiti che includi per ogni raccolta determinano con quali raccolte un utente può lavorare tramite MCP.
+
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+* AI Data Engine è distribuito e ha analizzato almeno una fonte di dati. Fai riferimento a link:../data-sources/connect-data-source.html["Connetti una origine dati"].
+* L'host name del cluster AIDE è configurato in un dominio DNS registrato e verificato nel tuo tenant Entra ID. Consulta link:prepare-mcp-host.html["Prepara l'host MCP"].
+* Un amministratore di Microsoft Entra ID ha registrato l'applicazione AI Data Engine per questa istanza di AI Data Engine e ti ha fornito l'ID Directory (tenant) e l'ID Application (client). Consulta link:configure-entra-id-mcp.html["Configurare Microsoft Entra ID per l'accesso all'IA con governance"].
+
+
+
+
+[[set-up-an-identity-provider]]
+== Configura un provider di identità
+
+Collega Microsoft Entra ID come provider di identità (IdP) per autenticare e autorizzare l'accesso alle risorse dati nelle tue raccolte di dati.
+
+.Prima di iniziare
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+* Hai il tenant ID e l'application (client) ID dell'applicazione AI Data Engine registrata in Microsoft Entra ID per questa istanza di AI Data Engine.
+
+
+.Passaggi
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine*.
+. Seleziona *Configurazione* > *Provider di identità*.
+. Seleziona *Aggiungi provider di identità*.
++
+Si apre il pannello *Aggiungi provider di identità*.
+
+. In *Select identity provider*, seleziona *Microsoft EntraID*.
+. In *Entra Tenant ID*, inserisci l'ID Directory (tenant) del tuo tenant Entra ID.
+. Nel campo *ID applicazione (client)*, inserisci l'ID applicazione (client) dell'applicazione AI Data Engine.
++
+
+IMPORTANT: Inserisci l'ID dell'applicazione (client), che è un GUID. Non inserire l'URI dell'ID dell'applicazione. I token identificano l'applicazione AI Data Engine tramite il suo GUID, quindi un URI causa errori di accesso.
+
++
+Usa gli identificativi della tua configurazione di Microsoft Entra ID. AI Data Engine verifica il formato di entrambi i valori e conferma che il tenant esiste. Se compare il messaggio *Invalid identity*, verifica i valori e correggili prima di riprovare.
+
+. Seleziona *Aggiungi provider di identità*.
+
+
+Al termine della configurazione, AI Data Engine visualizza il messaggio di conferma *Provider di identità creato correttamente*. Il provider compare nell'elenco dei *Provider di identità*. Prima di continuare, conferma che il suo *Stato di connessione* sia *Connesso*.
+
+Utilizza lo stesso ID applicazione (client) come ID client nei tuoi client AI.
+
+Le modifiche al provider di identità e alle impostazioni di raccolta potrebbero non avere effetto immediato perché NetApp Console le applica al server MCP in modo asincrono.
+
+L'aggiunta di un provider di identità non lo associa automaticamente a una raccolta di dati. Seleziona il provider di identità quando configuri la raccolta, in modo che le applicazioni AI possano accedere alle sue risorse con autenticazione e autorizzazione. Consulta <<configure-collections-for-mcp,Configura le raccolte per MCP>>. Puoi eliminare un provider di identità solo se nessuna raccolta lo utilizza. Per modificarlo, consulta link:maintain-mcp-setup.html#update-an-identity-provider["Aggiornare un provider di identità"].
+
+
+
+[[configure-collections-for-mcp]]
+== Configura le raccolte per MCP
+
+Dopo aver configurato un provider di identità e creato una raccolta, configura la raccolta per MCP in NetApp Console. Seleziona i provider di identità e gli ambiti utente che possono accedere alla raccolta, quindi copia l'URL del server MCP o un frammento di configurazione specifico del client per il tuo client AI. Vedi link:manage-data-collections.html#configure-a-collection-for-mcp["Configurare una raccolta per MCP"].
+
+
+
+[[verify-your-configuration]]
+== Verifica la tua configurazione
+
+Prima che gli utenti si connettano, conferma che ciascuna delle seguenti condizioni sia soddisfatta. L'URI dell'ID applicazione, l'ambito, l'ID tenant e l'ID client devono corrispondere esattamente in Entra ID, NetApp Console e nei tuoi client AI.
+
+*host del cluster AIDE*
+
+* L'host name del cluster AIDE si trova in un dominio verificato in Entra ID.
+* I computer degli utenti risolvono l'host name.
+* L'host presenta un certificato di cui le macchine client si fidano.
+* Il noto endpoint del server MCP restituisce la risposta prevista. Consulta link:prepare-mcp-host.html#verify-the-host["Verifica l'host"].
+
+
+*Microsoft Entra ID*
+
+* Per questa istanza di AI Data Engine è registrata un'applicazione dedicata.
+* L'URI dell'ID dell'applicazione è `\https://<host>/mcp/tools`.
+* L' `power_users`ambito esiste e `requestedAccessTokenVersion` è impostato su `2` nel manifest.
+* Per ogni client AI viene registrato un URI di reindirizzamento e sono consentiti i flussi dei client pubblici.
+* Il ruolo dell' `AIDEPowerUsers`app è assegnato ai tuoi utenti.
+
+
+*NetApp Console*
+
+* Il provider di identità Entra ID dispone di tenant ID e application (client) ID e il suo stato di connessione è *Connected*.
+* L'opzione *Enable connection to MCP* è attivata in *MCP collections* > *MCP settings* > *MCP server connection*.
+* Il server MCP ha lo stato *In esecuzione*.
+* La raccolta è configurata per MCP con il provider di identità e lo `power_users` scope.
+* Hai generato il frammento di codice MCP.
+
+
+*Client AI*
+
+* Hai aggiunto il frammento al client AI.
+* L'ID client è l'ID dell'applicazione (client).
+* L'ambito è l'URI dell'ID applicazione più `/power_users`.
+* Dopo aver effettuato l'accesso una volta, vengono elencati gli strumenti di AI Data Engine.
+
+
+.Cosa c'è dopo
+link:manage-data-collections.html["Gestisci le raccolte di dati"] e link:connect-ai-clients-mcp.html["connettere i client AI"].
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:learn-about-mcp.html["Scopri l'accesso all'AI regolato"]
+* link:prepare-mcp-host.html["Prepara l'host MCP"]
+* link:configure-entra-id-mcp.html["Configurare Microsoft Entra ID per l'accesso all'IA con governance"]
+* link:manage-data-collections.html["Gestisci le raccolte di dati"]
+* link:connect-ai-clients-mcp.html["Connetti i client AI al server MCP di AI Data Engine"]
+* link:maintain-mcp-setup.html["Mantieni la tua configurazione MCP"]
+* link:../release-notes/known-limitations.html["Limitazioni note"]
+

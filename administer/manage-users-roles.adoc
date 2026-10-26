@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: administer/manage-users-roles.html 
-keywords: roles, users, permissions, AI data engine administrator, AI data engine viewer 
+keywords: roles, users, permissions, ai data engine administrator, ai data engine viewer 
 summary: 'Controlla l"accesso assegnando a ciascun utente il ruolo di amministratore o di visualizzatore. Scopri di più sui due ruoli e sui relativi permessi.' 
 ---
 = Gestisci utenti e ruoli in AI Data Engine
@@ -11,7 +11,7 @@ summary: 'Controlla l"accesso assegnando a ciascun utente il ruolo di amministra
 
 
 [role="lead"]
-Controlla cosa ogni utente può visualizzare e fare in AI Data Engine assegnandogli un ruolo di amministratore o di visualizzatore. Prima che il tuo team inizi a utilizzare AI Data Engine, assegna a ciascun utente il ruolo corrispondente al livello di accesso richiesto.
+Controlla cosa ogni utente può visualizzare e fare in AI Data Engine (AIDE) assegnandogli il ruolo di amministratore o di visualizzatore. Prima che il tuo team inizi a utilizzare AI Data Engine, assegna a ciascun utente il ruolo corrispondente al livello di accesso richiesto.
 
 Assegni i ruoli tramite le impostazioni dell'organizzazione di NetApp Console. AI Data Engine supporta due ruoli.
 
@@ -74,8 +74,18 @@ Il ruolo di visualizzatore di AI Data Engine fornisce un accesso limitato a AI D
 | Azioni: Archivia, Copia, Elimina | Sì | - 
 
 
+| Azioni: Elimina i duplicati | Sì | - 
+
+
 | Gestisci i tag aziendali | Sì | Sì 
 |===
+
+
+[[roles-and-governed-ai-access]]
+== Ruoli e accesso all'AI governato
+
+I ruoli di NetApp Console controllano chi può configurare l'accesso AI governato in AI Data Engine. Non controllano quali raccolte può cercare un utente client AI. Gli ambiti di Microsoft Entra ID che concedi a ciascuna raccolta controllano tale accesso. Per i dettagli, consulta link:../mcp/configure-entra-id-mcp.html["Configurare Microsoft Entra ID per l'accesso all'IA con governance"].
+
 
 
 [[assign-a-role-to-a-user]]
@@ -105,4 +115,5 @@ Ricevi un invito via e-mail e puoi accedere a AI Data Engine dopo averlo accetta
 
 * link:../investigate/take-actions.html["Agisci sui tuoi dati"]
 * link:../policies/create-policy.html["Crea una policy"]
+* link:../mcp/manage-data-collections.html["Gestisci le raccolte di dati"]
 

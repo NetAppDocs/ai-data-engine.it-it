@@ -56,9 +56,9 @@ Esamina la tabella dei risultati per confermare che il set di filtri acquisisca 
 . Esamina l'espressione dei criteri di filtro (ad esempio, `last_access_time <= 3 Years AND file_size >= 5GiB`) per confermare che rifletta le tue selezioni.
 . Per associare un'azione, seleziona una delle seguenti opzioni in *Azione*:
 +
-** *Solo monitoraggio (nessuna azione)* (impostazione predefinita): la policy viene salvata come condizione di solo monitoraggio.
+** *Solo monitoraggio (nessuna azione)* (impostazione predefinita): salva la policy come condizione di solo monitoraggio.
 ** *Invia notifica via email*: Invia una notifica via email al destinatario che specifichi.
-** *Elimina definitivamente*: Non è richiesto alcun input aggiuntivo.
+** *Elimina definitivamente*: Non richiede alcun input aggiuntivo.
 +
 
 CAUTION: L'azione "Elimina definitivamente" elimina automaticamente e in modo irreversibile tutti i file che corrispondono a questa policy dopo ogni ciclo di scansione. Verifica i criteri di filtro e conferma di essere autorizzato a eliminare questi file prima di salvare.
@@ -69,14 +69,14 @@ CAUTION: L'azione "Elimina definitivamente" elimina automaticamente e in modo ir
 
 
 .Risultato
-La policy viene salvata e appare nella pagina link:manage-policies.html["Politiche"]. Se hai associato un'azione, AI Data Engine la applica ai file che corrispondono ai criteri della policy.
+AI Data Engine salva la policy e la visualizza nella pagina link:manage-policies.html["Politiche"]. Se hai associato un'azione, AI Data Engine la applica ai file che corrispondono ai criteri della policy.
 
 
 
 [[example-identify-cold-archive-files]]
 == Esempio: identifica i file di archivio inattivi
 
-L'esempio seguente crea una policy per inviare una notifica via e-mail quando rileva file a cui non accedi da oltre un anno.
+L'esempio seguente crea una policy che invia una notifica via e-mail quando AI Data Engine rileva file a cui non si accede da oltre un anno.
 
 . In Investigation, applica questi filtri:
 +

@@ -1,0 +1,155 @@
+---
+sidebar: sidebar 
+permalink: mcp/manage-data-collections.html 
+keywords: mcp, governed ai access, data collections, collection, ai access, scope, create collection, enable collection 
+summary: 'Crea raccolte di dati e abilita l"accesso AI in modo che i client AI connessi possano cercarle.' 
+---
+= Gestisci le raccolte di dati per l'accesso all'IA gestito da AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Una raccolta è un container logico per le fonti di dati che rendi ricercabili ai client AI tramite il server Model Context Protocol (MCP) per AI Data Engine (AIDE). Crea raccolte e abilitale per l'accesso AI in modo che i client AI connessi possano cercarle.
+
+
+
+[[before-you-begin]]
+== Prima di iniziare
+
+* Devi avere il ruolo di amministratore di _AI Data Engine_.
+* Hai configurato Microsoft Entra ID come provider di identità in AI Data Engine e il suo stato di connessione è *Connesso*. Fai riferimento a link:connect-entra-id-aide-mcp.html#set-up-an-identity-provider["Configura un provider di identità"].
+* Hai creato una raccolta di dati personalizzata oppure stai utilizzando una raccolta predefinita che include solo i dati di cui i client AI hanno bisogno per la ricerca. Consulta <<create-a-data-collection,Crea una raccolta di dati>>.
+
+
+
+
+[[about-data-collections]]
+== Informazioni sulle raccolte di dati
+
+Una raccolta è un container logico per una o più fonti di dati. AI Data Engine fornisce una raccolta predefinita denominata *All files* che include ogni sistema e volume che AI Data Engine ha analizzato.
+
+
+CAUTION: Prima di concedere a un ambito l'accesso a una raccolta, verifica che tutti gli utenti con tale ambito siano autorizzati a cercare i metadati di ogni file nella raccolta. Se concedi a un ambito l'accesso a *Tutti i file*, tutti gli utenti con tale ambito possono cercare i metadati di tutti i dati sottoposti a scansione.
+
+Per creare una raccolta, consulta <<create-a-data-collection,Crea una raccolta di dati>>. Per modificare in seguito una raccolta, un provider di identità o le impostazioni del server MCP, consulta link:maintain-mcp-setup.html["Mantieni la tua configurazione MCP"].
+
+
+
+[[create-a-data-collection]]
+== Crea una raccolta di dati
+
+Crea una raccolta di dati per definire le risorse di dati che i client AI possono cercare nel server MCP.
+
+.Passaggi
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine*.
+. Seleziona *Configuration*, quindi seleziona *MCP collections*.
+. Seleziona *Crea raccolta*.
+. Nel campo *Nome*, inserisci un nome univoco per la raccolta.
+. Facoltativo: nella sezione *Descrizione*, inserisci una descrizione che aiuti il tuo team a comprendere lo scopo della raccolta. La descrizione può contenere fino a 512 caratteri.
+. Utilizza i filtri *Sistemi* e *Protocolli* per restringere l'elenco delle risorse di dati.
+. Seleziona la casella di controllo accanto a ciascuna risorsa dati che desideri includere nella raccolta.
++
+La colonna *Stato scansione* indica se ciascuna risorsa dati è *Completata*, *In fase di nuova scansione* o in *Errore*. Le risorse dati S3 e strutturate non possono essere aggiunte a una raccolta.
+
++
+Il riepilogo delle *righe selezionate* mostra il numero di risorse selezionate, la relativa capacità sottoposta a scansione e il numero di file analizzati. Per cancellare la selezione e ricominciare, seleziona *Ripristina*.
+
+. Seleziona *Crea raccolta MCP*.
+
+
+Compare un messaggio di conferma e la nuova raccolta viene aggiunta all'elenco *Raccolte* con lo stato *Pronta per la configurazione*. La creazione della raccolta non completa la configurazione della connessione MCP.
+
+L'elenco *Collections* mostra il nome, la descrizione, il numero di volumi, la capacità analizzata, il numero di file analizzati, il proprietario e lo stato di ciascuna raccolta. Il proprietario è *System* per le raccolte che AI Data Engine fornisce e *User* per le raccolte che crei.
+
+Dopo aver creato una raccolta, <<configure-a-collection-for-mcp,configurarlo per MCP>>.
+
+
+
+[[configure-a-collection-for-mcp]]
+== Configurare una raccolta per MCP
+
+Seleziona i provider di identità e gli ambiti utente per una raccolta MCP, quindi ottieni i dettagli di connessione per il tuo client AI.
+
+
+IMPORTANT: In una sessione di utente avanzato, la ricerca non viene filtrata in base alle autorizzazioni a livello di file. Gli utenti con accesso alla raccolta possono cercare in ogni file al suo interno. Includi solo i file che tutti gli utenti assegnati agli ambiti della raccolta sono autorizzati a visualizzare. Concedi a un ambito l'accesso a *Tutti i file* solo se tutti gli utenti con tale ambito sono autorizzati a cercare in tutti i dati analizzati.
+
+.Prima di iniziare
+* Hai creato una raccolta MCP oppure stai utilizzando *All files*. Fai riferimento a <<create-a-data-collection,Crea una raccolta di dati>>.
+* I provider di identità che vuoi utilizzare sono connessi ad AI Data Engine. Fai riferimento a link:connect-entra-id-aide-mcp.html#set-up-an-identity-provider["Configura un provider di identità"].
+* La connessione a MCP è abilitata. In *Raccolte MCP* > *Impostazioni MCP*, espandi *Connessione al server MCP* e verifica che *Abilita connessione a MCP* sia attivato. La connessione è disabilitata per impostazione predefinita. Fai riferimento a link:maintain-mcp-setup.html#enable-or-disable-the-connection-to-mcp["Abilita o disabilita la connessione a MCP"].
+* Il server MCP ha lo stato *Running*. Consulta link:maintain-mcp-setup.html#review-mcp-server-and-collection-status["Verifica lo stato del server MCP e della raccolta"].
+
+
+.Passaggi
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine* > *Configuration* > *MCP collections*.
+. Individua la raccolta che desideri configurare, apri il relativo menu *Azioni* e seleziona *Configura per MCP*.
+. Nella fase *Seleziona provider di identità*, seleziona uno o più provider di identità per autenticare e autorizzare l'accesso alla raccolta.
++
+
+NOTE: Se il provider di identità di cui hai bisogno non è presente nell'elenco, aggiungilo in *Provider di identità* prima di continuare. Se è richiesto l'accesso di amministratore, chiedi al tuo amministratore di collegare il provider di identità.
+
+. Per ogni provider di identità selezionato, utilizza *Ambiti utente da includere* per specificare gli ambiti:
++
+.. Per includere tutti gli ambiti utente, lascia selezionata l'opzione *Tutti gli ambiti utente*.
+.. Per includere ambiti specifici, apri il menu a tendina, seleziona gli ambiti e seleziona *Aggiungi ambiti*.
++
+`power_users` è l'unico ambito nel menu a tendina e selezionandolo ottieni lo stesso risultato di *Tutti gli ambiti utente*. Il nome dell'ambito deve corrispondere all'ambito che hai definito in Microsoft Entra ID.
+
+
+
+. Seleziona *Genera frammento di codice MCP*.
+. Nella fase *Genera frammento di codice MCP*, copia i dettagli di connessione richiesti dal tuo client AI:
++
+** Per utilizzare direttamente l'endpoint, seleziona l'icona di copia accanto a *URL del server MCP*.
+** Per utilizzare un frammento di configurazione specifico del client, seleziona la scheda *Claude* per Claude Desktop o la scheda *Cursor* per Cursor in *Frammenti di codice*, quindi seleziona l'icona di copia. Per Claude Code e OpenCode, utilizza l'URL del server MCP.
++
+Prima di condividere un frammento, verifica che l'host sia il tuo AIDE cluster host name e non un indirizzo IP del cluster o del servizio, e che l'URL termini con  `/mcp/tools` e includa l' `collection_id` di questa raccolta. L'ambito deve essere  `\https://<host>/mcp/tools/power_users`, e l'ID client deve essere l'ID applicazione (client) della tua applicazione AI Data Engine in Entra ID.
+
++
+
+NOTE: Se viene visualizzato l'avviso *MCP hostname not setup*, seleziona *MCP settings* per configurare l'AIDE cluster host name. Fai riferimento a link:maintain-mcp-setup.html#review-mcp-server-settings["Rivedi le impostazioni del server MCP"] e link:prepare-mcp-host.html["Prepara l'host MCP"]. Per proteggere il server MCP con HTTPS è necessario un certificato SSL/TLS, configurato dallo script di ingress.
+
+
+
+. Facoltativo: per modificare i provider di identità o gli ambiti utente, seleziona *Torna indietro* e poi genera nuovamente lo snippet.
+. Seleziona *Chiudi*.
+
+
+.Risultato
+Hai a disposizione l'URL del server MCP o un frammento di configurazione specifico del client per i provider di identità e gli ambiti utente selezionati. Utilizza questi dettagli per connettere il tuo client AI e convalidare l'accesso alla raccolta. Assicurati che l'URI di reindirizzamento per il tuo client AI sia registrato nell'applicazione AI Data Engine in Entra ID. Utilizza l'ID applicazione (client) dell'applicazione come ID client. Fai riferimento a link:configure-entra-id-mcp.html#add-redirect-uris-for-ai-clients["Aggiungi URI di reindirizzamento per i tuoi client AI"].
+
+
+NOTE: La generazione dei dettagli di connessione non connette né convalida il client AI. link:connect-ai-clients-mcp.html["Completa queste attività nel client AI"].
+
+Una raccolta non è disponibile per i client AI finché non selezioni i provider di identità e gli ambiti utente. Dopo aver completato questa operazione, la raccolta avrà lo stato *Abilitata*.
+
+Gli utenti i cui token dispongono di un ambito concesso possono scoprire e cercare nella collezione. Gli utenti senza un ambito corrispondente non possono scoprire, cercare o interagire con la collezione.
+
+
+
+[[disable-ai-access-for-a-collection]]
+== Disabilita l'accesso all'IA per una raccolta
+
+Disabilita l'accesso AI per una raccolta quando i client AI non devono più eseguire ricerche al suo interno. Quando configuri una raccolta per MCP, l'accesso AI si abilita automaticamente.
+
+.Passaggi
+. In NetApp Console, vai a *AI data hub* > *AI Data Engine* > *Configuration* > *MCP collections*.
+. Apri il menu *Azioni* della raccolta e seleziona *Disabilita*.
+
+
+I client AI che utilizzano la raccolta disabilitata perdono l'accesso ad essa dopo che la modifica viene applicata. Le selezioni del provider di identità e dell'ambito utente vengono mantenute. Inoltre, i client AI non possono raggiungere alcuna raccolta finché la connessione a MCP è disabilitata. Per bloccare le richieste a tutte le raccolte contemporaneamente, consulta link:maintain-mcp-setup.html#enable-or-disable-the-connection-to-mcp["Abilita o disabilita la connessione a MCP"].
+
+
+
+[[related-information]]
+== Informazioni correlate
+
+* link:learn-about-mcp.html["Scopri l'accesso all'AI regolato"]
+* link:maintain-mcp-setup.html["Mantieni la tua configurazione MCP"]
+* link:configure-entra-id-mcp.html["Configurare Microsoft Entra ID per l'accesso all'IA con governance"]
+* link:connect-entra-id-aide-mcp.html["Collega AI Data Engine a Microsoft Entra ID"]
+* link:connect-ai-clients-mcp.html["Connetti i client AI al server MCP di AI Data Engine"]
+* link:../release-notes/known-limitations.html["Limitazioni note"]
+
