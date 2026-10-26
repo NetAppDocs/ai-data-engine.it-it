@@ -433,7 +433,6 @@
   <block id="c0227cef6f07a8cd2ac72f2945b031aa" category="section-title">Open source</block>
   <block id="9b73989307c1975dfa4d5e1581e4afe8" category="paragraph">I file di avviso forniscono informazioni sui diritti d'autore e sulle licenze di terze parti utilizzati nel software NetApp.</block>
   <block id="93d6496a69f6384320dab15ccadbc4e8" category="inline-link-macro">Avviso per AI Data Engine</block>
-  <block id="7ab36480d3c1a530e02ac892b3191e4a" category="paragraph"><block ref="7ab36480d3c1a530e02ac892b3191e4a" category="inline-link-macro-rx"></block></block>
   <block id="e7dc26f23cfcebf955f51e9ec20046b1" category="summary">Salva i criteri di filtro dell'indagine come policy denominata, in modo da poter monitorare lo stesso raggruppamento di dati nel tempo e ricevere notifiche quando le condizioni cambiano.</block>
   <block id="0e276db5651852f12c3a3c7be8b2939e" category="doc">Crea una policy in AI Data Engine</block>
   <block id="ede0a89e2e37ef9e8c3495af56db91eb" category="paragraph">Crea una policy quando vuoi monitorare una condizione ricorrente dei dati senza ripetere manualmente la stessa analisi. Ad esempio, un responsabile della governance dei dati può salvare una policy per i "file obsoleti di grandi dimensioni" per tenere traccia di tale gruppo nei cicli di scansione e ricevere un aggiornamento via email quando il numero di file interessati cambia.</block>
@@ -2452,4 +2451,5 @@
   <block id="1f2989a2e9ce42f8b0db48acd9ed2e4e" category="sidebar">Distribuisci AIDE come implementazione multi-node con un proxy</block>
   <block id="d76d64858ff00ec6f65866ed6c6641f4" category="sidebar">Collega AIDE a Microsoft Entra ID</block>
   <block id="156586dd7dceda9f103091b3c0beb1e6" category="sidebar">Strumenti AIDE MCP</block>
+  <block id="7da93123cf77bf1f1d116b04b8d380c2" category="paragraph"><block ref="7da93123cf77bf1f1d116b04b8d380c2" category="inline-link-macro-rx"></block></block>
 </blocks>
