@@ -24,7 +24,7 @@ indexpage:
     - title: Esplora i flussi di lavoro per l'ottimizzazione dello storage
       url: "/get-started/storage-optimization-workflows.html"
     - title: Novità
-      url: "/release-notes/whats-new.html"
+      url: "/whats-new.html"
     - title: Limitazioni note
       url: "/release-notes/known-limitations.html"
   - title: Distribuisci

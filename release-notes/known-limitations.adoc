@@ -67,7 +67,7 @@ Le operazioni del tag MCP sono limitate:: I client AI non possono elencare i fil
 [[related-information]]
 == Informazioni correlate
 
-* link:whats-new.html["Novità"]
+* link:../whats-new.html["Novità"]
 * link:../deploy/deployment-overview.html["Panoramica dell'implementazione"]
 * link:../investigate/take-actions.html["Agisci sui tuoi dati"]
 * link:../mcp/learn-about-mcp.html["Scopri l'accesso all'AI regolato"]
