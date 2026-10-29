@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: get-started/storage-optimization-workflows.html 
+permalink: investigate/storage-optimization-workflows.html 
 keywords: storage optimization, cold data, stale data, retention, workflow, dashboard, investigate, policy 
 summary: 'Usa flussi end-to-end per gestire i risultati di una dashboard, dall"analisi all"azione e al monitoraggio continuo delle politiche.' 
 ---
@@ -22,9 +22,9 @@ Questi flussi di lavoro di AI Data Engine (AIDE) ti guidano dall'identificazione
 Noti nella dashboard che una risorsa di storage ha una grande quantità di dati contrassegnati come freddi. I file freddi non sono stati consultati entro la soglia configurata per i dati freddi, che per impostazione predefinita è di un anno. Puoi modificare questa soglia in link:../administer/configure-settings.html["impostazioni di classificazione dei dati"].
 
 .Passaggi
-. Da link:../investigate/understand-dashboard.html["la dashboard"], identifica la risorsa con la maggiore concentrazione di dati cold e seleziona *Investigate*.
-. In link:../investigate/investigate-unstructured.html["Indagine"], imposta il filtro *Ultimo accesso* in modo che corrisponda alla soglia configurata per i dati inattivi (impostazione predefinita: *1+ anno*) e conferma le risorse.
-. Esamina i risultati per decidere link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] i file corrispondenti.
+. Da link:understand-dashboard.html["la dashboard"], identifica la risorsa con la maggiore concentrazione di dati cold e seleziona *Investigate*.
+. In link:investigate-unstructured.html["Indagine"], imposta il filtro *Ultimo accesso* in modo che corrisponda alla soglia configurata per i dati inattivi (impostazione predefinita: *1+ anno*) e conferma le risorse.
+. Esamina i risultati per decidere link:take-actions.html["se contrassegnare, archiviare o eliminare"] i file corrispondenti.
 . Se queste risorse meritano di essere monitorate costantemente, link:../policies/create-policy.html["salva il set di filtri come criterio"] in modo da ricevere una notifica quando nuovi file diventano inattivi.
 
 
@@ -40,9 +40,9 @@ AI Data Engine classifica i file come obsoleti quando non vengono modificati per
 NOTE: Puoi modificare questa soglia nel link:../administer/configure-settings.html["impostazioni di classificazione dei dati"].
 
 .Passaggi
-. Da link:../investigate/understand-dashboard.html["la dashboard"], identifica una risorsa con dati obsoleti significativi.
-. In link:../investigate/investigate-unstructured.html["Indagine"], applica il filtro *Ultima modifica* impostato sulla tua soglia di obsolescenza (predefinita *3+ anni*).
-. Esamina i risultati per decidere link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] i file corrispondenti.
+. Da link:understand-dashboard.html["la dashboard"], identifica una risorsa con dati obsoleti significativi.
+. In link:investigate-unstructured.html["Indagine"], applica il filtro *Ultima modifica* impostato sulla tua soglia di obsolescenza (predefinita *3+ anni*).
+. Esamina i risultati per decidere link:take-actions.html["se contrassegnare, archiviare o eliminare"] i file corrispondenti.
 . link:../policies/create-policy.html["Salva il set di filtri come criterio"] per tracciare queste risorse nelle scansioni successive.
 
 
@@ -58,7 +58,7 @@ La tua organizzazione richiede che i file più vecchi di una certa età vengano 
 NOTE: Puoi configurare questa soglia in *Configuration* > *General settings*.
 
 .Passaggi
-. In link:../investigate/investigate-unstructured.html["Indagine"], applica il filtro *Ultima creazione* impostato sulla soglia di conservazione (predefinita *7+ anni*).
+. In link:investigate-unstructured.html["Indagine"], applica il filtro *Ultima creazione* impostato sulla soglia di conservazione (predefinita *7+ anni*).
 . Prima di agire, esamina i risultati con le parti interessate. I file contrassegnati per la conservazione vengono spesso monitorati anziché eliminati automaticamente.
 . link:../policies/create-policy.html["Crea una policy"] con un'azione di solo monitoraggio o di notifica via e-mail, in modo da ricevere un avviso quando i nuovi file raggiungono la soglia di conservazione.
 
@@ -72,11 +72,11 @@ NOTE: Puoi configurare questa soglia in *Configuration* > *General settings*.
 Esistono più copie identiche degli stessi file in volumi o condivisioni, un problema comune in ambienti con processi di backup, migrazioni di dati o cartelle di progetto condivise.
 
 .Passaggi
-. In link:../investigate/investigate-unstructured.html["Indagine"], seleziona *Unstructured* e apri i dettagli di un file che sospetti abbia delle copie, ad esempio un file proveniente da una recente migrazione dei dati.
+. In link:investigate-unstructured.html["Indagine"], seleziona *Unstructured* e apri i dettagli di un file che sospetti abbia delle copie, ad esempio un file proveniente da una recente migrazione dei dati.
 . Accanto a *Duplicati*, seleziona *Visualizza dettagli* per visualizzare ogni copia del file e la sua posizione.
 . Esamina i file corrispondenti e le relative posizioni per confermare quali copie sono ridondanti.
 . Seleziona i file ridondanti, quindi seleziona *Elimina duplicati*.
-. In *Azione*, seleziona *Elimina*. Mantieni la copia con l'opzione *Ultima modifica*, lascia una breadcrumb nella posizione originale e seleziona *Invia*. Quindi conferma l'eliminazione nella finestra di dialogo. Per i dettagli, fai riferimento a link:../investigate/take-actions.html["Individua ed elimina i file duplicati"].
+. In *Action*, seleziona *Delete*. Mantieni la copia con l'opzione *Ultima modifica*, lascia una breadcrumb nella posizione originale e seleziona *Invia*. Quindi conferma l'eliminazione nella finestra di dialogo. Per i dettagli, consulta link:take-actions.html["Individua ed elimina i file duplicati"].
 . link:../policies/create-policy.html["Crea una policy"] per monitorare l'accumulo di duplicati nel tempo e ricevere notifiche quando il conteggio aumenta.
 
 
@@ -89,9 +89,9 @@ Esistono più copie identiche degli stessi file in volumi o condivisioni, un pro
 I dati che rientrano nelle soglie di obsolescenza e inattività della tua organizzazione sono distribuiti tra diversi proprietari. Identificare quali proprietari dei dati detengono il maggior numero di file in queste categorie può aiutarti a dare priorità alla pulizia.
 
 .Passaggi
-. Da link:../investigate/understand-dashboard.html["la dashboard"], individua la tabella _Principali consumatori per storage recuperabile_.
-. Seleziona una riga del proprietario per aprire link:../investigate/investigate-unstructured.html["Indagine"] filtrato in base ai file di quel proprietario.
-. Esamina i risultati e decidi link:../investigate/take-actions.html["se contrassegnare, archiviare o eliminare"] quali file inviare.
+. Da link:understand-dashboard.html["la dashboard"], individua la tabella _Principali consumatori per storage recuperabile_.
+. Seleziona una riga del proprietario per aprire link:investigate-unstructured.html["Indagine"] filtrato in base ai file di quel proprietario.
+. Esamina i risultati e decidi link:take-actions.html["se contrassegnare, archiviare o eliminare"] quali file inviare.
 . link:../policies/create-policy.html["Salva il set di filtri come criterio"] per monitorare come cambiano nel tempo i dati potenzialmente recuperabili di quel proprietario.
 
 
@@ -100,9 +100,9 @@ I dati che rientrano nelle soglie di obsolescenza e inattività della tua organi
 [[related-information]]
 == Informazioni correlate
 
-* link:../investigate/understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
-* link:../investigate/investigate-data.html["Analizza i tuoi dati"]
-* link:../investigate/investigate-unstructured.html["Analizza i dati non strutturati"]
-* link:../investigate/take-actions.html["Agisci sui tuoi dati"]
+* link:understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
+* link:investigate-data.html["Analizza i tuoi dati"]
+* link:investigate-unstructured.html["Analizza i dati non strutturati"]
+* link:take-actions.html["Agisci sui tuoi dati"]
 * link:../policies/create-policy.html["Crea una policy"]
 

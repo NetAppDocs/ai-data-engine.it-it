@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: investigate/understand-dashboard.html 
-keywords: dashboard, overview, reclaimable storage, cold data, stale data, storage health, capacity risk, data owners, investigate, access exposure, open permissions, structured data, duplicates, file types 
+keywords: dashboard, overview, reclaimable storage, cold data, stale data, storage health, capacity risk, data owners, investigate, permissions, open permissions, structured data, duplicates, file types 
 summary: Valuta lo stato di salute dello storage nel tuo ambiente, individua dove si concentra lo storage potenzialmente recuperabile, esamina le directory con autorizzazioni aperte e i dati strutturati e decidi quali sistemi o proprietari dei dati analizzare per primi. 
 ---
 = Valuta lo stato di salute dello storage con la dashboard di AI Data Engine
@@ -13,7 +13,9 @@ summary: Valuta lo stato di salute dello storage nel tuo ambiente, individua dov
 [role="lead"]
 Prima di poter decidere cosa esaminare, devi comprendere lo stato del tuo storage. Quanto storage soddisfa le soglie di classificazione dei dati cold e stale della tua organizzazione e quali sistemi o proprietari detengono la maggior parte dei dati in queste categorie? Ad esempio, un amministratore dello storage che risponde a un avviso di capacità può vedere che una gran parte dello storage analizzato è costituita da dati cold, quindi può approfondire il sistema con l'impatto maggiore per iniziare subito a indagare.
 
-Da NetApp Console, seleziona *AI data hub* > *AI Data Engine*. La dashboard si apre automaticamente. La dashboard organizza le informazioni in tre schede: *Ottimizzazione dello storage*, *Access exposure* e *Dati strutturati*.
+Da NetApp Console, seleziona *AI data hub* > *AI Data Engine*. La dashboard si apre per impostazione predefinita. La dashboard organizza le informazioni in tre schede: *Ottimizzazione dello storage*, *Autorizzazioni* e *Dati strutturati*.
+
+image::aide_mo_ga_overview_page.png[Panoramica della dashboard di AI Data Engine]
 
 
 
@@ -45,7 +47,7 @@ Scopri dove puoi recuperare più spazio di archiviazione. La scheda *Ottimizzazi
 * _Storage attivo rispetto a quello recuperabile_: Mostra la proporzione di dati attivi rispetto ai dati freddi e obsoleti in tutte le risorse scansionate. Un'elevata proporzione di dati freddi, obsoleti o duplicati potrebbe indicare una significativa opportunità di ottimizzazione dello storage.
 * _Principali risorse dati per storage recuperabile_: Mostra le risorse dati con la maggiore capacità recuperabile.
 * _Principali consumatori per spazio di archiviazione recuperabile_: mostra i proprietari dei dati, il loro spazio di archiviazione recuperabile e il numero di file.
-* _Distribuzione delle dimensioni dei duplicati_: mostra come i dati duplicati sono distribuiti negli intervalli di dimensioni.
+* _Distribuzione delle dimensioni dei dati duplicati_: Mostra come i dati duplicati sono distribuiti nelle varie fasce dimensionali.
 * _Età degli asset_: Mostra gli elementi in base all'età. Usa il menu a tendina per selezionare il criterio di timestamp per il grafico.
 * _Tipi di file più comuni_: mostra i tipi di file più diffusi.
 
@@ -58,10 +60,10 @@ Utilizza il pannello di riepilogo e questi grafici per identificare e dare prior
 
 
 
-[[review-access-exposure]]
-== Verifica l'esposizione degli accessi
+[[review-permissions]]
+== Rivedi le autorizzazioni
 
-Individua le directory a cui dare priorità per una revisione delle autorizzazioni. La scheda *Esposizione degli accessi* mostra il grafico _Directory con autorizzazioni aperte_, che elenca i percorsi delle directory e il numero di file. Per vedere queste directory in dettaglio, consulta link:investigate-directories.html["Esamina le directory"]. Per controllare se AI Data Engine scansiona le autorizzazioni, consulta link:../administer/configure-settings.html["Configura le soglie di classificazione dei dati e la scansione degli accessi"].
+Individua le directory a cui dare priorità per una revisione delle autorizzazioni. La scheda *Autorizzazioni* mostra il grafico _Directory con autorizzazioni aperte_, che elenca i percorsi delle directory e il numero di file. Per visualizzare queste directory in dettaglio, consulta link:investigate-directories.html["Esamina le directory"]. Per controllare se AI Data Engine esegue la scansione delle autorizzazioni, consulta link:../administer/configure-settings.html["Configura le soglie di classificazione dei dati e la scansione degli accessi"].
 
 
 
@@ -77,9 +79,9 @@ Visualizza quali schemi e tabelle sono presenti nei dati scansionati e confronta
 
 Una volta identificata una risorsa o un proprietario che vale la pena esaminare, utilizza le tabelle nella scheda *Storage optimization* per passare direttamente ai dettagli.
 
-La tabella _Top data resources by reclaimable storage_ elenca le tue risorse di storage sottoposte a scansione, classificate in base alla percentuale di dati duplicati o che soddisfano le soglie di dati cold e stale della tua organizzazione. Seleziona una riga qualsiasi per aprire la vista Investigation filtrata per quella risorsa. Da lì, usa la scheda link:investigate-unstructured.html["Non strutturato"] per identificare i file cold o stale oppure la scheda link:investigate-directories.html["Directory"] per controllare l'esposizione delle autorizzazioni.
+La tabella _Top data resources by reclaimable storage_ elenca le risorse di storage sottoposte a scansione, classificate in base alla percentuale di dati duplicati o che soddisfano le soglie cold e stale della tua organizzazione. Usa la scheda link:investigate-unstructured.html["Non strutturato"] per identificare i file cold o stale, oppure la scheda link:investigate-directories.html["Directory"] per verificare l'esposizione delle autorizzazioni.
 
-La tabella _Principali consumatori per storage recuperabile_ mostra quali proprietari dei dati detengono dati potenzialmente recuperabili. Seleziona una riga qualsiasi per aprire la visualizzazione link:investigate-unstructured.html["Indagine"] filtrata in base ai file di quel proprietario. Da lì, puoi esaminare i risultati, intervenire o salvarli come un criterio.
+La tabella _Principali consumatori per spazio di archiviazione recuperabile_ mostra quali proprietari dei dati detengono dati potenzialmente recuperabili. Seleziona *Analizza* per aprire la link:investigate-unstructured.html["Indagine"] visualizzazione filtrata sui file di quel proprietario. Da lì, puoi esaminare i risultati, intervenire o salvarli come criterio.
 
 Controllare la dashboard non archivia né elimina i dati né modifica i permessi della directory.
 

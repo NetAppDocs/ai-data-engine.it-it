@@ -107,6 +107,6 @@ Per scaricare i risultati filtrati dalla scheda Non strutturato, seleziona image
 * link:take-actions.html["Agisci sui tuoi dati"]
 * link:../policies/create-policy.html["Crea una policy"]
 * link:../administer/configure-settings.html["Configura le soglie di classificazione dei dati e la scansione degli accessi"]
-* link:../get-started/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
+* link:storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
 * link:understand-dashboard.html["Valuta l'utilizzo dello storage dalla dashboard"]
 

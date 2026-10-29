@@ -15,7 +15,7 @@ Configura e avvia AI Data Engine (AIDE) distribuendo il servizio, collegando le 
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Uno"] link:../deploy/aide-requirements.html["Esamina i requisiti e seleziona un tipo di implementazione"]
 [role="quick-margin-para"]
-Esamina i requisiti e link:../deploy/deployment-overview.html["Scopri i tipi di implementazione"] per decidere se installare una distribuzione AIDE a nodo singolo o a più nodi.
+Esamina i requisiti e link:../deploy/deployment-overview.html["Scopri i tipi di implementazione"] per decidere se installare un deployment AIDE a nodo singolo o multinodo.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Due"] link:../deploy/deployment-overview.html["Distribuisci AI Data Engine"]
 [role="quick-margin-para"]

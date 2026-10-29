@@ -13,6 +13,8 @@ summary: Definisci quali file AI Data Engine classifica come dati freddi o obsol
 [role="lead"]
 Le soglie di inattività e obsolescenza ti aiutano a individuare lo storage che puoi ottimizzare utilizzando AI Data Engine (AIDE). La scansione delle autorizzazioni e l'integrazione con Active Directory ti aiutano a individuare e comprendere i rischi di accesso. Impostale in modo che corrispondano alle policy di classificazione, conservazione e accesso ai dati della tua organizzazione.
 
+image::aide_mo_ga_configuration_page.png[Impostazioni generali di AI Data Engine]
+
 
 
 [[before-you-begin]]
@@ -102,8 +104,7 @@ Per i prerequisiti e i passaggi, consulta link:configure-ad-nfs.html["Configura 
 * link:../investigate/understand-dashboard.html["Scopri la dashboard di AI Data Engine"]
 * link:../investigate/investigate-directories.html["Esamina le directory"]
 * link:../investigate/investigate-unstructured.html["Analizza i dati non strutturati"]
-* link:../get-started/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
-* link:../deploy/aide-requirements.html["Requisiti AIDE"]
+* link:../investigate/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
 * link:manage-users-roles.html["Gestisci utenti e ruoli"]
 * link:configure-ad-nfs.html["Configura la mappatura delle identità di Active Directory per NFS"]
 

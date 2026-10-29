@@ -20,12 +20,14 @@ Assicurati che la copertura della scansione sia allineata ai dati che devi anali
 
 Controlla lo stato della scansione per verificare l'avanzamento e identificare le risorse che necessitano di attenzione. Esamina i progressi a livello di sistema e i dettagli a livello di risorsa per distinguere le scansioni ancora in corso da quelle in pausa o che presentano errori.
 
+image::aide_mo_ga_data_sources_page.png[Fonti dati e stato della scansione di AI Data Engine]
+
 Se le scansioni si interrompono o si mettono in pausa inaspettatamente, controlla lo stato di salute della distribuzione. Fai riferimento a link:../administer/monitor-deployment-health.html["Monitora lo stato di integrità della distribuzione e analizza i problemi"].
 
 .Passaggi
 . Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
 . Individua il sistema che vuoi esaminare.
-. Seleziona la riga del sistema e apri la visualizzazione dei dettagli.
+. Nella riga del sistema, seleziona *Visualizza dettagli*.
 +
 La visualizzazione dettagliata mostra:
 
@@ -50,7 +52,8 @@ Interrompi temporaneamente la scansione di un sistema quando non vuoi che AI Dat
 .Passaggi
 . Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
 . Individua il sistema che vuoi mettere in pausa.
-. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Nella riga del sistema, seleziona *Visualizza dettagli*.
+. Seleziona il menu Azioni accanto alla risorsa dati.
 . Seleziona *Pausa*.
 
 
@@ -64,7 +67,8 @@ Riprendi la scansione quando sei pronto perché AI Data Engine scansioni di nuov
 .Passaggi
 . Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
 . Individua il sistema in pausa.
-. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Nella riga del sistema, seleziona *Visualizza dettagli*.
+. Seleziona il menu Azioni accanto alla risorsa dati.
 . Seleziona *Resume*.
 
 
@@ -79,7 +83,7 @@ Aggiorna i metadati in tutto il sistema dopo modifiche significative ai dati, in
 . Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
 . Individua il sistema che vuoi analizzare.
 . Seleziona il menu Azioni accanto al sistema.
-. Seleziona *Scansiona tutti i volumi* (nel menu delle azioni è presente un'opzione equivalente per condivisioni e bucket).
+. Seleziona *Scansiona tutti i volumi* (nel menu delle azioni è presente un'opzione equivalente per condivisioni, bucket o schemi).
 
 
 
@@ -109,7 +113,7 @@ NOTE: Se la condivisione utilizza l'autenticazione Kerberos, AI Data Engine si a
 .Passaggi
 . Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
 . Individua il sistema SMB.
-. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Nella riga del sistema, seleziona *Visualizza dettagli*.
 . Seleziona *Modifica credenziali CIFS*.
 . Inserisci il nome utente e la password aggiornati, quindi seleziona *Salva*.
 
@@ -124,7 +128,7 @@ Puoi includere o escludere i dati replicati nella copertura della scansione abil
 .Passaggi
 . Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
 . Individua il sistema.
-. Seleziona la riga del sistema per aprire la vista dettagliata.
+. Nella riga del sistema, seleziona *Visualizza dettagli*.
 . Seleziona *Abilita l'accesso ai volumi DP* oppure *Disabilita l'accesso ai volumi DP*.
 
 
@@ -145,16 +149,16 @@ Concentra la scansione sulle risorse dati che devi analizzare senza riconfigurar
 
 
 
-[[deactivate-ai-data-engine-for-a-system]]
-== Disattiva AI Data Engine per un sistema
+[[remove-ai-data-engine-for-a-system]]
+== Rimuovi AI Data Engine per un sistema
 
-Rimuovi un sistema dalla copertura di scansione attiva quando non hai più bisogno che AI Data Engine lo analizzi. La disattivazione di un sistema interrompe tutte le scansioni e ne preserva la configurazione. Per includere nuovamente il sistema, seleziona *Attiva scansioni* nella riga del sistema.
+Rimuovi un sistema dalla copertura di scansione attiva quando non hai più bisogno che AI Data Engine lo analizzi. Disattivare un sistema interrompe tutte le scansioni e ne conserva la configurazione. Per aggiungere nuovamente il sistema, seleziona *Activate scans* nella riga del sistema.
 
 .Passaggi
 . Dall'interfaccia utente di AI Data Engine, seleziona *Origini dati*.
 . Individua il sistema che desideri disattivare.
 . Seleziona il menu Azioni accanto al sistema.
-. Seleziona *Disattiva AI Data Engine*.
+. Seleziona *Rimuovi sistema*.
 
 
 

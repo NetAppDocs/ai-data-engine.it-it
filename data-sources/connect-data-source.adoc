@@ -11,14 +11,14 @@ summary: Collega le origini dati ad AI Data Engine e configura le risorse dati d
 
 
 [role="lead"]
-Collega le origini dati che desideri che AI Data Engine (AIDE) analizzi e scegli quali risorse dati scansionare. AI Data Engine scansiona le origini dati connesse per raccogliere metadati e la procedura di connessione dipende dal tipo di origine.
+Collega le origini dati che vuoi far analizzare ad AI Data Engine (AIDE) e scegli quali delle loro risorse di dati scansionare. AI Data Engine scansiona le origini dati connesse per raccogliere metadati e la procedura di connessione dipende dal tipo di origine. Completi queste attività in NetApp Console.
 
 
 
 [[before-you-begin]]
 == Prima di iniziare
 
-* Devi disporre dei privilegi di amministratore di _AI Data Engine_ per connetterti e configurare le origini dati.
+* Per connetterti e configurare le origini dati, devi avere il ruolo di amministratore di _AI Data Engine_ in NetApp Console.
 * Per i sistemi connessi tramite il rilevamento di NetApp Console, usa un agente Console per rilevare i sistemi di storage in NetApp Console prima di aggiungerli ad AI Data Engine. Questo vale per tutti i tipi di storage supportati, inclusi i cluster ONTAP on-premises, Cloud Volumes ONTAP, Amazon FSx for NetApp ONTAP, Google Cloud NetApp Volumes e Azure NetApp Files. Per i cluster ONTAP on-premises, consulta link:https://docs.netapp.com/us-en/storage-management-ontap-onprem/task-discovering-ontap.html["Scopri i cluster ONTAP on-premises"] nella documentazione di NetApp Console. Il rilevamento diretto non abilita servizi dati come AI Data Engine.
 * Verifica che le connessioni di rete necessarie ad AI Data Engine per raggiungere le tue origini dati siano aperte. Fai riferimento a link:../deploy/aide-requirements.html["Requisiti di AI Data Engine"].
 * Per eseguire la scansione delle condivisioni SMB/CIFS con autenticazione Kerberos, completa prima la procedura per il tuo tipo di implementazione in link:../administer/configure-kerberos-smb.html["Autenticazione Kerberos per condivisioni SMB/CIFS in AI Data Engine"].

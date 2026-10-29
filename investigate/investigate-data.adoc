@@ -13,6 +13,8 @@ summary: 'Utilizza la vista Investigation per esplorare l"archiviazione basata s
 [role="lead"]
 Quando hai bisogno di capire cosa sta consumando spazio di archiviazione, identificare quali tabelle del database stanno crescendo in modo incontrollato o trovare directory con permessi di accesso eccessivamente permissivi, usa i filtri dei metadati per analizzare i tuoi dati in tutti i sistemi connessi.
 
+image::aide_mo_ga_investigation_page.png[Vista di analisi di AI Data Engine]
+
 
 
 [[choose-a-starting-point]]
@@ -20,7 +22,7 @@ Quando hai bisogno di capire cosa sta consumando spazio di archiviazione, identi
 
 Seleziona *Investigation* nella navigazione a sinistra per aprire la vista. Puoi anche aprire la vista Investigation dalla dashboard selezionando *Investigate* nella tabella _Top data resources by reclaimable storage_, che applica automaticamente un filtro per quella risorsa.
 
-*Indagine* è organizzata in tre schede. Seleziona la scheda corrispondente al tipo di dati che stai esaminando.
+La sezione *Indagine* è organizzata in tre schede: *Non strutturati*, *Directory* e *Strutturati*. Seleziona la scheda corrispondente al tipo di dati che stai analizzando.
 
 [cols="1,2,1"]
 |===
@@ -30,12 +32,12 @@ Seleziona *Investigation* nella navigazione a sinistra per aprire la vista. Puoi
 | *Non strutturati* | Individua dati basati su file inattivi, obsoleti o duplicati nei volumi NFS e SMB | link:investigate-unstructured.html["Analizza i dati non strutturati"] 
 
 
-| *Strutturato* | Identifica le tabelle del database sovradimensionate o inutilizzate che occupano spazio di archiviazione | link:investigate-structured.html["Analizza i dati strutturati"] 
-
-
 | *Directory* | Verifica i permessi a livello di directory e individua i percorsi ampiamente accessibili | link:investigate-directories.html["Esamina le directory"] 
+
+
+| *Strutturato* | Identifica le tabelle del database sovradimensionate o inutilizzate che occupano spazio di archiviazione | link:investigate-structured.html["Analizza i dati strutturati"] 
 |===
-Il conteggio riepilogativo e la dimensione totale nella parte superiore della pagina si aggiornano per riflettere la scheda attiva (ad esempio, "Dati non strutturati (400M) | 5.7 PiB").
+Ogni etichetta della scheda mostra un riepilogo degli elementi di quel tipo (ad esempio, "Non strutturato (30.4M)").
 
 
 

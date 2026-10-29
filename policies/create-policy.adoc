@@ -57,7 +57,7 @@ Esamina la tabella dei risultati per confermare che il set di filtri acquisisca 
 . Per associare un'azione, seleziona una delle seguenti opzioni in *Azione*:
 +
 ** *Solo monitoraggio (nessuna azione)* (impostazione predefinita): salva la policy come condizione di solo monitoraggio.
-** *Invia notifica via email*: Invia una notifica via email al destinatario che specifichi.
+** *Invia notifica via email*: Invia una notifica via email ai destinatari che specifichi e ti consente di configurare gli intervalli di notifica.
 ** *Elimina definitivamente*: Non richiede alcun input aggiuntivo.
 +
 
@@ -65,7 +65,7 @@ CAUTION: L'azione "Elimina definitivamente" elimina automaticamente e in modo ir
 
 
 
-. Seleziona *Crea*.
+. Seleziona *Salva*.
 
 
 .Risultato
@@ -85,8 +85,8 @@ L'esempio seguente crea una policy che invia una notifica via e-mail quando AI D
 
 . Seleziona *Crea policy*.
 . Inserisci il nome della policy: *Cold Files — Unaccessed 1 Year*.
-. Seleziona l'azione *Invia notifica via email* e inserisci l'indirizzo email del destinatario.
-. Seleziona *Crea*.
+. Seleziona l'azione *Invia notifica via email*, seleziona l'intervallo di notifica e inserisci l'indirizzo email del destinatario.
+. Seleziona *Salva*.
 
 
 

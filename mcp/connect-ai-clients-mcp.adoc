@@ -357,7 +357,5 @@ TIP: I filtri di ricerca si basano sul prefisso del nome del file, sul tipo di f
 * link:prepare-mcp-host.html["Prepara l'host MCP"]
 * link:manage-data-collections.html["Gestisci le raccolte di dati"]
 * link:maintain-mcp-setup.html["Mantieni la tua configurazione MCP"]
-* link:configure-entra-id-mcp.html["Configurare Microsoft Entra ID per l'accesso all'IA con governance"]
-* link:connect-entra-id-aide-mcp.html["Collega AI Data Engine a Microsoft Entra ID"]
 * link:../release-notes/known-limitations.html["Limitazioni note"]
 

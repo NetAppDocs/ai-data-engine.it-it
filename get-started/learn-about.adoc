@@ -80,5 +80,5 @@ AI Data Engine analizza le origini dati supportate che colleghi. Per ulteriori i
 * link:architecture.html["Architettura di AI Data Engine"]
 * link:quick-start.html["Avvio rapido"]
 * link:../mcp/learn-about-mcp.html["Scopri l'accesso all'AI regolato"]
-* link:storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
+* link:../investigate/storage-optimization-workflows.html["Esplora i flussi di lavoro per l'ottimizzazione dello storage"]
 
